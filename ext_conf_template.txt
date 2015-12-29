@@ -1,0 +1,2 @@
+# cat=basic//; type=boolean; label=Autoload TypoScript: If enabled, the extension will automatically load the TypoScript setup that is required. When un-checking make sure to include / load the TypoScript on your own as a Static TypoScript .
+autoload_typoscript = 1

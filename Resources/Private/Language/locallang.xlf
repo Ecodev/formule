@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-12-29T11:21:34Z" product-name="formule">
+		<header/>
+		<body>
+			<trans-unit id="tx_formule_domain_model_sentmessage">
+				<source>Sent Message</source>
+			</trans-unit>
+			<trans-unit id="tx_formule_domain_model_sentmessage.sender">
+				<source>Sender</source>
+			</trans-unit>
+			<trans-unit id="tx_formule_domain_model_sentmessage.recipient">
+				<source>Recipient</source>
+			</trans-unit>
+			<trans-unit id="tx_formule_domain_model_sentmessage.subject">
+				<source>Subject</source>
+			</trans-unit>
+			<trans-unit id="tx_formule_domain_model_sentmessage.body">
+				<source>Body</source>
+			</trans-unit>
+			<trans-unit id="tx_formule_domain_model_sentmessage.attachment">
+				<source>Attachment</source>
+			</trans-unit>
+			<trans-unit id="tx_formule_domain_model_sentmessage.context">
+				<source>Context</source>
+			</trans-unit>
+			<trans-unit id="tx_formule_domain_model_sentmessage.was_opened">
+				<source>Was Opened</source>
+			</trans-unit>
+			<trans-unit id="tx_formule_domain_model_sentmessage.sent_time">
+				<source>Sent Time</source>
+			</trans-unit>
+			<trans-unit id="tx_formule_domain_model_sentmessage.ip">
+				<source>Ip</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
