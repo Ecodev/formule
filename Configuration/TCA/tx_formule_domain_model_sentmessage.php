@@ -9,58 +9,15 @@ return array(
 
         'delete' => 'deleted',
         'searchFields' => 'sender,recipient,subject,body,attachment,context,was_opened,sent_time,ip,',
-        'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('formule') . 'Resources/Public/Icons/tx_formule_domain_model_sentmessage.gif'
+        'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('formule') . 'Resources/Public/Images/tx_formule_domain_model_sentmessage.png'
     ],
     'interface' => [
-        'showRecordFieldList' => 'hidden, sender, recipient, subject, body, attachment, context, was_opened, sent_time, ip',
+        'showRecordFieldList' => 'sender, recipient, subject, body, attachment, context, was_opened, sent_time, ip',
     ],
     'types' => [
-        '1' => ['showitem' => 'hidden;;1, sender, recipient, subject, body, attachment, context, was_opened, sent_time, ip, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'],
-    ],
-    'palettes' => [
-        '1' => ['showitem' => ''],
+        '1' => ['showitem' => 'sender, recipient, subject, body, attachment, context, was_opened, sent_time, ip'],
     ],
     'columns' => [
-
-        'hidden' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
-            'config' => [
-                'type' => 'check',
-            ],
-        ],
-        'starttime' => [
-            'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
-            'config' => [
-                'type' => 'input',
-                'size' => 13,
-                'max' => 20,
-                'eval' => 'datetime',
-                'checkbox' => 0,
-                'default' => 0,
-                'range' => [
-                    'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
-                ],
-            ],
-        ],
-        'endtime' => [
-            'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
-            'config' => [
-                'type' => 'input',
-                'size' => 13,
-                'max' => 20,
-                'eval' => 'datetime',
-                'checkbox' => 0,
-                'default' => 0,
-                'range' => [
-                    'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
-                ],
-            ],
-        ],
 
         'sender' => [
             'exclude' => 1,
@@ -68,6 +25,7 @@ return array(
             'config' => [
                 'type' => 'input',
                 'size' => 30,
+                'readOnly' => true,
                 'eval' => 'trim'
             ],
         ],
@@ -77,6 +35,7 @@ return array(
             'config' => [
                 'type' => 'input',
                 'size' => 30,
+                'readOnly' => true,
                 'eval' => 'trim'
             ],
         ],
@@ -86,6 +45,7 @@ return array(
             'config' => [
                 'type' => 'input',
                 'size' => 30,
+                'readOnly' => true,
                 'eval' => 'trim'
             ],
         ],
@@ -95,6 +55,7 @@ return array(
             'config' => [
                 'type' => 'input',
                 'size' => 30,
+                'readOnly' => true,
                 'eval' => 'trim'
             ],
         ],
@@ -104,6 +65,7 @@ return array(
             'config' => [
                 'type' => 'input',
                 'size' => 30,
+                'readOnly' => true,
                 'eval' => 'trim'
             ],
         ],
@@ -113,6 +75,7 @@ return array(
             'config' => [
                 'type' => 'input',
                 'size' => 30,
+                'readOnly' => true,
                 'eval' => 'trim'
             ],
         ],
@@ -122,6 +85,7 @@ return array(
             'config' => [
                 'type' => 'input',
                 'size' => 30,
+                'readOnly' => true,
                 'eval' => 'trim'
             ],
         ],
@@ -131,6 +95,7 @@ return array(
             'config' => [
                 'type' => 'input',
                 'size' => 30,
+                'readOnly' => true,
                 'eval' => 'trim'
             ],
         ],
@@ -140,6 +105,7 @@ return array(
             'config' => [
                 'type' => 'input',
                 'size' => 30,
+                'readOnly' => true,
                 'eval' => 'trim'
             ],
         ],

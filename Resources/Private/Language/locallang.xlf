@@ -3,36 +3,30 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2015-12-29T11:21:34Z" product-name="formule">
 		<header/>
 		<body>
-			<trans-unit id="tx_formule_domain_model_sentmessage">
-				<source>Sent Message</source>
+			<!-- Wizard -->
+			<trans-unit id="wizard.title">
+				<source>Variety of forms</source>
 			</trans-unit>
-			<trans-unit id="tx_formule_domain_model_sentmessage.sender">
-				<source>Sender</source>
+			<trans-unit id="wizard.description">
+				<source>Render a variety of forms template based such as contact form, registration form, etc...</source>
 			</trans-unit>
-			<trans-unit id="tx_formule_domain_model_sentmessage.recipient">
-				<source>Recipient</source>
+
+			<!-- Tabs -->
+			<trans-unit id="tab.general">
+				<source>General</source>
 			</trans-unit>
-			<trans-unit id="tx_formule_domain_model_sentmessage.subject">
-				<source>Subject</source>
+
+			<!-- Settings -->
+			<trans-unit id="settings.template">
+				<source>Template to be used</source>
 			</trans-unit>
-			<trans-unit id="tx_formule_domain_model_sentmessage.body">
-				<source>Body</source>
+			<trans-unit id="settings.redirectPid">
+				<source>Redirect page after submit</source>
 			</trans-unit>
-			<trans-unit id="tx_formule_domain_model_sentmessage.attachment">
-				<source>Attachment</source>
+			<trans-unit id="settings.tableName">
+				<source>Table name where to persist submitted data</source>
 			</trans-unit>
-			<trans-unit id="tx_formule_domain_model_sentmessage.context">
-				<source>Context</source>
-			</trans-unit>
-			<trans-unit id="tx_formule_domain_model_sentmessage.was_opened">
-				<source>Was Opened</source>
-			</trans-unit>
-			<trans-unit id="tx_formule_domain_model_sentmessage.sent_time">
-				<source>Sent Time</source>
-			</trans-unit>
-			<trans-unit id="tx_formule_domain_model_sentmessage.ip">
-				<source>Ip</source>
-			</trans-unit>
+
 		</body>
 	</file>
 </xliff>
