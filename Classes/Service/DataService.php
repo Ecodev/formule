@@ -1,5 +1,5 @@
 <?php
-namespace Fab\Formule\Domain\Repository;
+namespace Fab\Formule\Service;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -14,11 +14,10 @@ namespace Fab\Formule\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
-
 /**
- * DataRepository
+ * DataService
  */
-class DataRepository
+class DataService
 {
 
     const IDENTIFIER = 'uid';

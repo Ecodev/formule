@@ -13,6 +13,7 @@
 					<settings.template>
 						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.template</label>
+							<onChange>reload</onChange>
 							<config>
 								<type>select</type>
 								<itemsProcFunc>Fab\Formule\Backend\TceForms->getTemplates</itemsProcFunc>
@@ -21,7 +22,183 @@
 							</config>
 						</TCEforms>
 					</settings.template>
-					<settings.redirectPid>
+					<summary>
+						<TCEforms>
+							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.summary</label>
+							<config>
+								<type>user</type>
+								<userFunc>Fab\Formule\Backend\TceForms->renderGridConfigurationField</userFunc>
+							</config>
+						</TCEforms>
+					</summary>
+				</el>
+			</ROOT>
+		</general>
+
+		<emailAdmin>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:tab.emailAdmin</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<settings.emailAdminRecipient>
+						<TCEforms>
+							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailRecipient</label>
+							<config>
+								<type>input</type>
+								<eval>text</eval>
+								<size>50</size>
+							</config>
+						</TCEforms>
+					</settings.emailAdminRecipient>
+					<settings.emailAdminFrom>
+						<TCEforms>
+							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailFrom</label>
+							<config>
+								<type>input</type>
+								<eval>text</eval>
+								<size>50</size>
+								<default>Virginie Udriot &lt;virginie@udriot.net&gt;</default>
+							</config>
+						</TCEforms>
+					</settings.emailAdminFrom>
+					<settings.emailAdminCc>
+						<TCEforms>
+							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailCc</label>
+							<config>
+								<type>input</type>
+								<eval>text</eval>
+								<size>50</size>
+							</config>
+						</TCEforms>
+					</settings.emailAdminCc>
+					<settings.emailAdminBcc>
+						<TCEforms>
+							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailBcc</label>
+							<config>
+								<type>input</type>
+								<eval>text</eval>
+								<size>50</size>
+							</config>
+						</TCEforms>
+					</settings.emailAdminBcc>
+					<settings.emailAdminSubject>
+						<TCEforms>
+							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailSubject</label>
+							<config>
+								<type>input</type>
+								<eval>text</eval>
+								<size>100</size>
+							</config>
+						</TCEforms>
+					</settings.emailAdminSubject>
+					<settings.emailAdminBody>
+						<TCEforms>
+							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailBody</label>
+							<config>
+								<type>text</type>
+								<default><![CDATA[Hello Admin,
+
+A user filled out the contact form on www.example.org by {email}.
+
+You can write Markdown and Fluid View Helper within your template.
+Markers such as {foo} have to be posted in your.
+
+**MarkDown**
+
+* bullet list
+* bullet list
+
+**Fluid View Helper**
+
+<f:translate key="foo" extensionName="ext"/>: {foo}
+
+<f:link.page pageUid="1" absolute="1">Open page</f:link.page>
+
+<fo:widget.show item="markerName" dataType="tx_ext_foo"/>
+
+{namespace fo=Fab\Formule\ViewHelpers}]]></default>
+							</config>
+						</TCEforms>
+					</settings.emailAdminBody>
+				</el>
+			</ROOT>
+		</emailAdmin>
+
+
+		<emailUser>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:tab.emailUser</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<settings.emailUserRecipient>
+						<TCEforms>
+							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailRecipient</label>
+							<config>
+								<type>input</type>
+								<eval>text</eval>
+								<size>50</size>
+								<default>{email}</default>
+							</config>
+						</TCEforms>
+					</settings.emailUserRecipient>
+					<settings.emailUserFrom>
+						<TCEforms>
+							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailFrom</label>
+							<config>
+								<type>input</type>
+								<eval>text</eval>
+								<size>50</size>
+								<default>Virginie Udriot &lt;virginie@udriot.net&gt;</default>
+							</config>
+						</TCEforms>
+					</settings.emailUserFrom>
+					<settings.emailUserSubject>
+						<TCEforms>
+							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailSubject</label>
+							<config>
+								<type>input</type>
+								<eval>text</eval>
+								<size>100</size>
+							</config>
+						</TCEforms>
+					</settings.emailUserSubject>
+					<settings.emailUserBody>
+						<TCEforms>
+							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailBody</label>
+							<config>
+								<type>text</type>
+								<default><![CDATA[Dear {firstName},
+
+We have received your request via the contact form on www.example.org. We will process your request and get in contact with you soon.
+
+MarkDown and Fluid View Helper syntax supported
+
+<f:translate key="foo" extensionName="ext"/>: {foo}
+
+<f:link.page pageUid="1" absolute="1">Open page</f:link.page>
+
+<fo:widget.show item="markerName" dataType="tx_ext_foo"/>
+
+{namespace fo=Fab\Formule\ViewHelpers}]]></default>
+							</config>
+						</TCEforms>
+					</settings.emailUserBody>
+				</el>
+			</ROOT>
+		</emailUser>
+
+		<feedback>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:tab.feedback</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<settings.redirectMessage>
 						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.redirectPid</label>
 							<config>
@@ -34,18 +211,25 @@
 								<show_thumbs>1</show_thumbs>
 							</config>
 						</TCEforms>
-					</settings.redirectPid>
-					<settings.tableName>
+					</settings.redirectMessage>
+					<summary>
 						<TCEforms>
-							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.tableName</label>
+							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.redirectMessage</label>
 							<config>
-								<type>input</type>
+								<type>text</type>
+								<default><![CDATA[Dear {firstName},
+
+Thank you for your message. We will process your request and get in contact with you soon.
+
+<fo:widget.show item="markerName" dataType="tx_ext_foo"/>
+
+{namespace fo=Fab\Formule\ViewHelpers}]]></default>
 							</config>
 						</TCEforms>
-					</settings.tableName>
+					</summary>
 				</el>
 			</ROOT>
-		</general>
+		</feedback>
 	</sheets>
 
 </T3DataStructure>

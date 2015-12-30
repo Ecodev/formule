@@ -1,2 +1,11 @@
-# cat=basic//; type=boolean; label=Autoload TypoScript: If enabled, the extension will automatically load the TypoScript setup that is required. When un-checking make sure to include / load the TypoScript on your own as a Static TypoScript .
+# cat=basic//; type=boolean; label=Autoload TypoScript: If enabled, the extension will automatically load the TypoScript setup that is required. When un-checking make sure to include / load the TypoScript on your own as a Static TypoScript.
 autoload_typoscript = 1
+
+# cat=redirect//; type=string; label= Development redirect to: List of email addresses where to redirect all messages for "development" context. Notice, it can also be defined in $GLOBALS['TYPO3_CONF_VARS']['MAIL']['development_redirect_to'] = 'email@example.com' which will take the precedence if configured so..
+development_redirect_to =
+
+# cat=redirect//; type=string; label= Testing redirect to: List of email addresses where to redirect all messages for "testing" context. Notice, it can also be defined in $GLOBALS['TYPO3_CONF_VARS']['MAIL']['testing_redirect_to'] = 'email@example.com' which will take the precedence  if configured so..
+testing_redirect_to =
+
+# cat=redirect//; type=string; label= Production redirect to: List of email addresses where to redirect all messages for "production" context. Notice, it can also be defined in $GLOBALS['TYPO3_CONF_VARS']['MAIL']['production_redirect_to'] = 'email@example.com' which will take the precedence if configured so..
+production_redirect_to =

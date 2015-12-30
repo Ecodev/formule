@@ -23,71 +23,51 @@ class SentMessage extends AbstractEntity
 {
 
     /**
-     * sender
-     *
      * @var string
      */
     protected $sender = '';
 
     /**
-     * recipient
-     *
      * @var string
      */
     protected $recipient = '';
 
     /**
-     * subject
-     *
      * @var string
      */
     protected $subject = '';
 
     /**
-     * body
-     *
      * @var string
      */
     protected $body = '';
 
     /**
-     * attachment
-     *
      * @var string
      */
     protected $attachment = '';
 
     /**
-     * context
-     *
      * @var string
      */
     protected $context = '';
 
     /**
-     * wasOpened
-     *
      * @var string
      */
     protected $wasOpened = '';
 
     /**
-     * sentTime
-     *
      * @var string
      */
     protected $sentTime = '';
 
     /**
-     * ip
-     *
      * @var string
      */
     protected $ip = '';
 
     /**
-     * Returns the sender
-     *
      * @return string $sender
      */
     public function getSender()
@@ -96,8 +76,6 @@ class SentMessage extends AbstractEntity
     }
 
     /**
-     * Sets the sender
-     *
      * @param string $sender
      * @return void
      */
@@ -107,8 +85,6 @@ class SentMessage extends AbstractEntity
     }
 
     /**
-     * Returns the recipient
-     *
      * @return string $recipient
      */
     public function getRecipient()
@@ -117,8 +93,6 @@ class SentMessage extends AbstractEntity
     }
 
     /**
-     * Sets the recipient
-     *
      * @param string $recipient
      * @return void
      */
@@ -128,8 +102,6 @@ class SentMessage extends AbstractEntity
     }
 
     /**
-     * Returns the subject
-     *
      * @return string $subject
      */
     public function getSubject()
@@ -138,8 +110,6 @@ class SentMessage extends AbstractEntity
     }
 
     /**
-     * Sets the subject
-     *
      * @param string $subject
      * @return void
      */
@@ -149,8 +119,6 @@ class SentMessage extends AbstractEntity
     }
 
     /**
-     * Returns the body
-     *
      * @return string $body
      */
     public function getBody()
@@ -159,8 +127,6 @@ class SentMessage extends AbstractEntity
     }
 
     /**
-     * Sets the body
-     *
      * @param string $body
      * @return void
      */
@@ -170,8 +136,6 @@ class SentMessage extends AbstractEntity
     }
 
     /**
-     * Returns the attachment
-     *
      * @return string $attachment
      */
     public function getAttachment()
@@ -180,8 +144,6 @@ class SentMessage extends AbstractEntity
     }
 
     /**
-     * Sets the attachment
-     *
      * @param string $attachment
      * @return void
      */
@@ -191,8 +153,6 @@ class SentMessage extends AbstractEntity
     }
 
     /**
-     * Returns the context
-     *
      * @return string $context
      */
     public function getContext()
@@ -201,8 +161,6 @@ class SentMessage extends AbstractEntity
     }
 
     /**
-     * Sets the context
-     *
      * @param string $context
      * @return void
      */
@@ -212,8 +170,6 @@ class SentMessage extends AbstractEntity
     }
 
     /**
-     * Returns the wasOpened
-     *
      * @return string $wasOpened
      */
     public function getWasOpened()
@@ -222,8 +178,6 @@ class SentMessage extends AbstractEntity
     }
 
     /**
-     * Sets the wasOpened
-     *
      * @param string $wasOpened
      * @return void
      */
@@ -233,8 +187,6 @@ class SentMessage extends AbstractEntity
     }
 
     /**
-     * Returns the sentTime
-     *
      * @return string $sentTime
      */
     public function getSentTime()
@@ -243,8 +195,6 @@ class SentMessage extends AbstractEntity
     }
 
     /**
-     * Sets the sentTime
-     *
      * @param string $sentTime
      * @return void
      */
@@ -254,8 +204,6 @@ class SentMessage extends AbstractEntity
     }
 
     /**
-     * Returns the ip
-     *
      * @return string $ip
      */
     public function getIp()
@@ -264,8 +212,6 @@ class SentMessage extends AbstractEntity
     }
 
     /**
-     * Sets the ip
-     *
      * @param string $ip
      * @return void
      */

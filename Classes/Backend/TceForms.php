@@ -100,6 +100,39 @@ class TceForms
      */
     public function renderGridConfigurationField(array $parameters)
     {
+
+        $output = '
+<style>
+.box-summary{
+    margin-bottom: 10px;
+}
+
+.summary-title {
+    font-weight: bold;
+}
+</style>
+
+<div class="box-summary">
+    <div class="summary-title">Template used</div>
+    <div>EXT:foo/bar</div>
+</div>
+<div class="box-summary">
+    <div class="summary-title">Fields detected</div>
+    <div>name, firstName,</div>
+</div>
+<div class="box-summary">
+    <div class="summary-title">Mandatory fields detected</div>
+    <div>name, firstName,</div>
+</div>
+
+<div class="box-summary">
+    <div class="summary-title">Persisted data</div>
+    <div title="persisted to table fe_users">yes</div>
+</div>
+';
+
+
+        return $output;
         // Default configuration
         $gridConfiguration = $this->gridConfigurationStandard;
         $helpText = sprintf(

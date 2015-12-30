@@ -13,7 +13,9 @@ plugin.tx_formule {
             1 {
                 title = Contact form
                 path = EXT:formule/Resources/Private/Standalone/MailForm.html
-                tableName = ''
+
+                # Table name where to persist submitted data.
+                peristToTableName = ''
 
                 asset {
                     vidiCss {

@@ -15,6 +15,15 @@
 			<trans-unit id="tab.general">
 				<source>General</source>
 			</trans-unit>
+			<trans-unit id="tab.emailAdmin">
+				<source>Email Admin</source>
+			</trans-unit>
+			<trans-unit id="tab.emailUser">
+				<source>Email User</source>
+			</trans-unit>
+			<trans-unit id="tab.feedback">
+				<source>Feedback</source>
+			</trans-unit>
 
 			<!-- Settings -->
 			<trans-unit id="settings.template">
@@ -23,10 +32,30 @@
 			<trans-unit id="settings.redirectPid">
 				<source>Redirect page after submit</source>
 			</trans-unit>
-			<trans-unit id="settings.tableName">
-				<source>Table name where to persist submitted data</source>
+			<trans-unit id="settings.summary">
+				<source>Summary</source>
 			</trans-unit>
-
+			<trans-unit id="settings.emailRecipient">
+				<source>Email Recipient (if empty no email will be sent)</source>
+			</trans-unit>
+			<trans-unit id="settings.emailFrom">
+				<source>Email From</source>
+			</trans-unit>
+			<trans-unit id="settings.emailCc">
+				<source>Email CC</source>
+			</trans-unit>
+			<trans-unit id="settings.emailBcc">
+				<source>Email BCC</source>
+			</trans-unit>
+			<trans-unit id="settings.emailSubject">
+				<source>Email subject</source>
+			</trans-unit>
+			<trans-unit id="settings.emailBody">
+				<source>Email body</source>
+			</trans-unit>
+			<trans-unit id="settings.redirectMessage">
+				<source>Redirect Message (only relevant if redirect page is left empty)</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

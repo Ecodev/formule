@@ -14,7 +14,7 @@ namespace Fab\Formule\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Fab\Formule\Domain\Repository\DataRepository;
+use Fab\Formule\Service\DataService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
@@ -26,10 +26,10 @@ class FormController extends ActionController
 {
 
     /**
-     * @var \Fab\Formule\Domain\Repository\DataRepository
+     * @var \Fab\Formule\Service\DataService
      * @inject
      */
-    protected $dataRepository;
+    protected $dataService;
 
     /**
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
@@ -80,10 +80,10 @@ class FormController extends ActionController
         $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'processMarkers', [$data]);
         $data = $signalResult[0];
 
-        if (empty($data[DataRepository::IDENTIFIER])) {
-            $this->dataRepository->create($data);
+        if (empty($data[DataService::IDENTIFIER])) {
+            $this->dataService->create($data);
         } else {
-            $this->dataRepository->update($data);
+            $this->dataService->update($data);
         }
 
         if ($this->settings['sendEmailToUser']) {
