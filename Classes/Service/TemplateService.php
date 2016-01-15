@@ -66,7 +66,41 @@ class TemplateService
      */
     public function hasPersistingTable()
     {
-        return (bool)$this->get('persistToTable') && isset($GLOBALS['TCA'][$this->get('persistToTable')]);
+        return (bool)$this->get('persistToTable');
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasWarnings()
+    {
+        $warnings = $this->getWarnings();
+        return !empty($warnings);
+    }
+
+    /**
+     * @return array
+     */
+    public function getWarnings()
+    {
+        $warnings = [];
+        if (!isset($GLOBALS['TCA'][$this->get('persistToTable')])) {
+            $warnings[] =
+                '- ' .
+                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:warning.missing.tca')
+                . ' "' . $this->get('persistToTable') . '"';
+        }
+
+        foreach ($this->getFields() as $field) {
+            if (!isset($GLOBALS['TCA'][$this->get('persistToTable')]['columns'][$field])) {
+                $warnings[] =
+                    '- ' .
+                    $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:warning.missing.field')
+                    . ' "' . $field . '". '
+                    . $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:warning.mapping.necessary');
+            }
+        }
+        return $warnings;
     }
 
     /**
@@ -137,6 +171,14 @@ class TemplateService
     protected function getTypoScriptService()
     {
         return GeneralUtility::makeInstance(TypoScriptService::class);
+    }
+
+    /**
+     * @return \TYPO3\CMS\Lang\LanguageService
+     */
+    protected function getLanguageService()
+    {
+        return $GLOBALS['LANG'];
     }
 
 }

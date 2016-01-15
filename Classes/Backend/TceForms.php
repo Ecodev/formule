@@ -68,10 +68,14 @@ class TceForms
     <div class="summary-title">%s</div>
     <div>%s</div>
 </div>
-
 <div class="box-summary">
     <div class="summary-title">%s</div>
     <div title="%s %s">%s</div>
+</div>
+
+<div>
+    <div><strong style="color: red">%s</strong></div>
+    <div>%s</div>
 </div>
 ',
             $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.template.used'),
@@ -89,7 +93,11 @@ class TceForms
                 '',
             $templateService->hasPersistingTable() ?
                 $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.yes') :
-                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.no')
+                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.no'),
+            $templateService->hasWarnings() ?
+                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:warning') : '',
+            $templateService->hasWarnings() ?
+                implode('<br>', $templateService->getWarnings()) : ''
         );
 
         return $output;

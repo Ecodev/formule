@@ -57,6 +57,7 @@
 				<source>Redirect Message (only relevant if redirect page is left empty)</source>
 			</trans-unit>
 
+			<!-- Custom field "summary" -->
 			<trans-unit id="summary.template.used">
 				<source>Template used</source>
 			</trans-unit>
@@ -77,6 +78,20 @@
 			</trans-unit>
 			<trans-unit id="summary.no">
 				<source>No</source>
+			</trans-unit>
+
+			<!-- Custom field "warning" -->
+			<trans-unit id="warning">
+				<source>Warning</source>
+			</trans-unit>
+			<trans-unit id="warning.missing.tca">
+				<source>Missing TCA for table</source>
+			</trans-unit>
+			<trans-unit id="warning.missing.field">
+				<source>Missing TCA configuration for</source>
+			</trans-unit>
+			<trans-unit id="warning.mapping.necessary">
+				<source>Mapping maybe necessary.</source>
 			</trans-unit>
 
 			<!-- Frontend contact form -->
