@@ -1,4 +1,5 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
       xmlns:fo="http://typo3.org/ns/Fab/Formule/ViewHelpers">
 
 <f:layout name="Default"/>
@@ -7,84 +8,92 @@
 
 	<fo:loadAssets/>
 
-	<form id="speciality-form-newsletter"
-	      method="post"
-	      action="/home/"
-	      enctype="multipart/form-data">
-		<fieldset style="display: none;">
-			<input type="hidden" name="id" value="129">
-			<input type="hidden" name="formhandler[submitted]" value="1">
+	<style>
+		.red {
+			color: red;
+		}
+	</style>
 
-			<input type="hidden" name="formhandler[randomID]" value="d2642cd31087a1e189b5ba5ac4f01e86">
+	<fo:loadAssets>
+		<script>
+			$(document).ready(function() {
+				$('#characterLeft').text('{f:translate(key:"contact.limit.total.characters")}');
+				$('#message').keydown(function() {
+					var max = 140;
+					var len = $(this).val().length;
+					if (len >= max) {
+						$('#characterLeft').text('{f:translate(key:"contact.limit.met")}');
+						$('#characterLeft').addClass('red');
+						$('#btnSubmit').addClass('disabled');
+					}
+					else {
+						var numberOfCharacters = max - len;
+						$('#characterLeft').text(numberOfCharacters + ' {f:translate(key:"contact.limit.characters")}');
+						$('#btnSubmit').removeClass('disabled');
+						$('#characterLeft').removeClass('red');
+					}
+				});
+			});
+		</script>
+	</fo:loadAssets>
 
-			<input type="hidden"
-			       id="removeFile-d2642cd31087a1e189b5ba5ac4f01e86"
-			       name="formhandler[removeFile]"
-			       value="">
+	<div class="form-area">
+		<f:form action="submit" controller="Form" additionalAttributes="{role: 'form'}" method="post">
+				<br style="clear:both">
+				<h3>
+					<f:translate key="contact.form"/>
+				</h3>
+				<div class="form-group">
+					<input type="text"
+							class="form-control"
+							id="name"
+							name="name"
+							placeholder="{f:translate(key:'contact.name')}"
+							required="required"/>
+				</div>
+				<div class="form-group">
+					<input type="text"
+					       class="form-control"
+					       id="email"
+					       name="email"
+					       placeholder="{f:translate(key:'contact.email')}"
+					       required="required"/>
+				</div>
+				<div class="form-group">
+					<input type="text"
+					       class="form-control"
+					       id="mobile"
+					       name="mobile"
+					       placeholder="{f:translate(key:'contact.mobile')}"
+					       required="required"/>
+				</div>
 
-			<input type="hidden"
-			       id="removeFileField-d2642cd31087a1e189b5ba5ac4f01e86"
-			       name="formhandler[removeFileField]"
-			       value="">
+				<div class="form-group">
+					<input type="text"
+					       class="form-control"
+					       id="subject"
+					       name="subject"
+					       placeholder="{f:translate(key:'contact.subject')}"
+					       required="required"/>
+				</div>
+				<div class="form-group">
+						<textarea class="form-control"
+						          id="message"
+						          placeholder="Message"
+						          maxlength="140"
+						          rows="7"></textarea>
+					<p id="characterLeft" class="help-block">
+						<f:translate key="contact.limit"/>
+					</p>
+				</div>
 
-			<input type="hidden"
-			       id="submitField-d2642cd31087a1e189b5ba5ac4f01e86"
-			       name="formhandler[submitField]"
-			       value="">
+			<f:form.hidden name="content" value="{contentElement.uid}"/>
+			<input type="submit" value="{f:translate(key:'contact.submit')}" class="btn btn-primary pull-right">
 
-			<input type="hidden"
-			       name="formhandler[step-2-next]"
-			       id="ieHiddenField-d2642cd31087a1e189b5ba5ac4f01e86"
-			       value="1">
-		</fieldset>
-		<fieldset class=" csc-mailform">
-			<input type="hidden" name="formhandler[submitted]" value="1">
-			<div class="csc-mailform-field form-group col-md-6">
-
-				<label for="firstname">First name *</label>
-				<input type="text"
-				       name="formhandler[firstname]"
-				       id="firstname"
-				       value=""
-				       placeholder="First name"
-				       class="validate[required]">
-				<div class="clear"></div>
-			</div>
-			<div class="csc-mailform-field form-group col-md-6">
-
-				<label for="lastname">Last name *</label>
-				<input type="text"
-				       name="formhandler[lastname]"
-				       id="lastname"
-				       value=""
-				       placeholder="Last name"
-				       class="validate[required]">
-				<div class="clear"></div>
-			</div>
-			<div class="csc-mailform-field form-group col-md-6">
-
-				<label for="email">Email address *</label>
-				<input type="text"
-				       name="formhandler[email]"
-				       id="email"
-				       value=""
-				       placeholder="Email address"
-				       class="validate[required,custom[email]]">
-				<div class="clear"></div>
-			</div>
-			<div class="csc-mailform-field col-md-6">
-				<label for="submitButton">Newsletter subscription</label>
-				<input type="submit"
-				       id="submitButton"
-				       value="Register"
-				       class="btn btn-primary"
-				       name="formhandler[step-2-next]">
-			</div>
-			<div class="col-md-12">
-				<span class="required_fields">Fields marked with * are required</span>
-			</div>
-		</fieldset>
-	</form>
+			<fo:honeyPot />
+			<fo:message.development />
+		</f:form>
+	</div>
 
 </f:section>
 </html>

@@ -25,25 +25,94 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class LoadAssetsViewHelper extends AbstractViewHelper
 {
+    const TYPE_JS = 'js';
+    const TYPE_CSS = 'css';
 
     /**
-     * @return void
+     * @param bool $footer
+     * @param string $type
+     * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception\InvalidVariableException
      */
-    public function render()
+    public function render($footer = true, $type = self::TYPE_JS)
     {
-//        $settings = $this->templateVariableContainer->get('settings');
-//
-//        if ($settings['asset']) {
-//            foreach ($settings['asset'] as $assetName => $asset) {
-//                if ($this->shouldLoadByVhs($settings)) {
-//                    $asset['name'] = $assetName;
-//                    $this->loadByVhs($asset);
-//
-//                } else {
-//                    $this->loadByCorePageRender($asset);
-//                }
-//            }
-//        }
+        // Get variables
+        $settings = $this->templateVariableContainer->get('settings');
+
+        // Inline code
+        $rawInlineCode = $this->renderChildren();
+        $inlineCode = $this->sanitizeInlineCode($rawInlineCode);
+
+        $name = $this->computeName($inlineCode);
+        if ($this->hasInlineCode($inlineCode)) {
+            if ($this->shouldLoadByVhs($settings)) {
+                $this->loadByVhsInline($name, $inlineCode, $footer, $type);
+            } else {
+                $this->loadByCorePageRenderInline($name, $inlineCode, $footer, $type);
+            }
+        } else {
+            if ($settings['asset']) {
+                foreach ($settings['asset'] as $assetName => $asset) {
+                    if ($this->shouldLoadByVhs($settings)) {
+                        $asset['name'] = $assetName;
+                        $this->loadByVhs($asset);
+                    } else {
+                        $this->loadByCorePageRender($asset);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @param string $inlineCode
+     * @return string
+     */
+    protected function computeName($inlineCode)
+    {
+        $contentElement = $this->templateVariableContainer->get('contentElement');
+        $inlineCodeExtract = substr(trim($inlineCode), 0, 100);
+        return md5($contentElement['uid'] . $inlineCodeExtract);
+    }
+
+    /**
+     * @param string $inlineCode
+     * @return bool
+     */
+    protected function hasInlineCode($inlineCode)
+    {
+        return !empty(trim($inlineCode));
+    }
+
+    /**
+     * @param string $inlineCode
+     * @return string
+     */
+    protected function sanitizeInlineCode($inlineCode)
+    {
+        if (!empty($inlineCode)) {
+            $inlineCode = preg_replace('#<script(.*?)>(.*)</script>#is', '$2', $inlineCode);
+        }
+        return $inlineCode;
+    }
+
+    /**
+     * @param string $name
+     * @param string $content
+     * @param bool $footer
+     * @param string $type
+     */
+    protected function loadByVhsInline($name, $content, $footer = true, $type = self::TYPE_JS)
+    {
+        $configuration = [
+            'content' => $content,
+            'dependencies' => 'mainJs', # could be configurable.
+            #'standalone' => false,
+            #'rewrite' => false,
+            'movable' => $footer,
+            'type' => $type,
+            'name' => $name,
+        ];
+        Asset::createFromSettings($configuration);
     }
 
     /**
@@ -52,7 +121,6 @@ class LoadAssetsViewHelper extends AbstractViewHelper
      */
     protected function loadByVhs(array $asset)
     {
-
         if (GeneralUtility::getApplicationContext()->isDevelopment()) {
             $developmentFile = $this->getDevelopmentFile($asset);
             if ($developmentFile) {
@@ -60,6 +128,25 @@ class LoadAssetsViewHelper extends AbstractViewHelper
             }
         }
         Asset::createFromSettings($asset);
+    }
+
+    /**
+     * @param string $name
+     * @param string $content
+     * @param bool $footer
+     * @param string $type
+     */
+    protected function loadByCorePageRenderInline($name, $content, $footer = true, $type = self::TYPE_JS)
+    {
+        if ($type === self::TYPE_JS) {
+            if ($footer) {
+                $this->getPageRenderer()->addJsFooterInlineCode($name, $content);
+            } else {
+                $this->getPageRenderer()->addJsInlineCode($name, $content);
+            }
+        } elseif ($content['type'] === 'css') {
+            $this->getPageRenderer()->addCssInlineBlock($name, $content);
+        }
     }
 
     /**

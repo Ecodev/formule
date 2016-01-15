@@ -15,7 +15,7 @@ namespace Fab\Formule\Validator;
  */
 
 use TYPO3\CMS\Core\SingletonInterface;
-use Fab\Messenger\Exception\InvalidEmailFormatException;
+use Fab\Formule\Exception\InvalidEmailFormatException;
 
 /**
  * Validate Email in the context of SwiftMailer

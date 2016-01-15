@@ -15,6 +15,7 @@ namespace Fab\Formule\Controller;
  */
 
 use Fab\Formule\Service\DataService;
+use Fab\Formule\TypeConverter\ValuesConverter;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
@@ -32,24 +33,6 @@ class FormController extends ActionController
     protected $dataService;
 
     /**
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
-     */
-    public function initializeAction()
-    {
-
-//        if ($this->arguments->hasArgument('data')) {
-//
-//            /** @var \Fab\VidiFrontend\TypeConverter\ContentConverter $typeConverter */
-//            $typeConverter = $this->objectManager->get('Fab\VidiFrontend\TypeConverter\DataConverter');
-//
-//            $this->arguments->getArgument('content')
-//                ->getPropertyMappingConfiguration()
-//                ->setTypeConverter($typeConverter);
-//        }
-
-    }
-
-    /**
      * @return void
      */
     public function showAction()
@@ -65,25 +48,42 @@ class FormController extends ActionController
         }
 
         $this->view->setTemplatePathAndFilename($pathAbs);
-
-        // Send signal
-//        $dataType = $this->settings['dataType'];
+        $this->view->assign('contentElement', $this->configurationManager->getContentObject()->data);
     }
 
     /**
-     * @param array $data
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     */
+    public function initializeSubmitAction()
+    {
+        /** @var ValuesConverter $typeConverter */
+        $typeConverter = $this->objectManager->get(ValuesConverter::class);
+
+        $this->arguments->getArgument('values')
+            ->getPropertyMappingConfiguration()
+            ->setTypeConverter($typeConverter);
+    }
+
+    /**
+     * @param array $values
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
+     * @validate $values \Fab\Formule\Validator\HoneyPotValidator
+     * @validate $values \Fab\Formule\Validator\FieldValuesValidator
+     *
      */
-    public function submitAction(array $data = [])
+    public function submitAction(array $values = [])
     {
-        $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'processMarkers', [$data]);
-        $data = $signalResult[0];
+        // todo honey pot
+        var_dump($values);
+        exit();
+        $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'processValues', [$values]);
+        $values = $signalResult[0];
 
-        if (empty($data[DataService::IDENTIFIER])) {
-            $this->dataService->create($data);
+        if (empty($values[DataService::IDENTIFIER])) {
+            $this->dataService->create($values);
         } else {
-            $this->dataService->update($data);
+            $this->dataService->update($values);
         }
 
         if ($this->settings['sendEmailToUser']) {
@@ -96,8 +96,8 @@ class FormController extends ActionController
             $this->getLogginService()->log($this->settings, $markers);
         }
 
-        $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'postDataPersist', [$data]);
-        $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'beforeRedirect', [$data]);
+        $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'postDataPersist', [$values]);
+        $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'beforeRedirect', [$values]);
     }
 
     /**

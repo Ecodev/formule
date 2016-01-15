@@ -56,6 +56,57 @@
 			<trans-unit id="settings.redirectMessage">
 				<source>Redirect Message (only relevant if redirect page is left empty)</source>
 			</trans-unit>
+
+			<trans-unit id="summary.template.used">
+				<source>Template used</source>
+			</trans-unit>
+			<trans-unit id="summary.fields">
+				<source>Fields detected</source>
+			</trans-unit>
+			<trans-unit id="summary.mandatory.fields">
+				<source>Mandatory fields</source>
+			</trans-unit>
+			<trans-unit id="summary.persisted.data">
+				<source>Persisted data</source>
+			</trans-unit>
+			<trans-unit id="summary.persisted.to">
+				<source>persisted to table</source>
+			</trans-unit>
+			<trans-unit id="summary.yes">
+				<source>Yes</source>
+			</trans-unit>
+			<trans-unit id="summary.no">
+				<source>No</source>
+			</trans-unit>
+
+			<!-- Frontend contact form -->
+			<trans-unit id="contact.form">
+				<source>Contact Form</source>
+			</trans-unit>
+			<trans-unit id="contact.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="contact.email">
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="contact.mobile">
+				<source>Mobile number</source>
+			</trans-unit>
+			<trans-unit id="contact.subject">
+				<source>Subject</source>
+			</trans-unit>
+			<trans-unit id="contact.submit">
+				<source>Submit Form</source>
+			</trans-unit>
+			<trans-unit id="contact.limit.met">
+				<source>You have reached the limit.</source>
+			</trans-unit>
+			<trans-unit id="contact.limit.total.characters">
+				<source>140 characters left.</source>
+			</trans-unit>
+			<trans-unit id="contact.limit.characters">
+				<source>characters left.</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
