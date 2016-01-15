@@ -27,7 +27,7 @@
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.summary</label>
 							<config>
 								<type>user</type>
-								<userFunc>Fab\Formule\Backend\TceForms->renderGridConfigurationField</userFunc>
+								<userFunc>Fab\Formule\Backend\TceForms->renderSummaryField</userFunc>
 							</config>
 						</TCEforms>
 					</summary>

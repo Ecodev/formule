@@ -15,10 +15,11 @@ plugin.tx_formule {
                 path = EXT:formule/Resources/Private/Standalone/MailForm.html
 
                 # Table name where to persist submitted data.
-                peristToTableName = ''
+                persistToTable = fe_users
 
                 asset {
-                    vidiCss {
+
+                    0 {
                         # For none Bootstrap replace by EXT:formule/Resources/Public/Build/StyleSheets/formule.min.css
                         path = EXT:formule/Resources/Public/Build/StyleSheets/formule.bootstrap.min.css
                         type = css
@@ -27,7 +28,7 @@ plugin.tx_formule {
                         dependencies = mainCss
                     }
 
-                    vidiJs {
+                    1 {
                         # For none Bootstrap replace by EXT:formule/Resources/Public/Build/JavaScript/formule.min.js
                         path = EXT:formule/Resources/Public/Build/JavaScript/formule.bootstrap.min.js
                         type = js

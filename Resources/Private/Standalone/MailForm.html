@@ -39,59 +39,60 @@
 
 	<div class="form-area">
 		<f:form action="submit" controller="Form" additionalAttributes="{role: 'form'}" method="post">
-				<br style="clear:both">
-				<h3>
-					<f:translate key="contact.form"/>
-				</h3>
-				<div class="form-group">
-					<input type="text"
-							class="form-control"
-							id="name"
-							name="name"
-							placeholder="{f:translate(key:'contact.name')}"
-							required="required"/>
-				</div>
-				<div class="form-group">
-					<input type="text"
-					       class="form-control"
-					       id="email"
-					       name="email"
-					       placeholder="{f:translate(key:'contact.email')}"
-					       required="required"/>
-				</div>
-				<div class="form-group">
-					<input type="text"
-					       class="form-control"
-					       id="mobile"
-					       name="mobile"
-					       placeholder="{f:translate(key:'contact.mobile')}"
-					       required="required"/>
-				</div>
+			<br style="clear:both">
+			<h3>
+				<f:translate key="contact.form"/>
+			</h3>
+			<div class="form-group">
+				<input type="text"
+				       class="form-control"
+				       id="name"
+				       name="name"
+				       placeholder="{f:translate(key:'contact.name')}"
+				       required="required"/>
+			</div>
+			<div class="form-group">
+				<input type="text"
+				       class="form-control"
+				       id="email"
+				       name="email"
+				       placeholder="{f:translate(key:'contact.email')}"
+				       required="required"/>
+			</div>
+			<div class="form-group">
+				<input type="text"
+				       class="form-control"
+				       id="mobile"
+				       name="mobile"
+				       placeholder="{f:translate(key:'contact.mobile')}"
+				       required="required"/>
+			</div>
 
-				<div class="form-group">
-					<input type="text"
-					       class="form-control"
-					       id="subject"
-					       name="subject"
-					       placeholder="{f:translate(key:'contact.subject')}"
-					       required="required"/>
-				</div>
-				<div class="form-group">
+			<div class="form-group">
+				<input type="text"
+				       class="form-control"
+				       id="subject"
+				       name="subject"
+				       placeholder="{f:translate(key:'contact.subject')}"
+				       required="required"/>
+			</div>
+
+			<div class="form-group">
 						<textarea class="form-control"
 						          id="message"
 						          placeholder="Message"
 						          maxlength="140"
 						          rows="7"></textarea>
-					<p id="characterLeft" class="help-block">
-						<f:translate key="contact.limit"/>
-					</p>
-				</div>
+				<p id="characterLeft" class="help-block">
+					<f:translate key="contact.limit"/>
+				</p>
+			</div>
 
 			<f:form.hidden name="content" value="{contentElement.uid}"/>
 			<input type="submit" value="{f:translate(key:'contact.submit')}" class="btn btn-primary pull-right">
 
-			<fo:honeyPot />
-			<fo:message.development />
+			<fo:honeyPot/>
+			<fo:message.development/>
 		</f:form>
 	</div>
 

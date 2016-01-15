@@ -15,12 +15,9 @@ namespace Fab\Formule\Backend;
  */
 
 use Fab\Formule\Service\FlexFormService;
-use Fab\Formule\Service\TemplateAnalyserService;
+use Fab\Formule\Service\TemplateService;
+use Fab\Formule\Service\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Fab\Vidi\Tca\Tca;
-use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Service\TypoScriptService;
 
 /**
  * A class to interact with TCEForms.
@@ -34,7 +31,7 @@ class TceForms
      * @param array $parameters
      * @return string
      */
-    public function renderGridConfigurationField(array $parameters)
+    public function renderSummaryField(array $parameters)
     {
 
         // Get existing flexform configuration
@@ -45,12 +42,10 @@ class TceForms
         }
 
         $settings = $this->getFlexFormService()->extractSettings($flexform);
-
-        $templateAnalyser = $this->getTemplateAnalyserService($settings['template']);
-
+        $templateService = $this->getTemplateService($settings['template']);
 
         $output = sprintf(
-'
+            '
 <style>
 .box-summary{
     margin-bottom: 10px;
@@ -76,49 +71,28 @@ class TceForms
 
 <div class="box-summary">
     <div class="summary-title">%s</div>
-    <div title="%s xxx">%s</div>
+    <div title="%s %s">%s</div>
 </div>
 ',
             $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.template.used'),
-            $settings['template'],
+            $templateService->getPath(),
             $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.fields'),
-            implode(', ', $templateAnalyser->getFields()),
+            implode(', ', $templateService->getFields()),
             $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.mandatory.fields'),
-            implode(', ', $templateAnalyser->getRequiredFields()),
+            implode(', ', $templateService->getRequiredFields()),
             $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.persisted.data'),
-            $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.persisted.to'),
-            $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.no')
+            $templateService->hasPersistingTable() ?
+                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.persisted.to') :
+                '',
+            $templateService->hasPersistingTable() ?
+                $templateService->getPersistingTable() :
+                '',
+            $templateService->hasPersistingTable() ?
+                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.yes') :
+                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.no')
         );
 
-
         return $output;
-    }
-
-    /**
-     * This method modifies the list of items for FlexForm "dataType".
-     *
-     * @param array $parameters
-     */
-    public function getDataTypes(&$parameters)
-    {
-
-        /** @var \TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility $configurationUtility */
-        $configurationUtility = $this->getObjectManager()->get('TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility');
-        $configuration = $configurationUtility->getCurrentConfiguration('vidi_frontend');
-        $availableContentTypes = GeneralUtility::trimExplode(',', $configuration['content_types']['value'], TRUE);
-
-        foreach ($GLOBALS['TCA'] as $contentType => $tca) {
-            if (isset($GLOBALS['TCA'][$contentType]['grid']) && (empty($availableContentTypes) || in_array($contentType, $availableContentTypes))) {
-                $label = sprintf(
-                    '%s (%s)',
-                    Tca::table($contentType)->getTitle(),
-                    $contentType
-                );
-                $values = array($label, $contentType, NULL);
-
-                $parameters['items'][] = $values;
-            }
-        }
     }
 
     /**
@@ -128,9 +102,9 @@ class TceForms
      */
     public function getTemplates(&$parameters)
     {
-        $configuration = $this->getPluginConfiguration();
+        $ts = $this->getTypoScriptService()->getSettings();
 
-        if (empty($configuration) || empty($configuration['settings']['templates'])) {
+        if (empty($ts['templates'])) {
             $parameters['items'][] = array('No template found. Forgotten to load the static TS template?', '', NULL);
         } else {
 
@@ -141,85 +115,14 @@ class TceForms
             }
 
             $parameters['items'][] = ''; // Empty value
-            foreach ($configuration['settings']['templates'] as $template) {
-                $values = array($template['title'], $template['path'], NULL);
+            foreach ($ts['templates'] as $key => $template) {
+                $values = array($template['title'], $key, NULL);
                 if (empty($template['dataType']) || $template['dataType'] === $configuredDataType) {
                     $parameters['items'][] = $values;
                 }
             }
         }
     }
-
-    /**
-     * This method modifies the list of items for FlexForm "template".
-     *
-     * @param array $parameters
-     */
-    public function getColumns(&$parameters)
-    {
-
-        $configuration = $this->getPluginConfiguration();
-
-        if (empty($configuration) || empty($configuration['settings']['templates'])) {
-            $parameters['items'][] = array('No template found. Forgotten to load the static TS template?', '', NULL);
-        } else {
-
-
-            if (version_compare(TYPO3_branch, '7.0', '<')) {
-                $configuredDataType = $this->getDataTypeFromFlexformLegacy($parameters);
-            } else {
-                $configuredDataType = $this->getDataTypeFromFlexform($parameters['flexParentDatabaseRow']['pi_flexform']);
-            }
-
-            if (empty($configuredDataType)) {
-                $parameters['items'][] = array('No columns to display yet! Save this record.', '', NULL);
-            } else {
-                foreach (FrontendTca::grid($configuredDataType)->getFields() as $fieldNameAndPath => $configuration) {
-                    $values = array($fieldNameAndPath, $fieldNameAndPath, NULL);
-                    $parameters['items'][] = $values;
-                }
-            }
-        }
-    }
-
-//    /**
-//     * This method modifies the list of items for FlexForm "selection".
-//     *
-//     * @param array $parameters
-//     */
-//    public function getSelections(&$parameters)
-//    {
-//        $configuration = $this->getPluginConfiguration();
-//
-//        if (empty($configuration) || empty($configuration['settings']['templates'])) {
-//            $parameters['items'][] = array('No template found. Forgotten to load the static TS template?', '', NULL);
-//        } else {
-//
-//            $parameters['items'][] = array('', '', NULL);
-//
-//            /** @var \Fab\Vidi\Domain\Repository\SelectionRepository $selectionRepository */
-//            $selectionRepository = $this->getObjectManager()->get('Fab\Vidi\Domain\Repository\SelectionRepository');
-//
-//            if (version_compare(TYPO3_branch, '7.0', '<')) {
-//                $configuredDataType = $this->getDataTypeFromFlexformLegacy($parameters);
-//            } else {
-//                $configuredDataType = $this->getDataTypeFromFlexform($parameters['flexParentDatabaseRow']['pi_flexform']);
-//            }
-//
-//            if ($configuredDataType) {
-//
-//                $selections = $selectionRepository->findForEveryone($configuredDataType);
-//
-//                if ($selections) {
-//                    foreach ($selections as $selection) {
-//                        /** @var Selection $selection */
-//                        $values = array($selection->getName(), $selection->getUid(), NULL);
-//                        $parameters['items'][] = $values;
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     /**
      * @param $parameters
@@ -260,41 +163,6 @@ class TceForms
     }
 
     /**
-     * Returns the TypoScript configuration for this extension.
-     *
-     * @return array
-     */
-    protected function getPluginConfiguration()
-    {
-        $setup = $this->getConfigurationManager()->getTypoScriptSetup();
-
-        $pluginConfiguration = array();
-        if (is_array($setup['plugin.']['tx_formule.'])) {
-            /** @var TypoScriptService $typoScriptService */
-            $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
-            $pluginConfiguration = $typoScriptService->convertTypoScriptArrayToPlainArray($setup['plugin.']['tx_formule.']);
-        }
-        return $pluginConfiguration;
-    }
-
-    /**
-     * @return BackendConfigurationManager
-     */
-    protected function getConfigurationManager()
-    {
-        return $this->getObjectManager()->get(BackendConfigurationManager::class);
-    }
-
-    /**
-     * @return ObjectManager
-     */
-    protected function getObjectManager()
-    {
-        /** @var ObjectManager $objectManager */
-        return GeneralUtility::makeInstance(ObjectManager::class);
-    }
-
-    /**
      * Will be removed when dropping 6.2 compatibility.
      *
      * @param array $parameters
@@ -319,11 +187,20 @@ class TceForms
     }
 
     /**
-     * @return TemplateAnalyserService
+     * @return TypoScriptService
      */
-    protected function getTemplateAnalyserService($templateNameAndPath)
+    protected function getTypoScriptService()
     {
-        return GeneralUtility::makeInstance(TemplateAnalyserService::class, $templateNameAndPath);
+        return GeneralUtility::makeInstance(TypoScriptService::class);
+    }
+
+    /**
+     * @param int $templateIdentifier
+     * @return TemplateService
+     */
+    protected function getTemplateService($templateIdentifier)
+    {
+        return GeneralUtility::makeInstance(TemplateService::class, $templateIdentifier);
     }
 
     /**

@@ -17,6 +17,7 @@ namespace Fab\Formule\ViewHelpers\Message;
 use Fab\Formule\Redirect\RedirectService;
 use Fab\Formule\Service\EmailAddressService;
 use Fab\Formule\Service\FlexFormService;
+use Fab\Formule\Service\TemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -43,14 +44,17 @@ class DevelopmentViewHelper extends AbstractViewHelper
             $cc = $this->getEmailAddressService()->parse($settings['emailAdminCc']);
             $bcc = $this->getEmailAddressService()->parse($settings['emailAdminBcc']);
 
+            $templateService = $this->getTemplateService($settings['template']);
+
             $output = sprintf(
-                "<br style='clear: both'/><br/>%s CONTEXT: this message is for testing purposes and will be sent to %s.<br /><br /> In reality, it would be sent: <br />- to: %s<br />%s%s<br />%s",
+                "<br style='clear: both'/><br/>%s CONTEXT: this message is for testing purposes and will be sent to %s.<br /><br /> In reality, it would be sent: <br />- to: %s<br />%s%s<br />%s%s",
                 strtoupper((string)GeneralUtility::getApplicationContext()),
                 implode(', ', array_keys($redirectTo)),
                 implode(', ', array_keys($to)),
                 empty($cc) ? '' : sprintf('- cc: %s <br/>', implode(', ', array_keys($cc))),
                 empty($bcc) ? '' : sprintf('- bcc: %s <br/>', implode(', ', array_keys($bcc))),
-                empty($settings['emailUserRecipient']) ? '' : 'Additionaly an email to the user will be sent using the field ' . $settings['emailUserRecipient']
+                empty($settings['emailUserRecipient']) ? '' : 'Additionaly an email to the user will be sent using the field ' . $settings['emailUserRecipient'],
+                $templateService->hasPersistingTable() ? '<br/><br/>Submitted data will be persisted into ' . $templateService->getPersistingTable() : ''
             );
         }
 
@@ -77,6 +81,15 @@ class DevelopmentViewHelper extends AbstractViewHelper
     protected function getFlexFormService()
     {
         return GeneralUtility::makeInstance(FlexFormService::class);
+    }
+
+    /**
+     * @param int $templateIdentifier
+     * @return TemplateService
+     */
+    protected function getTemplateService($templateIdentifier)
+    {
+        return GeneralUtility::makeInstance(TemplateService::class, $templateIdentifier);
     }
 
 }

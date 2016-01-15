@@ -15,6 +15,7 @@ namespace Fab\Formule\Controller;
  */
 
 use Fab\Formule\Service\DataService;
+use Fab\Formule\Service\TemplateService;
 use Fab\Formule\TypeConverter\ValuesConverter;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -38,11 +39,12 @@ class FormController extends ActionController
     public function showAction()
     {
         if (empty($this->settings['template'])) {
-            return '<strong style="color: red">Please select a "formule" template!</strong>';
+            return '<strong style="color: red">Please select a template in formule!</strong>';
         }
 
-        // Configure the template path according to the Plugin settings.
-        $pathAbs = GeneralUtility::getFileAbsFileName($this->settings['template']);
+        // Check the template path according to the Plugin settings.
+        $templateService = $this->getTemplateService($this->settings['template']);
+        $pathAbs = $templateService->getResolvedPath();
         if (!is_file($pathAbs)) {
             return sprintf('<strong style="color:red;">I could not find the template file %s.</strong>', $pathAbs);
         }
@@ -107,6 +109,15 @@ class FormController extends ActionController
      */
     protected function getSignalSlotDispatcher() {
         return $this->objectManager->get(Dispatcher::class);
+    }
+
+    /**
+     * @param int $templateIdentifier
+     * @return TemplateService
+     */
+    protected function getTemplateService($templateIdentifier)
+    {
+        return GeneralUtility::makeInstance(TemplateService::class, $templateIdentifier);
     }
 
 }

@@ -15,7 +15,7 @@ namespace Fab\Formule\TypeConverter;
  */
 
 use Fab\Formule\Service\FlexFormService;
-use Fab\Formule\Service\TemplateAnalyserService;
+use Fab\Formule\Service\TemplateService;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface;
@@ -62,8 +62,8 @@ class ValuesConverter extends AbstractTypeConverter
         if (!empty($record)) {
             $settings = $this->getFlexFormService()->extractSettings($record['pi_flexform']);
 
-            $templateAnalyser = $this->getTemplateAnalyserService($settings['template']);
-            $templateFields = $templateAnalyser->getFields();
+            $templateService = $this->getTemplateService($settings['template']);
+            $templateFields = $templateService->getFields();
 
             foreach ($templateFields as $templateField) {
                 $value = GeneralUtility::_GP($templateField);
@@ -111,11 +111,12 @@ class ValuesConverter extends AbstractTypeConverter
     }
 
     /**
-     * @return TemplateAnalyserService
+     * @param string $templateIdentifier
+     * @return TemplateService
      */
-    protected function getTemplateAnalyserService($templateNameAndPath)
+    protected function getTemplateService($templateIdentifier)
     {
-        return GeneralUtility::makeInstance(TemplateAnalyserService::class, $templateNameAndPath);
+        return GeneralUtility::makeInstance(TemplateService::class, $templateIdentifier);
     }
 
     /**
