@@ -14,6 +14,7 @@ namespace Fab\Formule\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Formule\Service\ArgumentService;
 use Fab\Formule\Service\DataService;
 use Fab\Formule\Service\TemplateService;
 use Fab\Formule\TypeConverter\ValuesConverter;
@@ -34,23 +35,28 @@ class FormController extends ActionController
     protected $dataService;
 
     /**
-     * @return void
+     * @return string|null
      */
     public function showAction()
     {
+        $message = null;
         if (empty($this->settings['template'])) {
-            return '<strong style="color: red">Please select a template in formule!</strong>';
+            $message = '<strong style="color: red">Please select a template in formule!</strong>';
+        } else {
+
+            // Check the template path according to the Plugin settings.
+            $templateService = $this->getTemplateService($this->settings['template']);
+            $pathAbs = $templateService->getResolvedPath();
+            if (!is_file($pathAbs)) {
+                return sprintf('<strong style="color:red;">I could not find the template file %s.</strong>', $pathAbs);
+            }
+
+            $this->view->setTemplatePathAndFilename($pathAbs);
+            $this->view->assign('contentElement', $this->configurationManager->getContentObject()->data);
+            $this->view->assign('values', $this->getArgumentService()->getValues());
         }
 
-        // Check the template path according to the Plugin settings.
-        $templateService = $this->getTemplateService($this->settings['template']);
-        $pathAbs = $templateService->getResolvedPath();
-        if (!is_file($pathAbs)) {
-            return sprintf('<strong style="color:red;">I could not find the template file %s.</strong>', $pathAbs);
-        }
-
-        $this->view->setTemplatePathAndFilename($pathAbs);
-        $this->view->assign('contentElement', $this->configurationManager->getContentObject()->data);
+        return $message;
     }
 
     /**
@@ -61,9 +67,11 @@ class FormController extends ActionController
         /** @var ValuesConverter $typeConverter */
         $typeConverter = $this->objectManager->get(ValuesConverter::class);
 
-        $this->arguments->getArgument('values')
-            ->getPropertyMappingConfiguration()
-            ->setTypeConverter($typeConverter);
+        if ($this->arguments->hasArgument('values')) {
+            $this->arguments->getArgument('values')
+                ->getPropertyMappingConfiguration()
+                ->setTypeConverter($typeConverter);
+        }
     }
 
     /**
@@ -76,9 +84,10 @@ class FormController extends ActionController
      */
     public function submitAction(array $values = [])
     {
-        // todo honey pot
-        var_dump($values);
+
+        var_dump(123);
         exit();
+
         $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'processValues', [$values]);
         $values = $signalResult[0];
 
@@ -118,6 +127,14 @@ class FormController extends ActionController
     protected function getTemplateService($templateIdentifier)
     {
         return GeneralUtility::makeInstance(TemplateService::class, $templateIdentifier);
+    }
+
+    /**
+     * @return ArgumentService
+     */
+    protected function getArgumentService()
+    {
+        return GeneralUtility::makeInstance(ArgumentService::class);
     }
 
 }

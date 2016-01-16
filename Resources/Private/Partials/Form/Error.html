@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+
+<f:section name="FormError">
+
+	<f:form.validationResults for="{for}">
+		<f:if condition="{validationResults.flattenedErrors}">
+			<div class="errors">
+				<h5>
+					<f:translate key="error.occurred"/>
+				</h5>
+				<ul>
+					<f:for each="{validationResults.flattenedErrors}" key="propertyPath" as="errors">
+
+						<f:if condition="{errors}">
+							<f:then>
+								<f:for each="{errors}" as="error">
+									<li>
+										{error.message}
+									</li>
+								</f:for>
+							</f:then>
+						</f:if>
+					</f:for>
+				</ul>
+			</div>
+		</f:if>
+	</f:form.validationResults>
+
+</f:section>
+</html>

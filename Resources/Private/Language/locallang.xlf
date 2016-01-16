@@ -122,6 +122,14 @@
 			<trans-unit id="contact.limit.characters">
 				<source>characters left.</source>
 			</trans-unit>
+
+			<!-- Frontend error -->
+			<trans-unit id="error.occurred">
+				<source>Following error(s) occurred:</source>
+			</trans-unit>
+			<trans-unit id="error.required">
+				<source>Required field</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -14,7 +14,9 @@ namespace Fab\Formule\Validator;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Formule\Service\TemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
 /**
@@ -29,6 +31,20 @@ class FieldValuesValidator extends AbstractValidator
     public function isValid($values)
     {
 
+        foreach ($this->getTemplateService()->getRequiredFields() as $requiredField) {
+            if (empty($values[$requiredField])) {
 
+                $value = LocalizationUtility::translate('error.required', 'formule');
+                $this->addError(sprintf('%s "%s"', $value, $requiredField), 1452897562);
+            }
+        }
+    }
+
+    /**
+     * @return TemplateService
+     */
+    protected function getTemplateService()
+    {
+        return GeneralUtility::makeInstance(TemplateService::class);
     }
 }

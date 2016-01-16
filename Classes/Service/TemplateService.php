@@ -17,13 +17,14 @@ namespace Fab\Formule\Service;
 use DOMDocument;
 use DOMXPath;
 use SimpleXMLElement;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 /**
  * TemplateService
  */
-class TemplateService
+class TemplateService implements SingletonInterface
 {
     /**
      * @var int

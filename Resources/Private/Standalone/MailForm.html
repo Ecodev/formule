@@ -37,6 +37,8 @@
 		</script>
 	</fo:loadAssets>
 
+	<f:render section="FormError" partial="Form/Error" arguments="{_all}"/>
+
 	<div class="form-area">
 		<f:form action="submit" controller="Form" additionalAttributes="{role: 'form'}" method="post">
 			<br style="clear:both">
@@ -48,6 +50,7 @@
 				       class="form-control"
 				       id="name"
 				       name="name"
+				       value="{values.name}"
 				       placeholder="{f:translate(key:'contact.name')}"
 				       required="required"/>
 			</div>
@@ -56,6 +59,7 @@
 				       class="form-control"
 				       id="email"
 				       name="email"
+				       value="{values.email}"
 				       placeholder="{f:translate(key:'contact.email')}"
 				       required="required"/>
 			</div>
@@ -64,21 +68,24 @@
 				       class="form-control"
 				       id="subject"
 				       name="subject"
+				       value="{values.subject}"
 				       placeholder="{f:translate(key:'contact.subject')}"
 				       required="required"/>
 			</div>
 			<div class="form-group">
 						<textarea class="form-control"
 						          id="message"
+						          name="message"
 						          placeholder="Message"
 						          maxlength="140"
-						          rows="7"></textarea>
+						          rows="7">{values.message}</textarea>
 				<p id="characterLeft" class="help-block">
 					<f:translate key="contact.limit"/>
 				</p>
 			</div>
 
-			<f:form.hidden name="content" value="{contentElement.uid}"/>
+			<!-- Only mandatory field -->
+			<f:form.hidden name="values" value="{contentElement.uid}"/>
 			<input type="submit" value="{f:translate(key:'contact.submit')}" class="btn btn-primary pull-right">
 
 			<fo:honeyPot/>
