@@ -60,6 +60,15 @@ class TemplateService implements SingletonInterface
     }
 
     /**
+     * @return array
+     */
+    public function getAssets()
+    {
+        $assets = $this->get('asset');
+        return is_array($assets) ? $assets : [];
+    }
+
+    /**
      * @return string
      */
     public function getResolvedPath()

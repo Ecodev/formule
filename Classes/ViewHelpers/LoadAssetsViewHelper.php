@@ -14,6 +14,7 @@ namespace Fab\Formule\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Formule\Service\TemplateService;
 use FluidTYPO3\Vhs\Asset;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -50,14 +51,14 @@ class LoadAssetsViewHelper extends AbstractViewHelper
                 $this->loadByCorePageRenderInline($name, $inlineCode, $footer, $type);
             }
         } else {
-            if ($settings['asset']) {
-                foreach ($settings['asset'] as $assetName => $asset) {
-                    if ($this->shouldLoadByVhs($settings)) {
-                        $asset['name'] = $assetName;
-                        $this->loadByVhs($asset);
-                    } else {
-                        $this->loadByCorePageRender($asset);
-                    }
+
+            $templateService = $this->getTemplateService($settings['template']);
+            foreach ($templateService->getAssets() as $asset) {
+                if ($this->shouldLoadByVhs($settings)) {
+                    $asset['name'] = md5($asset['path']);
+                    $this->loadByVhs($asset);
+                } else {
+                    $this->loadByCorePageRender($asset);
                 }
             }
         }
@@ -226,5 +227,15 @@ class LoadAssetsViewHelper extends AbstractViewHelper
     {
         return $GLOBALS['TSFE'];
     }
+
+    /**
+     * @param string $templateIdentifier
+     * @return TemplateService
+     */
+    protected function getTemplateService($templateIdentifier)
+    {
+        return GeneralUtility::makeInstance(TemplateService::class, $templateIdentifier);
+    }
+
 
 }
