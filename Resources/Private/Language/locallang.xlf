@@ -94,24 +94,29 @@
 				<source>Mapping maybe necessary.</source>
 			</trans-unit>
 
+			<!-- Frontend fields -->
+			<trans-unit id="name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="email">
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="mobile">
+				<source>Mobile number</source>
+			</trans-unit>
+			<trans-unit id="subject">
+				<source>Subject</source>
+			</trans-unit>
+			<trans-unit id="message">
+				<source>Message</source>
+			</trans-unit>
+			<trans-unit id="submit">
+				<source>Submit Form</source>
+			</trans-unit>
+
 			<!-- Frontend contact form -->
 			<trans-unit id="contact.form">
 				<source>Contact Form</source>
-			</trans-unit>
-			<trans-unit id="contact.name">
-				<source>Name</source>
-			</trans-unit>
-			<trans-unit id="contact.email">
-				<source>Email</source>
-			</trans-unit>
-			<trans-unit id="contact.mobile">
-				<source>Mobile number</source>
-			</trans-unit>
-			<trans-unit id="contact.subject">
-				<source>Subject</source>
-			</trans-unit>
-			<trans-unit id="contact.submit">
-				<source>Submit Form</source>
 			</trans-unit>
 			<trans-unit id="contact.limit.met">
 				<source>You have reached the limit.</source>

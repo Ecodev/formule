@@ -24,12 +24,12 @@ if (FALSE === isset($configuration['autoload_typoscript']) || TRUE === (bool)$co
 	'Fab.formule',
 	'Pi1',
 	array(
-		'Form' => 'show, submit',
+		'Form' => 'show, submit, feedback',
 
 	),
 	// non-cacheable actions
 	array(
-		'Form' => 'show, submit',
+		'Form' => 'show, submit, feedback',
 
 	)
 );

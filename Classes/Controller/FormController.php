@@ -16,11 +16,15 @@ namespace Fab\Formule\Controller;
 
 use Fab\Formule\Service\ArgumentService;
 use Fab\Formule\Service\DataService;
+use Fab\Formule\Service\MessageService;
+use Fab\Formule\Service\RegistryService;
 use Fab\Formule\Service\TemplateService;
 use Fab\Formule\TypeConverter\ValuesConverter;
+use Michelf\Markdown;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * FormController
@@ -76,39 +80,82 @@ class FormController extends ActionController
 
     /**
      * @param array $values
-     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
-     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      * @validate $values \Fab\Formule\Validator\HoneyPotValidator
      * @validate $values \Fab\Formule\Validator\FieldValuesValidator
-     *
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      */
     public function submitAction(array $values = [])
     {
-
-        var_dump(123);
-        exit();
-
         $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'processValues', [$values]);
         $values = $signalResult[0];
 
-        if (empty($values[DataService::IDENTIFIER])) {
-            $this->dataService->create($values);
+        // Check the template path according to the Plugin settings.
+        $templateService = $this->getTemplateService($this->settings['template']);
+
+        if ($templateService->hasPersistingTable()) {
+            if (empty($values[DataService::IDENTIFIER])) {
+                $this->dataService->update($values);
+            } else {
+                $this->dataService->create($values);
+            }
+            $this->getSignalSlotDispatcher()->dispatch(self::class, 'postDataPersist', [$values]);
+        }
+
+//        if (!empty($this->settings['emailAdminTo'])) {
+//            $this->getMessageService(MessageService::TO_ADMIN)->send($values);
+//        }
+//
+//        if (!empty($this->settings['emailUserTo'])) {
+//            // replace email
+//            $this->getMessageService(MessageService::TO_USER)->send($values);
+//        }
+
+        $this->getSignalSlotDispatcher()->dispatch(self::class, 'beforeRedirect', [$values]);
+
+        // Save in registry... Trick to avoid POSTing the arguments again which can contain very long text.
+        $this->getRegistryService()->set('values', $values);
+
+        $pageUid = null;
+        if ((int)$this->settings['redirectPage'] > 0) {
+            $pageUid = (int)$this->settings['redirectPage'];
+        }
+        $this->redirect('feedback', 'Form', 'formule', [], $pageUid);
+    }
+
+    /**
+     * @return string
+     */
+    public function feedbackAction()
+    {
+        // We can retrieve only once.
+        $values = $this->getRegistryService()->get('values');
+
+        // Will be null if the User reload the feedback action
+        if (is_null($values)) {
+            $this->redirect('show');
+        }
+
+        /** @var StandaloneView $view */
+        $view = $this->objectManager->get(StandaloneView::class);
+        $view->assignMultiple($values);
+
+        $this->settings['redirectMessage'] = '';
+        if (empty($this->settings['redirectMessage'])) {
+
+            // Check the template path according to the Plugin settings.
+            $templateService = $this->getTemplateService($this->settings['template']);
+            $view->setTemplateSource($templateService->getFeedbackSection());
+            $feedback = trim($view->render());
         } else {
-            $this->dataService->update($values);
+
+            $view->setTemplateSource($this->settings['redirectMessage']);
+            $content = trim($view->render());
+            $feedback = Markdown::defaultTransform($content);
         }
 
-        if ($this->settings['sendEmailToUser']) {
-            $this->messageService()->send($this->settings, $markers);
-            $this->getLogginService()->log($this->settings, $markers);
-        }
-
-        if ($this->settings['sendEmailToAdmin']) {
-            $this->messageService()->send($this->settings, $markers);
-            $this->getLogginService()->log($this->settings, $markers);
-        }
-
-        $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'postDataPersist', [$values]);
-        $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'beforeRedirect', [$values]);
+        return $feedback;
     }
 
     /**
@@ -116,7 +163,8 @@ class FormController extends ActionController
      *
      * @return Dispatcher
      */
-    protected function getSignalSlotDispatcher() {
+    protected function getSignalSlotDispatcher()
+    {
         return $this->objectManager->get(Dispatcher::class);
     }
 
@@ -135,6 +183,23 @@ class FormController extends ActionController
     protected function getArgumentService()
     {
         return GeneralUtility::makeInstance(ArgumentService::class);
+    }
+
+    /**
+     * @return RegistryService
+     */
+    protected function getRegistryService()
+    {
+        return GeneralUtility::makeInstance(RegistryService::class);
+    }
+
+    /**
+     * @param string $messageType
+     * @return MessageService
+     */
+    protected function getMessageService($messageType)
+    {
+        return GeneralUtility::makeInstance(MessageService::class, $this->settings, $messageType);
     }
 
 }

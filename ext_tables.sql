@@ -8,18 +8,18 @@ CREATE TABLE tx_formule_domain_model_sentmessage (
 
 	sender varchar(255) DEFAULT '' NOT NULL,
 	recipient varchar(255) DEFAULT '' NOT NULL,
+	recipient_cc varchar(255) DEFAULT '' NOT NULL,
+	recipient_bcc varchar(255) DEFAULT '' NOT NULL,
 	subject varchar(255) DEFAULT '' NOT NULL,
-	body varchar(255) DEFAULT '' NOT NULL,
+	body text,
 	attachment varchar(255) DEFAULT '' NOT NULL,
 	context varchar(255) DEFAULT '' NOT NULL,
-	was_opened varchar(255) DEFAULT '' NOT NULL,
+	is_sent int(11) unsigned DEFAULT '0' NOT NULL,
 	sent_time varchar(255) DEFAULT '' NOT NULL,
 	ip varchar(255) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid)

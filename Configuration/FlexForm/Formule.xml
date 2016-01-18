@@ -42,7 +42,7 @@
 				</TCEforms>
 				<type>array</type>
 				<el>
-					<settings.emailAdminRecipient>
+					<settings.emailAdminTo>
 						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailRecipient</label>
 							<config>
@@ -51,7 +51,7 @@
 								<size>50</size>
 							</config>
 						</TCEforms>
-					</settings.emailAdminRecipient>
+					</settings.emailAdminTo>
 					<settings.emailAdminFrom>
 						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailFrom</label>
@@ -102,21 +102,18 @@
 
 A user filled out the contact form on www.example.org by {email}.
 
-You can write Markdown and Fluid View Helper within your template.
-Markers such as {foo} have to be posted in your.
+You **can** write content in your template using
 
-**MarkDown**
+* Markdown syntax
+* Fluid syntax
 
-* bullet list
-* bullet list
+Examples:
 
-**Fluid View Helper**
-
-<f:translate key="foo" extensionName="ext"/>: {foo}
+<f:translate key="contact.email" extensionName="formule"/>: {email}
 
 <f:link.page pageUid="1" absolute="1">Open page</f:link.page>
 
-<fo:widget.show item="markerName" dataType="tx_ext_foo"/>
+<fo:form.show labelsIn="formule"/>
 
 {namespace fo=Fab\Formule\ViewHelpers}]]></default>
 							</config>
@@ -134,7 +131,7 @@ Markers such as {foo} have to be posted in your.
 				</TCEforms>
 				<type>array</type>
 				<el>
-					<settings.emailUserRecipient>
+					<settings.emailUserTo>
 						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailRecipient</label>
 							<config>
@@ -144,7 +141,7 @@ Markers such as {foo} have to be posted in your.
 								<default>{email}</default>
 							</config>
 						</TCEforms>
-					</settings.emailUserRecipient>
+					</settings.emailUserTo>
 					<settings.emailUserFrom>
 						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailFrom</label>
@@ -171,17 +168,11 @@ Markers such as {foo} have to be posted in your.
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailBody</label>
 							<config>
 								<type>text</type>
-								<default><![CDATA[Dear {firstName},
+								<default><![CDATA[Dear {name},
 
 We have received your request via the contact form on www.example.org. We will process your request and get in contact with you soon.
 
-MarkDown and Fluid View Helper syntax supported
-
-<f:translate key="foo" extensionName="ext"/>: {foo}
-
-<f:link.page pageUid="1" absolute="1">Open page</f:link.page>
-
-<fo:widget.show item="markerName" dataType="tx_ext_foo"/>
+<fo:form.show labelsIn="formule"/>
 
 {namespace fo=Fab\Formule\ViewHelpers}]]></default>
 							</config>
@@ -198,7 +189,7 @@ MarkDown and Fluid View Helper syntax supported
 				</TCEforms>
 				<type>array</type>
 				<el>
-					<settings.redirectMessage>
+					<settings.redirectPage>
 						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.redirectPid</label>
 							<config>
@@ -211,22 +202,24 @@ MarkDown and Fluid View Helper syntax supported
 								<show_thumbs>1</show_thumbs>
 							</config>
 						</TCEforms>
-					</settings.redirectMessage>
-					<summary>
+					</settings.redirectPage>
+					<settings.redirectMessage>
 						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.redirectMessage</label>
 							<config>
 								<type>text</type>
-								<default><![CDATA[Dear {firstName},
+								<default><![CDATA[Dear {name},
 
 Thank you for your message. We will process your request and get in contact with you soon.
 
-<fo:widget.show item="markerName" dataType="tx_ext_foo"/>
+If this field is let blank section "feedback" of the template will be rendered instead!
+
+<fo:form.show labelsIn="formule"/>
 
 {namespace fo=Fab\Formule\ViewHelpers}]]></default>
 							</config>
 						</TCEforms>
-					</summary>
+					</settings.redirectMessage>
 				</el>
 			</ROOT>
 		</feedback>

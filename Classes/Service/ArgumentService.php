@@ -63,7 +63,6 @@ class ArgumentService
                 $identifier = (int)$arguments['values'];
             }
         }
-
         return $identifier;
     }
 

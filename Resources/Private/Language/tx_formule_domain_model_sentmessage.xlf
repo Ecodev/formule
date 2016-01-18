@@ -33,7 +33,7 @@
 			<trans-unit id="context">
 				<source>Context</source>
 			</trans-unit>
-			<trans-unit id="was_opened">
+			<trans-unit id="is_sent">
 				<source>Was Opened</source>
 			</trans-unit>
 			<trans-unit id="sent_time">

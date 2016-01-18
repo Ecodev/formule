@@ -40,7 +40,7 @@ class DevelopmentViewHelper extends AbstractViewHelper
         if (!empty($redirectTo)) {
             $contentElement = $this->templateVariableContainer->get('contentElement');
             $settings = $this->getFlexFormService()->extractSettings($contentElement['pi_flexform']);
-            $to = $this->getEmailAddressService()->parse($settings['emailAdminRecipient']);
+            $to = $this->getEmailAddressService()->parse($settings['emailAdminTo']);
             $cc = $this->getEmailAddressService()->parse($settings['emailAdminCc']);
             $bcc = $this->getEmailAddressService()->parse($settings['emailAdminBcc']);
 
@@ -53,7 +53,7 @@ class DevelopmentViewHelper extends AbstractViewHelper
                 implode(', ', array_keys($to)),
                 empty($cc) ? '' : sprintf('- cc: %s <br/>', implode(', ', array_keys($cc))),
                 empty($bcc) ? '' : sprintf('- bcc: %s <br/>', implode(', ', array_keys($bcc))),
-                empty($settings['emailUserRecipient']) ? '' : 'Additionaly an email to the user will be sent using the field ' . $settings['emailUserRecipient'],
+                empty($settings['emailUserTo']) ? '' : 'Additionaly an email to the user will be sent using the field ' . $settings['emailUserTo'],
                 $templateService->hasPersistingTable() ? '<br/><br/>Submitted data will be persisted into ' . $templateService->getPersistingTable() : ''
             );
         }

@@ -5,17 +5,16 @@ return array(
         'label' => 'sender',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
-        'cruser_id' => 'cruser_id',
+        'rootLevel' => -1,
 
-        'delete' => 'deleted',
-        'searchFields' => 'sender,recipient,subject,body,attachment,context,was_opened,sent_time,ip,',
+        'searchFields' => 'sender,recipient,subject,body,attachment,context,is_sent,sent_time,ip,',
         'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('formule') . 'Resources/Public/Images/tx_formule_domain_model_sentmessage.png'
     ],
     'interface' => [
-        'showRecordFieldList' => 'sender, recipient, subject, body, attachment, context, was_opened, sent_time, ip',
+        'showRecordFieldList' => 'sender, recipient, subject, body, attachment, context, is_sent, sent_time, ip',
     ],
     'types' => [
-        '1' => ['showitem' => 'sender, recipient, subject, body, attachment, context, was_opened, sent_time, ip'],
+        '1' => ['showitem' => 'sender, recipient, subject, body, attachment, context, is_sent, sent_time, ip'],
     ],
     'columns' => [
 
@@ -79,9 +78,9 @@ return array(
                 'eval' => 'trim'
             ],
         ],
-        'was_opened' => [
+        'is_sent' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:formule/Resources/Private/Language/tx_formule_domain_model_sentmessage.xlf:was_opened',
+            'label' => 'LLL:EXT:formule/Resources/Private/Language/tx_formule_domain_model_sentmessage.xlf:is_sent',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -111,4 +110,26 @@ return array(
         ],
 
     ],
+
+    'grid' => [
+        'facets' => [
+            'uid',
+            'recipient',
+        ],
+        'columns' => [
+            '__checkbox' => array(
+                'renderer' => new \Fab\Vidi\Grid\CheckBoxComponent(),
+            ),
+            'sender' => [
+                'visible' => false,
+            ],
+            'recipient' => [
+            ],
+            'subject' => [
+            ],
+            'sent_time' => [
+                'format' => \Fab\Vidi\Formatter\DateTime::class,
+            ],
+        ]
+    ]
 );

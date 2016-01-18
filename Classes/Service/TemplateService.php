@@ -34,7 +34,12 @@ class TemplateService implements SingletonInterface
     /**
      * @var string
      */
-    protected $templateCode;
+    protected $mainSection;
+
+    /**
+     * @var string
+     */
+    protected $feedbackSection;
 
     /**
      * Constructor.
@@ -127,7 +132,7 @@ class TemplateService implements SingletonInterface
     public function getFields()
     {
         $templateFields = [];
-        preg_match_all('/name="(\w+)"/', $this->getTemplateCode(), $matches);
+        preg_match_all('/name="(\w+)"/', $this->getMainSection(), $matches);
 
         if (!empty($matches[1])) {
             $templateFields = $matches[1];
@@ -140,7 +145,7 @@ class TemplateService implements SingletonInterface
      */
     public function getRequiredFields()
     {
-        preg_match_all('/name="(\w+)".*required/isU', $this->getTemplateCode(), $matches);
+        preg_match_all('/name="(\w+)".*required/isU', $this->getMainSection(), $matches);
 
         $requiredFields = [];
 
@@ -153,17 +158,37 @@ class TemplateService implements SingletonInterface
     /**
      * @return string
      */
-    protected function getTemplateCode()
+    public function getMainSection()
     {
-        if (is_null($this->templateCode)) {
+        if (is_null($this->mainSection)) {
+            $template = $this->getPath();
+            $templateNameAndPath = GeneralUtility::getFileAbsFileName($template);
+            $section = file_get_contents($templateNameAndPath);
+
+            // Extract section "main".
+            $section = preg_replace('/.*section name="main">(.*)/isU', '$1', $section);
+            $limit = strpos($section, '</f:section');
+            $this->mainSection = substr($section, 0, $limit);
+        }
+        return $this->mainSection;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFeedbackSection()
+    {
+        if (is_null($this->feedbackSection)) {
             $template = $this->getPath();
             $templateNameAndPath = GeneralUtility::getFileAbsFileName($template);
             $templateCode = file_get_contents($templateNameAndPath);
 
             // Strip content after "section".
-            $this->templateCode = preg_replace('/.*section name="main">/isU', '', $templateCode);
+            $feedbackSection = preg_replace('/.*section name="feedback".*>(.+)/isU', '$1', $templateCode);
+            $limit = strpos($feedbackSection, '</f:section');
+            $this->feedbackSection = substr($feedbackSection, 0, $limit);
         }
-        return $this->templateCode;
+        return $this->feedbackSection;
     }
 
     /**
