@@ -33,12 +33,6 @@ class FormController extends ActionController
 {
 
     /**
-     * @var \Fab\Formule\Service\DataService
-     * @inject
-     */
-    protected $dataService;
-
-    /**
      * @return string|null
      */
     public function showAction()
@@ -88,29 +82,31 @@ class FormController extends ActionController
      */
     public function submitAction(array $values = [])
     {
-        $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'processValues', [$values]);
+        $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'preProcessValues', [$values]);
         $values = $signalResult[0];
 
         // Check the template path according to the Plugin settings.
         $templateService = $this->getTemplateService($this->settings['template']);
 
         if ($templateService->hasPersistingTable()) {
-            if (empty($values[DataService::IDENTIFIER])) {
-                $this->dataService->update($values);
+            if (empty($values[DataService::RECORD_IDENTIFIER])) {
+                $values = $this->getDataService()->create($values);
             } else {
-                $this->dataService->create($values);
+                $values = $this->getDataService()->update($values);
             }
+
             $this->getSignalSlotDispatcher()->dispatch(self::class, 'postDataPersist', [$values]);
         }
 
-//        if (!empty($this->settings['emailAdminTo'])) {
-//            $this->getMessageService(MessageService::TO_ADMIN)->send($values);
-//        }
-//
-//        if (!empty($this->settings['emailUserTo'])) {
-//            // replace email
-//            $this->getMessageService(MessageService::TO_USER)->send($values);
-//        }
+
+        if (!empty($this->settings['emailAdminTo'])) {
+            $this->getMessageService(MessageService::TO_ADMIN)->send($values);
+        }
+
+        if (!empty($this->settings['emailUserTo'])) {
+            // replace email
+            #$this->getMessageService(MessageService::TO_USER)->send($values);
+        }
 
         $this->getSignalSlotDispatcher()->dispatch(self::class, 'beforeRedirect', [$values]);
 
@@ -141,7 +137,6 @@ class FormController extends ActionController
         $view = $this->objectManager->get(StandaloneView::class);
         $view->assignMultiple($values);
 
-        $this->settings['redirectMessage'] = '';
         if (empty($this->settings['redirectMessage'])) {
 
             // Check the template path according to the Plugin settings.
@@ -200,6 +195,14 @@ class FormController extends ActionController
     protected function getMessageService($messageType)
     {
         return GeneralUtility::makeInstance(MessageService::class, $this->settings, $messageType);
+    }
+
+    /**
+     * @return DataService
+     */
+    protected function getDataService()
+    {
+        return GeneralUtility::makeInstance(DataService::class, $this->settings['template']);
     }
 
 }

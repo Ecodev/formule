@@ -29,27 +29,25 @@ class LoggingService
      */
     public function log(MailMessage $message)
     {
-        if (!ExtensionManagementUtility::isLoaded('messenger')) {
+        $tableName = 'tx_formule_domain_model_sentmessage';
+        $values = [
+            'pid' => $this->getFrontendObject()->id,
+            'sender' => $this->formatEmails($message->getFrom()),
+            'recipient' => $this->formatEmails($message->getTo()),
+            'recipient_cc' => $this->formatEmails($message->getCc()),
+            'recipient_bcc' => $this->formatEmails($message->getBcc()),
+            'subject' => $this->getDatabaseConnection()->quoteStr($message->getSubject(), $tableName),
+            'body' => $this->getDatabaseConnection()->quoteStr($message->getBody(), $tableName),
+            #'attachment' => '',
+            'context' => (string)GeneralUtility::getApplicationContext(),
+            'is_sent' => (int)$message->isSent(),
+            'sent_time' => time(),
+            'ip' => GeneralUtility::getIndpEnv('REMOTE_ADDR'),
+            'tstamp' => time(),
+            'crdate' => time(),
+        ];
 
-            $tableName = 'tx_formule_domain_model_sentmessage';
-            $values = [
-                'sender' => $this->formatEmails($message->getFrom()),
-                'recipient' => $this->formatEmails($message->getTo()),
-                'recipient_cc' => $this->formatEmails($message->getCc()),
-                'recipient_bcc' => $this->formatEmails($message->getBcc()),
-                'subject' => $this->getDatabaseConnection()->quoteStr($message->getSubject(), $tableName),
-                'body' => $this->getDatabaseConnection()->quoteStr($message->getBody(), $tableName),
-                #'attachment' => '',
-                'context' => (string)GeneralUtility::getApplicationContext(),
-                'is_sent' => (int)$message->isSent(),
-                'sent_time' => time(),
-                'ip' => GeneralUtility::getIndpEnv('REMOTE_ADDR'),
-                'tstamp' => time(),
-                'crdate' => time(),
-            ];
-
-            $this->getDatabaseConnection()->exec_INSERTquery($tableName, $values);
-        }
+        $this->getDatabaseConnection()->exec_INSERTquery($tableName, $values);
     }
 
     /**
@@ -75,4 +73,13 @@ class LoggingService
         return $GLOBALS['TYPO3_DB'];
     }
 
+    /**
+     * Returns an instance of the Frontend object.
+     *
+     * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
+     */
+    protected function getFrontendObject()
+    {
+        return $GLOBALS['TSFE'];
+    }
 }

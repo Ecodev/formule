@@ -48,45 +48,37 @@
 			<div class="form-group">
 				<input type="text"
 				       class="form-control"
-				       id="name"
-				       name="name"
+				       id="first_name"
+				       name="first_name"
 				       value="{values.name}"
-				       placeholder="{f:translate(key:'contact.name')}"
+				       placeholder="{f:translate(key:'first_name')}"
 				       required="required"/>
 			</div>
 			<div class="form-group">
 				<input type="text"
 				       class="form-control"
-				       id="email"
-				       name="email"
-				       value="{values.email}"
-				       placeholder="{f:translate(key:'contact.email')}"
+				       id="last_name"
+				       name="last_name"
+				       value="{values.name}"
+				       placeholder="{f:translate(key:'last_name')}"
 				       required="required"/>
 			</div>
 			<div class="form-group">
-				<input type="text"
-				       class="form-control"
-				       id="subject"
-				       name="subject"
-				       value="{values.subject}"
-				       placeholder="{f:translate(key:'contact.subject')}"
-				       required="required"/>
-			</div>
-			<div class="form-group">
-						<textarea class="form-control"
-						          id="message"
-						          name="message"
-						          placeholder="Message"
-						          maxlength="140"
-						          rows="7">{values.message}</textarea>
-				<p id="characterLeft" class="help-block">
-					<f:translate key="contact.limit"/>
-				</p>
+				<div class="input-group">
+					<div class="input-group-addon">@</div>
+					<input type="text"
+					       class="form-control"
+					       id="email"
+					       name="email"
+					       value="{values.email}"
+					       placeholder="{f:translate(key:'email')}"
+					       required="required"/>
+				</div>
 			</div>
 
 			<!-- Only mandatory field -->
 			<f:form.hidden name="values" value="{contentElement.uid}"/>
-			<input type="submit" value="{f:translate(key:'contact.submit')}" class="btn btn-primary pull-right">
+			<input type="submit" value="{f:translate(key:'submit')}" class="btn btn-primary pull-right">
 
 			<fo:honeyPot/>
 			<fo:message.development/>
@@ -94,4 +86,5 @@
 	</div>
 
 </f:section>
+
 </html>

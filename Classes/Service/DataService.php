@@ -14,28 +14,180 @@ namespace Fab\Formule\Service;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Formule\Processor\ProcessorInterface;
+use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * DataService
  */
 class DataService
 {
 
-    const IDENTIFIER = 'uid';
+    const RECORD_IDENTIFIER = 'uid';
 
     /**
-     * @param array $markers
+     * DataService constructor.
+     *
+     * @param string $templateIdentifier
      */
-    public function create(array $markers)
+    public function __construct($templateIdentifier)
     {
-
+        $this->templateIdentifier = $templateIdentifier;
     }
 
     /**
-     * @param array $markers
+     * @param array $values
+     * @return array
      */
-    public function update(array $markers)
+    public function create(array $values)
     {
+        // Finalize values
+        $finalValues = array_merge(
+            $this->getSanitizedValues($values),
+            $this->getTemplateService()->getDefaultValues(),
+            $this->getTimeStamp(),
+            $this->getCreateTimeStamp()
+        );
 
+        $finalValues = $this->processValues($finalValues, ProcessorInterface::INSERT);
+
+        $result = $this->getDatabaseConnection()->exec_INSERTquery($this->getTemplateService()->getPersistingTable(), $finalValues);
+
+        if (!$result) {
+            $this->getLogger()->error('Formule: I could not create a new ' . $this->getTemplateService()->getPersistingTable(), [
+                $this->getDatabaseConnection()->INSERTquery($this->getTemplateService()->getPersistingTable(), $finalValues)
+            ]);
+        }
+
+        $finalValues[DataService::RECORD_IDENTIFIER] = $this->getDatabaseConnection()->sql_insert_id();
+        return $finalValues;
+    }
+
+    /**
+     * @param array $values
+     * @return array
+     */
+    public function update(array $values)
+    {
+        $finalValues = $values;
+
+        $identifier = (int)DataService::RECORD_IDENTIFIER;
+        if ($this->recordExists($identifier)) {
+
+            // Finalize values
+            $finalValues = array_merge(
+                $this->getSanitizedValues($values),
+                $this->getTimeStamp()
+            );
+
+            $finalValues = $this->processValues($finalValues, ProcessorInterface::UPDATE);
+
+            $clause = DataService::RECORD_IDENTIFIER . ' = ' . $identifier;
+            $result = $this->getDatabaseConnection()->exec_UPDATEquery($this->getTemplateService()->getPersistingTable(), $clause, $finalValues);
+
+            if (!$result) {
+                $this->getLogger()->error('Formule: I could not update ' . $this->getTemplateService()->getPersistingTable() . ':' . $identifier, [
+                    $result = $this->getDatabaseConnection()->UPDATEquery($this->getTemplateService()->getPersistingTable(), $clause, $finalValues)
+                ]);
+            }
+
+        }
+        return $finalValues;
+    }
+
+    /**
+     * @param array $values
+     * @param string $insertOrUpdate
+     * @return array
+     */
+    protected function processValues(array $values, $insertOrUpdate)
+    {
+        // Possible processor
+        foreach ($this->getTemplateService()->getProcessors() as $className) {
+
+            /** @var ProcessorInterface $processor */
+            $processor = GeneralUtility::makeInstance($className);
+            $values = array_merge($values, $processor->process($values, $insertOrUpdate));
+        };
+
+        return $values;
+    }
+
+    /**
+     * @param int $identifier
+     * @return bool
+     */
+    protected function recordExists($identifier)
+    {
+        $tableName = $this->getTemplateService()->getPersistingTable();
+        $clause = DataService::RECORD_IDENTIFIER . ' = ' . $identifier;
+        $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', $tableName, $clause);
+
+        return !empty($record);
+    }
+
+    /**
+     * @param array $values
+     * @return array
+     */
+    protected function getSanitizedValues(array $values)
+    {
+        $tableName = $this->getTemplateService()->getPersistingTable();
+        $sanitizedValues = [];
+        foreach ($values as $fieldName => $value) {
+
+            $resolvedField = $this->resolveField($fieldName);
+            $sanitizedValues[$resolvedField] = $this->getDatabaseConnection()->quoteStr($value, $tableName);
+        }
+
+        return $sanitizedValues;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getTimeStamp()
+    {
+        $systemValues = [];
+        $tableName = $this->getTemplateService()->getPersistingTableName();
+        if (isset($GLOBALS['TCA'][$tableName]['ctrl']['tstamp'])) {
+            $systemValues[$GLOBALS['TCA'][$tableName]['ctrl']['tstamp']] = time();
+        }
+
+        return $systemValues;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getCreateTimeStamp()
+    {
+        $systemValues = [];
+        $tableName = $this->getTemplateService()->getPersistingTableName();
+        if (isset($GLOBALS['TCA'][$tableName]['ctrl']['crdate'])) {
+            $systemValues[$GLOBALS['TCA'][$tableName]['ctrl']['crdate']] = time();
+        }
+
+        return $systemValues;
+    }
+
+    /**
+     * Returns a pointer to the database.
+     *
+     * @param string $fieldName
+     * @return string
+     */
+    protected function resolveField($fieldName)
+    {
+        $mappings = $this->getTemplateService()->getMappings();
+
+        $resolvedFieldName = $fieldName;
+        if (array_key_exists($fieldName, $mappings)) {
+            $resolvedFieldName = $mappings[$fieldName];
+        }
+
+        return $resolvedFieldName;
     }
 
     /**
@@ -47,4 +199,26 @@ class DataService
     {
         return $GLOBALS['TYPO3_DB'];
     }
+
+    /**
+     * @return TemplateService
+     */
+    protected function getTemplateService()
+    {
+        return GeneralUtility::makeInstance(TemplateService::class, $this->templateIdentifier);
+    }
+
+    /**
+     * @return \TYPO3\CMS\Core\Log\Logger
+     */
+    protected function getLogger()
+    {
+
+        /** @var $loggerManager LogManager */
+        $loggerManager = GeneralUtility::makeInstance(LogManager::class);
+
+        /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+        return $loggerManager->getLogger(get_class($this));
+    }
+
 }

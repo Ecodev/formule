@@ -110,6 +110,12 @@
 			<trans-unit id="message">
 				<source>Message</source>
 			</trans-unit>
+			<trans-unit id="first_name">
+				<source>First name</source>
+			</trans-unit>
+			<trans-unit id="last_name">
+				<source>Last name</source>
+			</trans-unit>
 			<trans-unit id="submit">
 				<source>Submit Form</source>
 			</trans-unit>

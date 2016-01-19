@@ -20,7 +20,6 @@ use SimpleXMLElement;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
 /**
  * TemplateService
  */
@@ -77,11 +76,21 @@ class TemplateService implements SingletonInterface
     }
 
     /**
+     * @return string
+     */
+    public function getPersistingTableName()
+    {
+        $persist = $this->get('persist');
+        $tableName = is_array($persist) && empty($persist['tableName']) ? '' : $persist['tableName'];
+        return $tableName;
+    }
+
+    /**
      * @return bool
      */
     public function hasPersistingTable()
     {
-        return (bool)$this->get('persistToTable');
+        return $this->getPersistingTable() !== '';
     }
 
     /**
@@ -96,26 +105,71 @@ class TemplateService implements SingletonInterface
     /**
      * @return array
      */
+    public function getDefaultValues()
+    {
+        $persist = $this->get('persist');
+
+        $defaultValues = is_array($persist) && empty($persist['defaultValues']) ? [] : $persist['defaultValues'];
+
+        return $defaultValues;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMappings()
+    {
+        $persist = $this->get('persist');
+
+        $mappings = is_array($persist) && empty($persist['mappings']) ? [] : $persist['mappings'];
+
+        $ts = $this->getTypoScriptService()->getSettings();
+        $tableName = $this->getPersistingTableName();
+
+        if (isset($ts['defaultMappings'][$tableName])) {
+            $mappings = array_merge($ts['defaultMappings'][$tableName], $mappings);
+
+        }
+
+        return $mappings;
+    }
+
+    /**
+     * @return array
+     */
     public function getWarnings()
     {
         $warnings = [];
-        if (!isset($GLOBALS['TCA'][$this->get('persistToTable')])) {
-            $warnings[] =
-                '- ' .
-                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:warning.missing.tca')
-                . ' "' . $this->get('persistToTable') . '"';
-        }
+        if ($this->hasPersistingTable()) {
 
-        foreach ($this->getFields() as $field) {
-            if (!isset($GLOBALS['TCA'][$this->get('persistToTable')]['columns'][$field])) {
+            if (!isset($GLOBALS['TCA'][$this->getPersistingTableName()])) {
                 $warnings[] =
                     '- ' .
-                    $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:warning.missing.field')
-                    . ' "' . $field . '". '
-                    . $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:warning.mapping.necessary');
+                    $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:warning.missing.tca')
+                    . ' "' . $this->getPersistingTableName() . '"';
+            }
+
+            foreach ($this->getFields() as $field) {
+                if (!isset($GLOBALS['TCA'][$this->getPersistingTableName()]['columns'][$field])) {
+                    $warnings[] =
+                        '- ' .
+                        $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:warning.missing.field')
+                        . ' "' . $field . '". '
+                        . $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:warning.mapping.necessary');
+                }
             }
         }
         return $warnings;
+    }
+
+    /**
+     * @return array
+     */
+    public function getProcessors()
+    {
+        $persist = $this->get('persist');
+        $processors = is_array($persist) && empty($persist['processors']) ? [] : $persist['processors'];
+        return $processors;
     }
 
     /**
@@ -123,7 +177,7 @@ class TemplateService implements SingletonInterface
      */
     public function getPersistingTable()
     {
-        return (string)$this->get('persistToTable');
+        return (string)$this->getPersistingTableName();
     }
 
     /**
@@ -146,6 +200,10 @@ class TemplateService implements SingletonInterface
         if (!empty($matches[1])) {
             $templateFields = $matches[1];
         }
+
+        $key = array_search('values', $templateFields);
+        unset($templateFields[$key]);
+
         return $templateFields;
     }
 

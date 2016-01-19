@@ -15,7 +15,6 @@ plugin.tx_formule {
                 path = EXT:formule/Resources/Private/Standalone/MailForm.html
 
                 # Table name where to persist submitted data.
-                persistToTable =
 
                 #asset {
                 #
@@ -40,23 +39,43 @@ plugin.tx_formule {
             }
 
             2 {
-                # Restrict visibility of this template for "fe_users" only.
-                title = Newsletter subscription create
-                path = EXT:formule/Resources/Private/Standalone/SubscribeCreateForm.html
-                persistToTable = fe_users
+                title = Newsletter subscription new
+                path = EXT:formule/Resources/Private/Standalone/Newsletter/NewSubscription.html
+
+                # Persist configuration
+                persist {
+                    tableName = fe_users
+
+                    defaultValues {
+                        pid = 1
+                        disable = 1
+                    }
+
+                    processors {
+                        0 = Fab\Formule\Processor\UserDataProcessor
+                    }
+
+                    mappings {
+                        # Left value corresponds to name in the form: name="firstName"
+                        # Right value corresponds to field name: fe_users.first_name
+                        # first_name = first_name
+                    }
+                }
             }
 
             3 {
-                # Restrict visibility of this template for "fe_users" only.
                 title = Newsletter subscription edit
                 path = EXT:formule/Resources/Private/Standalone/SubscribeEditForm.html
-                persistToTable = fe_users
             }
         }
 
-        mappings {
+        defaultMappings {
+
             fe_users {
 
+                # Left value corresponds to name in the form: name="firstName"
+                # Right value corresponds to field name: fe_users.first_name
+                #firstName = first_name
             }
         }
 
