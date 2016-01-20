@@ -58,7 +58,7 @@ plugin.tx_formule {
                     mappings {
                         # Left value corresponds to name in the form: name="firstName"
                         # Right value corresponds to field name: fe_users.first_name
-                        # first_name = first_name
+                        #first_name = first_name
                     }
                 }
             }

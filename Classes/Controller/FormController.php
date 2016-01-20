@@ -138,17 +138,17 @@ class FormController extends ActionController
         $view = $this->objectManager->get(StandaloneView::class);
         $view->assignMultiple($values);
 
-        if (empty($this->settings['redirectMessage'])) {
+        $templateService = $this->getTemplateService($this->settings['template']);
+        $body = $templateService->getSection(TemplateService::SECTION_FEEDBACK);
 
-            // Check the template path according to the Plugin settings.
-            $templateService = $this->getTemplateService($this->settings['template']);
-            $view->setTemplateSource($templateService->getFeedbackSection());
-            $feedback = trim($view->render());
-        } else {
-
+        if (empty($body)) {
             $view->setTemplateSource($this->settings['redirectMessage']);
             $content = trim($view->render());
             $feedback = Markdown::defaultTransform($content);
+        } else {
+            // Check the template path according to the Plugin settings.
+            $view->setTemplateSource($body);
+            $feedback = trim($view->render());
         }
 
         return $feedback;

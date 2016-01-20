@@ -30,7 +30,6 @@ class FieldValuesValidator extends AbstractValidator
      */
     public function isValid($values)
     {
-
         foreach ($this->getTemplateService()->getRequiredFields() as $requiredField) {
             if (empty($values[$requiredField])) {
 

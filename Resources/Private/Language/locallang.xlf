@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2015-12-29T11:21:34Z" product-name="formule">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-12-29T11:21:34Z"
+	      product-name="formule">
 		<header/>
 		<body>
 			<!-- Wizard -->
@@ -8,7 +9,8 @@
 				<source>Variety of forms</source>
 			</trans-unit>
 			<trans-unit id="wizard.description">
-				<source>Render a variety of forms template based such as contact form, registration form, etc...</source>
+				<source>Render a variety of forms template based such as contact form, registration form, etc...
+				</source>
 			</trans-unit>
 
 			<!-- Tabs -->
@@ -54,7 +56,7 @@
 				<source>Email body</source>
 			</trans-unit>
 			<trans-unit id="settings.redirectMessage">
-				<source>Redirect Message (only relevant if redirect page is left empty)</source>
+				<source>Redirect Message</source>
 			</trans-unit>
 
 			<!-- Custom field "summary" -->
@@ -79,6 +81,9 @@
 			<trans-unit id="summary.no">
 				<source>No</source>
 			</trans-unit>
+			<trans-unit id="summary.missing.template">
+				<source>No template selected yet</source>
+			</trans-unit>
 
 			<!-- Custom field "warning" -->
 			<trans-unit id="warning">
@@ -92,6 +97,12 @@
 			</trans-unit>
 			<trans-unit id="warning.mapping.necessary">
 				<source>Mapping maybe necessary.</source>
+			</trans-unit>
+			<trans-unit id="template.body">
+				<source>Body is configured in the template</source>
+			</trans-unit>
+			<trans-unit id="template.message">
+				<source>Message is configured in the template</source>
 			</trans-unit>
 
 			<!-- Frontend fields -->
@@ -132,6 +143,14 @@
 			</trans-unit>
 			<trans-unit id="contact.limit.characters">
 				<source>characters left.</source>
+			</trans-unit>
+
+			<!-- Frontend contact form -->
+			<trans-unit id="newsletter.form">
+				<source>Sign up for updates</source>
+			</trans-unit>
+			<trans-unit id="newsletter.register">
+				<source>Register</source>
 			</trans-unit>
 
 			<!-- Frontend error -->

@@ -27,7 +27,7 @@
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.summary</label>
 							<config>
 								<type>user</type>
-								<userFunc>Fab\Formule\Backend\TceForms->renderSummaryField</userFunc>
+								<userFunc>Fab\Formule\Backend\TceForms->renderSummary</userFunc>
 							</config>
 						</TCEforms>
 					</summary>
@@ -56,10 +56,8 @@
 						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailFrom</label>
 							<config>
-								<type>input</type>
-								<eval>text</eval>
-								<size>50</size>
-								<default>Virginie Udriot &lt;virginie@udriot.net&gt;</default>
+								<type>user</type>
+								<userFunc>Fab\Formule\Backend\TceForms->renderEmailFrom</userFunc>
 							</config>
 						</TCEforms>
 					</settings.emailAdminFrom>
@@ -90,6 +88,7 @@
 								<type>input</type>
 								<eval>text</eval>
 								<size>100</size>
+								<default>New contribution from the website</default>
 							</config>
 						</TCEforms>
 					</settings.emailAdminSubject>
@@ -97,25 +96,8 @@
 						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailBody</label>
 							<config>
-								<type>text</type>
-								<default><![CDATA[Hello Admin,
-
-A user filled out the contact form on www.example.org by {email}.
-
-You **can** write content in your template using
-
-* Markdown syntax
-* Fluid syntax
-
-Examples:
-
-<f:translate key="contact.email" extensionName="formule"/>: {email}
-
-<f:link.page pageUid="1" absolute="1">Open page</f:link.page>
-
-<fo:form.show labelsIn="formule"/>
-
-{namespace fo=Fab\Formule\ViewHelpers}]]></default>
+								<type>user</type>
+								<userFunc>Fab\Formule\Backend\TceForms->renderEmailAdminBody</userFunc>
 							</config>
 						</TCEforms>
 					</settings.emailAdminBody>
@@ -138,7 +120,7 @@ Examples:
 								<type>input</type>
 								<eval>text</eval>
 								<size>50</size>
-								<default>{email}</default>
+								<default>email</default>
 							</config>
 						</TCEforms>
 					</settings.emailUserTo>
@@ -146,10 +128,8 @@ Examples:
 						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailFrom</label>
 							<config>
-								<type>input</type>
-								<eval>text</eval>
-								<size>50</size>
-								<default>Virginie Udriot &lt;virginie@udriot.net&gt;</default>
+								<type>user</type>
+								<userFunc>Fab\Formule\Backend\TceForms->renderEmailFrom</userFunc>
 							</config>
 						</TCEforms>
 					</settings.emailUserFrom>
@@ -160,6 +140,7 @@ Examples:
 								<type>input</type>
 								<eval>text</eval>
 								<size>100</size>
+								<default>Thanks you!</default>
 							</config>
 						</TCEforms>
 					</settings.emailUserSubject>
@@ -167,14 +148,8 @@ Examples:
 						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailBody</label>
 							<config>
-								<type>text</type>
-								<default><![CDATA[Dear {name},
-
-We have received your request via the contact form on www.example.org. We will process your request and get in contact with you soon.
-
-<fo:form.show labelsIn="formule"/>
-
-{namespace fo=Fab\Formule\ViewHelpers}]]></default>
+								<type>user</type>
+								<userFunc>Fab\Formule\Backend\TceForms->renderEmailUserBody</userFunc>
 							</config>
 						</TCEforms>
 					</settings.emailUserBody>
@@ -207,16 +182,8 @@ We have received your request via the contact form on www.example.org. We will p
 						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.redirectMessage</label>
 							<config>
-								<type>text</type>
-								<default><![CDATA[Dear {name},
-
-Thank you for your message. We will process your request and get in contact with you soon.
-
-If this field is let blank section "feedback" of the template will be rendered instead!
-
-<fo:form.show labelsIn="formule"/>
-
-{namespace fo=Fab\Formule\ViewHelpers}]]></default>
+								<type>user</type>
+								<userFunc>Fab\Formule\Backend\TceForms->renderFeedback</userFunc>
 							</config>
 						</TCEforms>
 					</settings.redirectMessage>

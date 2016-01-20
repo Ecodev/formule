@@ -43,7 +43,7 @@
 		<f:form action="submit" controller="Form" additionalAttributes="{role: 'form'}" method="post">
 			<br style="clear:both">
 			<h3>
-				<f:translate key="contact.form"/>
+				<f:translate key="newsletter.form"/>
 			</h3>
 			<div class="form-group">
 				<input type="text"
@@ -76,15 +76,51 @@
 				</div>
 			</div>
 
-			<!-- Only mandatory field -->
-			<f:form.hidden name="values" value="{contentElement.uid}"/>
-			<input type="submit" value="{f:translate(key:'submit')}" class="btn btn-primary pull-right">
+			<input type="submit" value="{f:translate(key:'newsletter.register')}" class="btn btn-primary pull-right">
 
+			<f:comment><!-- The only mandatory field --></f:comment>
+			<f:form.hidden name="values" value="{contentElement.uid}"/>
+
+			<f:comment><!-- VH to limit bots annoyance (required) --></f:comment>
 			<fo:honeyPot/>
+
+			<f:comment><!--Display hint in Development context (optional) --></f:comment>
 			<fo:message.development/>
 		</f:form>
 	</div>
 
 </f:section>
+
+<f:section name="emailAdmin">
+	Hello Admin,
+
+	A user filled out the contact form on www.example.org by {email}.
+
+	You **can** write content in your template using
+
+	* Markdown syntax
+	* Fluid syntax
+
+	Examples:
+
+	<f:translate key="email" extensionName="formule"/>: {email}
+
+	<f:link.page pageUid="1" absolute="1">Open page</f:link.page>
+
+	<fo:form.show labelsIn="formule"/>
+</f:section>
+
+<f:section name="feedback">
+	<p>
+		Dear {name},
+	</p>
+
+	<p>
+		We have received your request via the contact form on www.example.org. We will process your request and get in contact with you soon.
+	</p>
+
+	<fo:form.show labelsIn="formule"/>
+</f:section>
+</html>
 
 </html>

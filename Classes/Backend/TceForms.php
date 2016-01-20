@@ -26,12 +26,190 @@ class TceForms
 {
 
     /**
-     * Render the field "gridConfiguration"
+     * Render the field "renderEmailFrom"
      *
      * @param array $parameters
      * @return string
      */
-    public function renderSummaryField(array $parameters)
+    public function renderEmailFrom(array $parameters)
+    {
+        if (empty($parameters['row']['uid'])) {
+            $output = sprintf(
+                '<strong>%s</strong>',
+                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.missing.template')
+            );
+        } else {
+
+            $value = empty($parameters['itemFormElValue']) ? '' : $parameters['itemFormElValue'];
+            if ($value === '' && !empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {
+                if (empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'])) {
+                    $value = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
+                } else {
+                    $value = sprintf(
+                        '%s <%s>',
+                        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'],
+                        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress']
+                    );
+                }
+            }
+
+            $output = sprintf(
+                '<input type="text" name="%s" style="width: 614px;" value="%s" placeholder="%s"/>',
+                $parameters['itemFormElName'],
+                $value,
+                $value === '' ? 'Consider giving a value for $GLOBALS[\'TYPO3_CONF_VARS\'][\'MAIL\'][\'defaultMailFromAddress\']' : ''
+            );
+        }
+
+        return $output;
+    }
+
+    /**
+     * Render the field "emailAdminBody"
+     *
+     * @param array $parameters
+     * @return string
+     */
+    public function renderFeedback(array $parameters)
+    {
+        $settings = $this->getSettings($parameters);
+        $templateService = $this->getTemplateService($settings['template']);
+
+        // find a possible body in the template.
+        $body = $templateService->getSection(TemplateService::SECTION_FEEDBACK);
+
+        if (empty($body)) {
+            if (empty($parameters['itemFormElValue'])) {
+                $value = 'Dear {name},
+
+Thank you for your message. We will process your request and get in contact with you soon.
+
+If this field is let blank section "feedback" of the template will be rendered instead!
+
+<fo:form.show labelsIn="formule"/>
+{namespace fo=Fab\Formule\ViewHelpers}';
+            } else {
+                $value = $parameters['itemFormElValue'];
+            }
+
+            $output = sprintf(
+                '<textarea name="%s" cols="48" rows="7" class="resizable" style="width: 639px; position: relative; height: 178px">%s</textarea>',
+                $parameters['itemFormElName'],
+                $value
+            );
+
+        } else {
+            $output = sprintf(
+                '<strong>%s</strong>',
+                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:template.message')
+            );
+        }
+
+        return $output;
+    }
+
+    /**
+     * Render the field "emailAdminBody"
+     *
+     * @param array $parameters
+     * @return string
+     */
+    public function renderEmailUserBody(array $parameters)
+    {
+        $settings = $this->getSettings($parameters);
+        $templateService = $this->getTemplateService($settings['template']);
+
+        // find a possible body in the template.
+        $body = $templateService->getSection(TemplateService::SECTION_EMAIL_USER);
+
+        if (empty($body)) {
+            if (empty($parameters['itemFormElValue'])) {
+                $value = 'Dear {name},
+
+We have received your request via the contact form on www.example.org. We will process your request and get in contact with you soon.
+
+<fo:form.show labelsIn="formule"/>
+
+{namespace fo=Fab\Formule\ViewHelpers}';
+            } else {
+                $value = $parameters['itemFormElValue'];
+            }
+
+            $output = sprintf(
+                '<textarea name="%s" cols="48" rows="7" class="resizable" style="width: 639px; position: relative; height: 178px">%s</textarea>',
+                $parameters['itemFormElName'],
+                $value
+            );
+
+        } else {
+            $output = sprintf(
+                '<strong>%s</strong>',
+                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:template.body')
+            );
+        }
+
+        return $output;
+    }
+
+    /**
+     * Render the field "emailAdminBody"
+     *
+     * @param array $parameters
+     * @return string
+     */
+    public function renderEmailAdminBody(array $parameters)
+    {
+        $settings = $this->getSettings($parameters);
+        $templateService = $this->getTemplateService($settings['template']);
+
+        // find a possible body in the template.
+        $body = $templateService->getSection(TemplateService::SECTION_EMAIL_ADMIN);
+
+        if (empty($body)) {
+            if (empty($parameters['itemFormElValue'])) {
+                $value = 'Hello Admin,
+
+A user filled out the contact form on www.example.org by {email}.
+
+You **can** write content in your template using
+
+* Markdown syntax
+* Fluid syntax
+
+Examples:
+
+<f:translate key="email" extensionName="formule"/>: {email}
+
+<f:link.page pageUid="1" absolute="1">Open page</f:link.page>
+
+<fo:form.show labelsIn="formule"/>
+
+{namespace fo=Fab\Formule\ViewHelpers}';
+            } else {
+                $value = $parameters['itemFormElValue'];
+            }
+
+            $output = sprintf(
+                '<textarea name="%s" cols="48" rows="7" class="resizable" style="width: 639px; position: relative; height: 178px">%s</textarea>',
+                $parameters['itemFormElName'],
+                $value
+            );
+
+        } else {
+            $output = sprintf(
+                '<strong>%s</strong>',
+                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:template.body')
+            );
+        }
+
+        return $output;
+    }
+
+    /**
+     * @param array $parameters
+     * @return array
+     */
+    protected function getSettings(array $parameters)
     {
 
         // Get existing flexform configuration
@@ -42,63 +220,86 @@ class TceForms
         }
 
         $settings = $this->getFlexFormService()->extractSettings($flexform);
-        $templateService = $this->getTemplateService($settings['template']);
+        return $settings;
+    }
+
+    /**
+     * Render the field "summary"
+     *
+     * @param array $parameters
+     * @return string
+     */
+    public function renderSummary(array $parameters)
+    {
+
+        $settings = $this->getSettings($parameters);
+        $templateIdenfier = (int)$settings['template'];
 
         $output = sprintf(
-            '
-<style>
-.box-summary{
-    margin-bottom: 10px;
-}
-
-.summary-title {
-    font-weight: bold;
-}
-</style>
-
-<div class="box-summary">
-    <div class="summary-title">%s</div>
-    <div>%s</div>
-</div>
-<div class="box-summary">
-    <div class="summary-title">%s</div>
-    <div>%s</div>
-</div>
-<div class="box-summary">
-    <div class="summary-title">%s</div>
-    <div>%s</div>
-</div>
-<div class="box-summary">
-    <div class="summary-title">%s</div>
-    <div title="%s %s">%s</div>
-</div>
-
-<div>
-    <div><strong style="color: red">%s</strong></div>
-    <div>%s</div>
-</div>
-',
-            $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.template.used'),
-            $templateService->getPath(),
-            $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.fields'),
-            implode(', ', $templateService->getFields()),
-            $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.mandatory.fields'),
-            implode(', ', $templateService->getRequiredFields()),
-            $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.persisted.data'),
-            $templateService->hasPersistingTable() ?
-                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.persisted.to') :
-                '',
-            $templateService->hasPersistingTable() ?
-                $templateService->getPersistingTable() :
-                '',
-            $templateService->hasPersistingTable() ?
-                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.yes') :
-                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.no'),
-            $templateService->hasWarnings() ?
-                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:warning') : '',
-            $templateService->hasWarnings() ?
-                implode('<br>', $templateService->getWarnings()) : ''
+            '<strong>%s</strong>',
+            $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.missing.template')
         );
+
+        if ($templateIdenfier > 0) {
+
+            $templateService = $this->getTemplateService($settings['template']);
+
+            $output = sprintf(
+                '
+    <style>
+    .box-summary{
+        margin-bottom: 10px;
+    }
+
+    .summary-title {
+        font-weight: bold;
+    }
+    </style>
+
+    <div class="box-summary">
+        <div class="summary-title">%s</div>
+        <div>%s</div>
+    </div>
+    <div class="box-summary">
+        <div class="summary-title">%s</div>
+        <div>%s</div>
+    </div>
+    <div class="box-summary">
+        <div class="summary-title">%s</div>
+        <div>%s</div>
+    </div>
+    <div class="box-summary">
+        <div class="summary-title">%s</div>
+        <div title="%s %s">%s</div>
+    </div>
+
+    <div>
+        <div><strong style="color: red">%s</strong></div>
+        <div>%s</div>
+    </div>
+    ',
+                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.template.used'),
+                $templateService->getPath(),
+                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.fields'),
+                implode(', ', $templateService->getFields()),
+                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.mandatory.fields'),
+                implode(', ', $templateService->getRequiredFields()),
+                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.persisted.data'),
+                $templateService->hasPersistingTable() ?
+                    $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.persisted.to') :
+                    '',
+                $templateService->hasPersistingTable() ?
+                    $templateService->getPersistingTable() :
+                    '',
+                $templateService->hasPersistingTable() ?
+                    $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.yes') :
+                    $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.no'),
+                $templateService->hasWarnings() ?
+                    $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:warning') : '',
+                $templateService->hasWarnings() ?
+                    implode('<br>', $templateService->getWarnings()) : ''
+            );
+        }
 
         return $output;
     }

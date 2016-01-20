@@ -47,14 +47,14 @@ class DevelopmentViewHelper extends AbstractViewHelper
             $templateService = $this->getTemplateService($settings['template']);
 
             $output = sprintf(
-                "<br style='clear: both'/><br/>%s CONTEXT: this message is for testing purposes and will be sent to %s.<br /><br /> In reality, it would be sent: <br />- to: %s<br />%s%s<br />%s%s",
+                "<pre style='clear: both'>%s CONTEXT<br /> %s %s %s %s <br />%s%s</pre>",
                 strtoupper((string)GeneralUtility::getApplicationContext()),
-                implode(', ', array_keys($redirectTo)),
-                implode(', ', array_keys($to)),
-                empty($cc) ? '' : sprintf('- cc: %s <br/>', implode(', ', array_keys($cc))),
-                empty($bcc) ? '' : sprintf('- bcc: %s <br/>', implode(', ', array_keys($bcc))),
-                empty($settings['emailUserTo']) ? '' : 'Additionaly an email to the user will be sent using the field ' . $settings['emailUserTo'],
-                $templateService->hasPersistingTable() ? '<br/><br/>Submitted data will be persisted into ' . $templateService->getPersistingTable() : ''
+                empty($to) ? '' : '<br />- This email will actually be sent to ' . implode(', ', array_keys($redirectTo)) . '.',
+                empty($to) ? '' : 'In Production, it will be sent: <br />    - to: ' . implode(', ', array_keys($to)),
+                empty($cc) ? '' : sprintf('<br/>    - cc: %s', implode(', ', array_keys($cc))),
+                empty($bcc) ? '' : sprintf('<br/>    - bcc: %s', implode(', ', array_keys($bcc))),
+                empty($settings['emailUserTo']) ? '' : '<br/>- An email to the user will be sent using the field "' . $settings['emailUserTo'] . '"',
+                $templateService->hasPersistingTable() ? '<br/>- Submitted data will be persisted into "' . $templateService->getPersistingTable() . '"' : ''
             );
         }
 

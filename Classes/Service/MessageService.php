@@ -111,7 +111,8 @@ class MessageService
      * @param string $content the content to be analyzed
      * @return boolean
      */
-    protected function hasHtml($content) {
+    protected function hasHtml($content)
+    {
         $result = FALSE;
         //we compare the length of the string with html tags and without html tags
         if (strlen($content) != strlen(strip_tags($content))) {
@@ -140,7 +141,8 @@ class MessageService
      * @throws \Exception
      * @throws \Fab\Formule\Exception\InvalidEmailFormatException
      */
-    public function getFrom() {
+    public function getFrom()
+    {
 
         $from = $this->get('from');
         $from = $this->getEmailAddressService()->parse($from);
@@ -172,7 +174,7 @@ class MessageService
     {
         $to = $this->get('to');
 
-        if(!filter_var($to, FILTER_VALIDATE_EMAIL) && !empty($this->values[$to])) {
+        if (!filter_var($to, FILTER_VALIDATE_EMAIL) && !empty($this->values[$to])) {
             $to = $this->values[$to];
         }
 
@@ -186,7 +188,7 @@ class MessageService
     {
         $cc = $this->get('cc');
 
-        if(!filter_var($cc, FILTER_VALIDATE_EMAIL) && !empty($this->values[$cc])) {
+        if (!filter_var($cc, FILTER_VALIDATE_EMAIL) && !empty($this->values[$cc])) {
             $cc = $this->values[$cc];
         }
 
@@ -200,7 +202,7 @@ class MessageService
     {
         $bcc = $this->get('bcc');
 
-        if(!filter_var($bcc, FILTER_VALIDATE_EMAIL) && !empty($this->values[$bcc])) {
+        if (!filter_var($bcc, FILTER_VALIDATE_EMAIL) && !empty($this->values[$bcc])) {
             $bcc = $this->values[$bcc];
         }
 
@@ -220,7 +222,12 @@ class MessageService
      */
     protected function getBody()
     {
-        return $this->get('body');
+        $section = $this->type === self::TO_ADMIN ? TemplateService::SECTION_EMAIL_ADMIN : TemplateService::SECTION_EMAIL_USER;
+        $body = $this->getTemplateService($this->settings['template'])->getSection($section);
+        if (empty($body)) {
+            $body = $this->get('body');
+        }
+        return $body;
     }
 
     /**
@@ -261,7 +268,8 @@ class MessageService
     /**
      * @return EmailAddressService
      */
-    public function getEmailAddressService() {
+    public function getEmailAddressService()
+    {
         return GeneralUtility::makeInstance(EmailAddressService::class);
     }
 
@@ -271,6 +279,15 @@ class MessageService
     public function getEmailValidator()
     {
         return GeneralUtility::makeInstance(EmailValidator::class);
+    }
+
+    /**
+     * @param int $templateIdentifier
+     * @return TemplateService
+     */
+    protected function getTemplateService($templateIdentifier)
+    {
+        return GeneralUtility::makeInstance(TemplateService::class, $templateIdentifier);
     }
 
 }

@@ -73,38 +73,27 @@
 				       required="required"/>
 			</div>
 			<div class="form-group">
-						<textarea class="form-control"
-						          id="message"
-						          name="message"
-						          placeholder="{f:translate(key:'message')}"
-						          maxlength="140"
-						          rows="7">{values.message}</textarea>
+				<textarea class="form-control"
+				          id="message"
+				          name="message"
+				          placeholder="{f:translate(key:'message')}"
+				          maxlength="140"
+				          rows="7">{values.message}</textarea>
 				<p id="characterLeft" class="help-block">
 					<f:translate key="contact.limit"/>
 				</p>
 			</div>
 
-			<!-- Only mandatory field -->
+			<f:comment><!-- The only mandatory field --></f:comment>
 			<f:form.hidden name="values" value="{contentElement.uid}"/>
-			<input type="submit" value="{f:translate(key:'submit')}" class="btn btn-primary pull-right">
 
+			<f:comment><!-- VH to limit bots annoyance (required) --></f:comment>
 			<fo:honeyPot/>
+
+			<f:comment><!--Display hint in Development context (optional) --></f:comment>
 			<fo:message.development/>
+
 		</f:form>
 	</div>
 
 </f:section>
-
-<f:section name="feedback">
-	<p>
-		Dear {name},
-	</p>
-
-	<p>
-		We have received your request via the contact form on www.example.org. We will process your request and get in contact with you soon.
-	</p>
-
-	<formule:form.show labelsIn="formule"/>
-	{namespace formule=Fab\Formule\ViewHelpers}
-</f:section>
-</html>
