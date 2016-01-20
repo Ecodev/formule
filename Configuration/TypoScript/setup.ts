@@ -14,13 +14,11 @@ plugin.tx_formule {
                 title = Contact form
                 path = EXT:formule/Resources/Private/Standalone/MailForm.html
 
-                # Table name where to persist submitted data.
-
+                # Load custom assets
                 #asset {
                 #
                 #    0 {
-                #        # For none Bootstrap replace by EXT:formule/Resources/Public/Build/StyleSheets/formule.min.css
-                #        path = EXT:formule/Resources/Public/Build/StyleSheets/formule.bootstrap.min.css
+                #        path = EXT:formule/Resources/Public/Build/StyleSheets/formule.css
                 #        type = css
                 #
                 #        # Optional key if loading assets through EXT:vhs.
@@ -28,8 +26,7 @@ plugin.tx_formule {
                 #    }
                 #
                 #    1 {
-                #        # For none Bootstrap replace by EXT:formule/Resources/Public/Build/JavaScript/formule.min.js
-                #        path = EXT:formule/Resources/Public/Build/JavaScript/formule.bootstrap.min.js
+                #        path = EXT:formule/Resources/Public/Build/JavaScript/formule.js
                 #        type = js
                 #
                 #        # Optional key if loading assets through EXT:vhs.
