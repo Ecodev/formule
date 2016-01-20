@@ -34,7 +34,7 @@
 				<source>Context</source>
 			</trans-unit>
 			<trans-unit id="is_sent">
-				<source>Was Opened</source>
+				<source>Could be sent</source>
 			</trans-unit>
 			<trans-unit id="sent_time">
 				<source>Sent Time</source>

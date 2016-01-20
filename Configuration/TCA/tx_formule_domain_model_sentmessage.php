@@ -6,15 +6,15 @@ return array(
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
         'rootLevel' => -1,
-
-        'searchFields' => 'sender,recipient,subject,body,attachment,context,is_sent,sent_time,ip,',
+        'default_sortby' => 'ORDER BY sent_time DESC',
+        'searchFields' => 'recipient',
         'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('formule') . 'Resources/Public/Images/tx_formule_domain_model_sentmessage.png'
     ],
     'interface' => [
-        'showRecordFieldList' => 'sender, recipient, subject, body, attachment, context, is_sent, sent_time, ip',
+        'showRecordFieldList' => 'sender, recipient, subject, body, sent_time, is_sent, ip, context',
     ],
     'types' => [
-        '1' => ['showitem' => 'sender, recipient, subject, body, attachment, context, is_sent, sent_time, ip'],
+        '1' => ['showitem' => 'sender, recipient, subject, body, sent_time, is_sent, ip, context'],
     ],
     'columns' => [
 
@@ -52,8 +52,9 @@ return array(
             'exclude' => 1,
             'label' => 'LLL:EXT:formule/Resources/Private/Language/tx_formule_domain_model_sentmessage.xlf:body',
             'config' => [
-                'type' => 'input',
-                'size' => 30,
+                'type' => 'text',
+                'rows' => 5,
+                'cols' => 5,
                 'readOnly' => true,
                 'eval' => 'trim'
             ],
@@ -82,10 +83,8 @@ return array(
             'exclude' => 1,
             'label' => 'LLL:EXT:formule/Resources/Private/Language/tx_formule_domain_model_sentmessage.xlf:is_sent',
             'config' => [
-                'type' => 'input',
-                'size' => 30,
+                'type' => 'check',
                 'readOnly' => true,
-                'eval' => 'trim'
             ],
         ],
         'sent_time' => [
@@ -95,7 +94,7 @@ return array(
                 'type' => 'input',
                 'size' => 30,
                 'readOnly' => true,
-                'eval' => 'trim'
+                'eval' => 'datetime'
             ],
         ],
         'ip' => [
@@ -127,9 +126,15 @@ return array(
             ],
             'subject' => [
             ],
+            'body' => [
+                'width' => '50%',
+            ],
             'sent_time' => [
                 'format' => \Fab\Vidi\Formatter\DateTime::class,
             ],
+            '__buttons' => array(
+                'renderer' => new \Fab\Vidi\Grid\ButtonGroupComponent(),
+            ),
         ]
     ]
 );
