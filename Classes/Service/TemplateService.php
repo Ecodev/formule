@@ -16,6 +16,7 @@ namespace Fab\Formule\Service;
 
 use DOMDocument;
 use DOMXPath;
+use RuntimeException;
 use SimpleXMLElement;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -43,7 +44,7 @@ class TemplateService implements SingletonInterface
     /**
      * Constructor.
      *
-     * @param string $templateIdentifier
+     * @param int $templateIdentifier
      */
     public function __construct($templateIdentifier)
     {
@@ -181,11 +182,17 @@ class TemplateService implements SingletonInterface
     }
 
     /**
+     * @param string $key
      * @return mixed
      */
     public function get($key)
     {
         $ts = $this->getTypoScriptService()->getSettings();
+
+        if (empty($ts['templates'][$this->templateIdentifier])) {
+            $message = 'Formule: I could not find a template for the give key "' . $this->templateIdentifier . '"';
+            throw new RuntimeException($message, 1453274963);
+        }
         return empty($ts['templates'][$this->templateIdentifier][$key]) ? null : $ts['templates'][$this->templateIdentifier][$key];
     }
 

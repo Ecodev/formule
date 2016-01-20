@@ -14,6 +14,7 @@ namespace Fab\Formule\ViewHelpers\Form;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Formule\Service\TemplateService;
 use FluidTYPO3\Vhs\Asset;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -41,20 +42,26 @@ class ShowViewHelper extends AbstractViewHelper
 
         $values = $this->templateVariableContainer->getAll();
 
+        $allowedFields = $this->getTemplateService($values['templateIdentifier'])->getFields();
+
         if (!empty($values)) {
 
             $_values = [];
             foreach ($values as $key => $value) {
 
-                $_values[] = sprintf('
-<tr>
-<td style="vertical-align: top">%s</td>
-<td style="vertical-align: top">%s</td>
-</tr>
-                ',
-                    $this->getLabel($key, $labelsIn, $labelPrefix),
-                    $value
-                );
+                if (in_array($key, $allowedFields)) {
+
+                    $_values[] = sprintf('
+    <tr>
+    <td style="vertical-align: top">%s</td>
+    <td style="vertical-align: top">%s</td>
+    </tr>
+                    ',
+                        $this->getLabel($key, $labelsIn, $labelPrefix),
+                        $value
+                    );
+                }
+
             }
 
             // Assemble output
@@ -79,6 +86,15 @@ class ShowViewHelper extends AbstractViewHelper
             $label = $key;
         }
         return $label;
+    }
+
+    /**
+     * @param int $templateIdentifier
+     * @return TemplateService
+     */
+    protected function getTemplateService($templateIdentifier)
+    {
+        return GeneralUtility::makeInstance(TemplateService::class, $templateIdentifier);
     }
 
 }

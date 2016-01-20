@@ -98,7 +98,8 @@ class FormController extends ActionController
             $this->getSignalSlotDispatcher()->dispatch(self::class, 'postDataPersist', [$values]);
         }
 
-
+        // Sending email step.
+        $values['templateIdentifier'] = $this->settings['template']; // We want this information in the values
         if (!empty($this->settings['emailAdminTo'])) {
             $this->getMessageService(MessageService::TO_ADMIN)->send($values);
         }

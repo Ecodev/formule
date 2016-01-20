@@ -31,7 +31,7 @@ class LoggingService
     {
         $tableName = 'tx_formule_domain_model_sentmessage';
         $values = [
-            'pid' => $this->getFrontendObject()->id,
+            'pid' => (int)$this->getFrontendObject()->id,
             'sender' => $this->formatEmails($message->getFrom()),
             'recipient' => $this->formatEmails($message->getTo()),
             'recipient_cc' => $this->formatEmails($message->getCc()),
