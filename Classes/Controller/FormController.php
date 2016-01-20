@@ -98,20 +98,20 @@ class FormController extends ActionController
             $this->getSignalSlotDispatcher()->dispatch(self::class, 'postDataPersist', [$values]);
         }
 
-        // Sending email step.
+        // Possible email to admin.
         $values['templateIdentifier'] = $this->settings['template']; // We want this information in the values
         if (!empty($this->settings['emailAdminTo'])) {
             $this->getMessageService(MessageService::TO_ADMIN)->send($values);
         }
 
+        // Possible email to user.
         if (!empty($this->settings['emailUserTo'])) {
-            // replace email
-            #$this->getMessageService(MessageService::TO_USER)->send($values);
+            $this->getMessageService(MessageService::TO_USER)->send($values);
         }
 
         $this->getSignalSlotDispatcher()->dispatch(self::class, 'beforeRedirect', [$values]);
 
-        // Save in registry... Trick to avoid POSTing the arguments again which can contain very long text.
+        // Save in registry... Trick to avoid POSTing the arguments again which might contain very long text.
         $this->getRegistryService()->set('values', $values);
 
         $pageUid = null;
@@ -142,7 +142,7 @@ class FormController extends ActionController
         $body = $templateService->getSection(TemplateService::SECTION_FEEDBACK);
 
         if (empty($body)) {
-            $view->setTemplateSource($this->settings['redirectMessage']);
+            $view->setTemplateSource($this->settings['feedbackMessage']);
             $content = trim($view->render());
             $feedback = Markdown::defaultTransform($content);
         } else {

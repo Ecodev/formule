@@ -6,158 +6,158 @@
 		<body>
 			<!-- Wizard -->
 			<trans-unit id="wizard.title">
-				<source>Variety of forms</source>
+				<target>Variété de formulaire</target>
 			</trans-unit>
 			<trans-unit id="wizard.description">
-				<source>Render a variety of forms template based such as contact form, registration form, etc...</source>
+				<target>A partir d'un template, affiche divers types de formulaire comme un formulaire de contact, inscription à la newsletter, etc...</target>
 			</trans-unit>
 
 			<!-- Tabs -->
 			<trans-unit id="tab.general">
-				<source>General</source>
+				<target>Général</target>
 			</trans-unit>
 			<trans-unit id="tab.emailAdmin">
-				<source>Email Admin</source>
+				<target>Email Admin</target>
 			</trans-unit>
 			<trans-unit id="tab.emailUser">
-				<source>Email User</source>
+				<target>Email Utilisateur</target>
 			</trans-unit>
 			<trans-unit id="tab.feedback">
-				<source>Feedback</source>
+				<target>Feedback</target>
 			</trans-unit>
 
 			<!-- Settings -->
 			<trans-unit id="settings.template">
-				<source>Template to be used</source>
+				<target>Template utilisé</target>
 			</trans-unit>
 			<trans-unit id="settings.redirectPid">
-				<source>Redirect page after submit</source>
+				<target>Page de redirection après soumission</target>
 			</trans-unit>
 			<trans-unit id="settings.summary">
-				<source>Summary</source>
+				<target>Résumé</target>
 			</trans-unit>
 			<trans-unit id="settings.emailRecipient">
-				<source>Email Recipient (if empty no email will be sent)</source>
+				<target>Email destinataire (aucun email ne partira si la valeur est vide)</target>
 			</trans-unit>
 			<trans-unit id="settings.emailFrom">
-				<source>Email From</source>
+				<target>Email de</target>
 			</trans-unit>
 			<trans-unit id="settings.emailCc">
-				<source>Email CC</source>
+				<target>Email CC</target>
 			</trans-unit>
 			<trans-unit id="settings.emailBcc">
-				<source>Email BCC</source>
+				<target>Email BCC</target>
 			</trans-unit>
 			<trans-unit id="settings.emailSubject">
-				<source>Email subject</source>
+				<target>Email sujet</target>
 			</trans-unit>
 			<trans-unit id="settings.emailBody">
-				<source>Email body</source>
+				<target>Email message</target>
 			</trans-unit>
 			<trans-unit id="settings.feedbackMessage">
-				<source>Feedback Message</source>
+				<target>Message de feedback</target>
 			</trans-unit>
 
 			<!-- Custom field "summary" -->
 			<trans-unit id="summary.template.used">
-				<source>Template used</source>
+				<target>Template utilisé</target>
 			</trans-unit>
 			<trans-unit id="summary.fields">
-				<source>Fields detected</source>
+				<target>Champs détectés</target>
 			</trans-unit>
 			<trans-unit id="summary.mandatory.fields">
-				<source>Mandatory fields</source>
+				<target>Champs obligatoires</target>
 			</trans-unit>
 			<trans-unit id="summary.persisted.data">
-				<source>Persisted data</source>
+				<target>Donné persistée</target>
 			</trans-unit>
 			<trans-unit id="summary.persisted.to">
-				<source>persisted to table</source>
+				<target>persisté dans</target>
 			</trans-unit>
 			<trans-unit id="summary.yes">
-				<source>Yes</source>
+				<target>Oui</target>
 			</trans-unit>
 			<trans-unit id="summary.no">
-				<source>No</source>
+				<target>Non</target>
 			</trans-unit>
 			<trans-unit id="summary.missing.template">
-				<source>No template selected yet</source>
+				<target>Pas de template sélectionné</target>
 			</trans-unit>
 
 			<!-- Custom field "warning" -->
 			<trans-unit id="warning">
-				<source>Warning</source>
+				<target>Avertissements</target>
 			</trans-unit>
 			<trans-unit id="warning.missing.tca">
-				<source>Missing TCA for table</source>
+				<target>TCA manquant pour la table</target>
 			</trans-unit>
 			<trans-unit id="warning.missing.field">
-				<source>Missing TCA configuration for</source>
+				<target>Configuration TCA manquant pour</target>
 			</trans-unit>
 			<trans-unit id="warning.mapping.necessary">
-				<source>Mapping maybe necessary.</source>
+				<target>Mapping probablement nécessaire.</target>
 			</trans-unit>
 			<trans-unit id="template.body">
-				<source>Body is configured in the template</source>
+				<target>Le corps du message est configuré dans le template</target>
 			</trans-unit>
 			<trans-unit id="template.message">
-				<source>Message is configured in the template</source>
+				<target>Le message est configuré dans le template</target>
 			</trans-unit>
 
 			<!-- Frontend fields -->
 			<trans-unit id="name">
-				<source>Name</source>
+				<target>Nom</target>
 			</trans-unit>
 			<trans-unit id="email">
-				<source>Email</source>
+				<target>Email</target>
 			</trans-unit>
 			<trans-unit id="mobile">
-				<source>Mobile number</source>
+				<target>Numéro mobile</target>
 			</trans-unit>
 			<trans-unit id="subject">
-				<source>Subject</source>
+				<target>Sujet</target>
 			</trans-unit>
 			<trans-unit id="message">
-				<source>Message</source>
+				<target>Message</target>
 			</trans-unit>
 			<trans-unit id="first_name">
-				<source>First name</source>
+				<target>Prénom</target>
 			</trans-unit>
 			<trans-unit id="last_name">
-				<source>Last name</source>
+				<target>Nom</target>
 			</trans-unit>
 			<trans-unit id="submit">
-				<source>Submit Form</source>
+				<target>Envoyer</target>
 			</trans-unit>
 
 			<!-- Frontend contact form -->
 			<trans-unit id="contact.form">
-				<source>Contact Form</source>
+				<target>Formulaire de contact</target>
 			</trans-unit>
 			<trans-unit id="contact.limit.met">
-				<source>You have reached the limit.</source>
+				<target>Vous avez atteint la limite</target>
 			</trans-unit>
 			<trans-unit id="contact.limit.total.characters">
-				<source>140 characters left.</source>
+				<target>Encore 140 caractères.</target>
 			</trans-unit>
 			<trans-unit id="contact.limit.characters">
-				<source>characters left.</source>
+				<target>caractères encore possibles.</target>
 			</trans-unit>
 
 			<!-- Frontend contact form -->
 			<trans-unit id="newsletter.form">
-				<source>Sign up for updates</source>
+				<target>Inscription à la newsletter</target>
 			</trans-unit>
 			<trans-unit id="newsletter.register">
-				<source>Register</source>
+				<target>S'inscire</target>
 			</trans-unit>
 
 			<!-- Frontend error -->
 			<trans-unit id="error.occurred">
-				<source>Following error(s) occurred:</source>
+				<target>Les erreurs suivantes sont survenus</target>
 			</trans-unit>
 			<trans-unit id="error.required">
-				<source>Required field</source>
+				<target>Champ requis</target>
 			</trans-unit>
 		</body>
 	</file>
