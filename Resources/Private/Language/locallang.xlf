@@ -152,6 +152,11 @@
 				<source>Register</source>
 			</trans-unit>
 
+			<!-- Frontend message -->
+			<trans-unit id="message.success">
+				<source>Thank you. Your settings have been successfully updated.</source>
+			</trans-unit>
+
 			<!-- Frontend error -->
 			<trans-unit id="error.occurred">
 				<source>Following error(s) occurred:</source>
@@ -159,6 +164,11 @@
 			<trans-unit id="error.required">
 				<source>Required field</source>
 			</trans-unit>
+			<trans-unit id="token.invalid">
+				<source>I could not retrieve valid data.</source>
+			</trans-unit>
+
+
 		</body>
 	</file>
 </xliff>

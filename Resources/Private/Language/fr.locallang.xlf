@@ -152,12 +152,20 @@
 				<target>S'inscire</target>
 			</trans-unit>
 
+			<!-- Frontend message -->
+			<trans-unit id="message.success">
+				<target>Merci. Vos réglages ont été correctement enregistrés.</target>
+			</trans-unit>
+
 			<!-- Frontend error -->
 			<trans-unit id="error.occurred">
 				<target>Les erreurs suivantes sont survenus</target>
 			</trans-unit>
 			<trans-unit id="error.required">
 				<target>Champ requis</target>
+			</trans-unit>
+			<trans-unit id="token.invalid">
+				<target>Impossible de trouver des informations à charger.</target>
 			</trans-unit>
 		</body>
 	</file>
