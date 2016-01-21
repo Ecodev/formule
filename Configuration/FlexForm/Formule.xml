@@ -88,7 +88,7 @@
 								<type>input</type>
 								<eval>text</eval>
 								<size>100</size>
-								<default>New contribution from the website</default>
+								<default>New contribution from {HTTP_HOST}</default>
 							</config>
 						</TCEforms>
 					</settings.emailAdminSubject>

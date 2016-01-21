@@ -147,7 +147,7 @@ If this field is let blank section "feedback" of the template will be rendered i
                 if (empty($parameters['itemFormElValue'])) {
                     $value = 'Dear {name},
 
-We have received your request via the contact form on www.example.org. We will process your request and get in contact with you soon.
+We have received your request via the contact form on {HTTP_HOST}. We will process your request and get in contact with you soon.
 
 <fo:form.show labelsIn="formule"/>
 
@@ -201,7 +201,7 @@ We have received your request via the contact form on www.example.org. We will p
                 if (empty($parameters['itemFormElValue'])) {
                     $value = 'Hello Admin,
 
-A user filled out the contact form on www.example.org by {email}.
+A user filled out the contact form on {HTTP_HOST} by {email}.
 
 You **can** write content in your template using
 

@@ -100,6 +100,9 @@ class FormController extends ActionController
 
         // Possible email to admin.
         $values['templateIdentifier'] = $this->settings['template']; // We want this information in the values
+        $values['HTTP_HOST'] = GeneralUtility::getIndpEnv('HTTP_HOST'); // We want this information in the values
+        $values['HTTP_ORIGIN'] = GeneralUtility::getIndpEnv('HTTP_ORIGIN'); // We want this information in the values
+        $values['HTTP_REFERER'] = GeneralUtility::getIndpEnv('HTTP_REFERER'); // We want this information in the values
         if (!empty($this->settings['emailAdminTo'])) {
             $this->getMessageService(MessageService::TO_ADMIN)->send($values);
         }
