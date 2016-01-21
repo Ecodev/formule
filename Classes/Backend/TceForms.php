@@ -54,7 +54,7 @@ class TceForms
             }
 
             $output = sprintf(
-                '<input type="text" name="%s" style="width: 614px;" value="%s" placeholder="%s"/>',
+                '<input type="text" name="%s" class="form-control t3js-clearable hasDefaultValue" value="%s" placeholder="%s"/>',
                 $parameters['itemFormElName'],
                 $value,
                 $value === '' ? 'Consider giving a value for $GLOBALS[\'TYPO3_CONF_VARS\'][\'MAIL\'][\'defaultMailFromAddress\']' : ''
@@ -73,14 +73,24 @@ class TceForms
     public function renderFeedback(array $parameters)
     {
         $settings = $this->getSettings($parameters);
-        $templateService = $this->getTemplateService($settings['template']);
+        $templateIdentifier = (int)$settings['template'];
 
-        // find a possible body in the template.
-        $body = $templateService->getSection(TemplateService::SECTION_FEEDBACK);
+        $output = sprintf(
+            '<strong>%s</strong>',
+            $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.missing.template')
+        );
 
-        if (empty($body)) {
-            if (empty($parameters['itemFormElValue'])) {
-                $value = 'Dear {name},
+        if ($templateIdentifier > 0) {
+
+            // Get template service
+            $templateService = $this->getTemplateService($settings['template']);
+
+            // find a possible feedback in the template.
+            $body = $templateService->getSection(TemplateService::SECTION_FEEDBACK);
+
+            if (empty($body)) {
+                if (empty($parameters['itemFormElValue'])) {
+                    $value = 'Dear {name},
 
 Thank you for your message. We will process your request and get in contact with you soon.
 
@@ -88,21 +98,22 @@ If this field is let blank section "feedback" of the template will be rendered i
 
 <fo:form.show labelsIn="formule"/>
 {namespace fo=Fab\Formule\ViewHelpers}';
+                } else {
+                    $value = $parameters['itemFormElValue'];
+                }
+
+                $output = sprintf(
+                    '<textarea name="%s" style="max-height: 500px; overflow: hidden; word-wrap: break-word; height: 300px;" class="form-control formengine-textarea" rows="10">%s</textarea>',
+                    $parameters['itemFormElName'],
+                    $value
+                );
+
             } else {
-                $value = $parameters['itemFormElValue'];
+                $output = sprintf(
+                    '<strong>%s</strong>',
+                    $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:template.message')
+                );
             }
-
-            $output = sprintf(
-                '<textarea name="%s" cols="48" rows="7" class="resizable" style="width: 639px; position: relative; height: 178px">%s</textarea>',
-                $parameters['itemFormElName'],
-                $value
-            );
-
-        } else {
-            $output = sprintf(
-                '<strong>%s</strong>',
-                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:template.message')
-            );
         }
 
         return $output;
@@ -117,35 +128,46 @@ If this field is let blank section "feedback" of the template will be rendered i
     public function renderEmailUserBody(array $parameters)
     {
         $settings = $this->getSettings($parameters);
-        $templateService = $this->getTemplateService($settings['template']);
+        $templateIdentifier = (int)$settings['template'];
 
-        // find a possible body in the template.
-        $body = $templateService->getSection(TemplateService::SECTION_EMAIL_USER);
+        $output = sprintf(
+            '<strong>%s</strong>',
+            $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.missing.template')
+        );
 
-        if (empty($body)) {
-            if (empty($parameters['itemFormElValue'])) {
-                $value = 'Dear {name},
+        if ($templateIdentifier > 0) {
+
+            // Get template service
+            $templateService = $this->getTemplateService($settings['template']);
+
+            // find a possible body in the template.
+            $body = $templateService->getSection(TemplateService::SECTION_EMAIL_USER);
+
+            if (empty($body)) {
+                if (empty($parameters['itemFormElValue'])) {
+                    $value = 'Dear {name},
 
 We have received your request via the contact form on www.example.org. We will process your request and get in contact with you soon.
 
 <fo:form.show labelsIn="formule"/>
 
 {namespace fo=Fab\Formule\ViewHelpers}';
+                } else {
+                    $value = $parameters['itemFormElValue'];
+                }
+
+                $output = sprintf(
+                    '<textarea name="%s" style="max-height: 500px; overflow: hidden; word-wrap: break-word; height: 300px;" class="form-control formengine-textarea" rows="10">%s</textarea>',
+                    $parameters['itemFormElName'],
+                    $value
+                );
+
             } else {
-                $value = $parameters['itemFormElValue'];
+                $output = sprintf(
+                    '<strong>%s</strong>',
+                    $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:template.body')
+                );
             }
-
-            $output = sprintf(
-                '<textarea name="%s" cols="48" rows="7" class="resizable" style="width: 639px; position: relative; height: 178px">%s</textarea>',
-                $parameters['itemFormElName'],
-                $value
-            );
-
-        } else {
-            $output = sprintf(
-                '<strong>%s</strong>',
-                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:template.body')
-            );
         }
 
         return $output;
@@ -160,14 +182,24 @@ We have received your request via the contact form on www.example.org. We will p
     public function renderEmailAdminBody(array $parameters)
     {
         $settings = $this->getSettings($parameters);
-        $templateService = $this->getTemplateService($settings['template']);
+        $templateIdentifier = (int)$settings['template'];
 
-        // find a possible body in the template.
-        $body = $templateService->getSection(TemplateService::SECTION_EMAIL_ADMIN);
+        $output = sprintf(
+            '<strong>%s</strong>',
+            $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.missing.template')
+        );
 
-        if (empty($body)) {
-            if (empty($parameters['itemFormElValue'])) {
-                $value = 'Hello Admin,
+        if ($templateIdentifier > 0) {
+
+            // Get template service
+            $templateService = $this->getTemplateService($settings['template']);
+
+            // find a possible body in the template.
+            $body = $templateService->getSection(TemplateService::SECTION_EMAIL_ADMIN);
+
+            if (empty($body)) {
+                if (empty($parameters['itemFormElValue'])) {
+                    $value = 'Hello Admin,
 
 A user filled out the contact form on www.example.org by {email}.
 
@@ -185,21 +217,22 @@ Examples:
 <fo:form.show labelsIn="formule"/>
 
 {namespace fo=Fab\Formule\ViewHelpers}';
+                } else {
+                    $value = $parameters['itemFormElValue'];
+                }
+
+                $output = sprintf(
+                    '<textarea name="%s" style="max-height: 500px; overflow: hidden; word-wrap: break-word; height: 300px;" class="form-control formengine-textarea" rows="10">%s</textarea>',
+                    $parameters['itemFormElName'],
+                    $value
+                );
+
             } else {
-                $value = $parameters['itemFormElValue'];
+                $output = sprintf(
+                    '<strong>%s</strong>',
+                    $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:template.body')
+                );
             }
-
-            $output = sprintf(
-                '<textarea name="%s" cols="48" rows="7" class="resizable" style="width: 639px; position: relative; height: 178px">%s</textarea>',
-                $parameters['itemFormElName'],
-                $value
-            );
-
-        } else {
-            $output = sprintf(
-                '<strong>%s</strong>',
-                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:template.body')
-            );
         }
 
         return $output;
@@ -220,6 +253,9 @@ Examples:
         }
 
         $settings = $this->getFlexFormService()->extractSettings($flexform);
+        if (is_array($settings['template'])) {
+            $settings['template'] = current($settings['template']);
+        }
         return $settings;
     }
 
@@ -233,14 +269,14 @@ Examples:
     {
 
         $settings = $this->getSettings($parameters);
-        $templateIdenfier = (int)$settings['template'];
+        $templateIdentifier = (int)$settings['template'];
 
         $output = sprintf(
             '<strong>%s</strong>',
             $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.missing.template')
         );
 
-        if ($templateIdenfier > 0) {
+        if ($templateIdentifier > 0) {
 
             $templateService = $this->getTemplateService($settings['template']);
 

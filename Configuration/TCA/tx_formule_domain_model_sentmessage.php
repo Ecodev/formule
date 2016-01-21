@@ -117,7 +117,9 @@ return array(
         ],
         'columns' => [
             '__checkbox' => array(
-                'renderer' => new \Fab\Vidi\Grid\CheckBoxComponent(),
+                'renderer' => version_compare(TYPO3_branch, '7.0', '<') ?
+                    new \Fab\Vidi\Grid\CheckBoxComponent() :
+                    new \Fab\Vidi\Grid\CheckBoxRenderer(),
             ),
             'sender' => [
                 'visible' => false,
@@ -133,7 +135,9 @@ return array(
                 'format' => \Fab\Vidi\Formatter\DateTime::class,
             ],
             '__buttons' => array(
-                'renderer' => new \Fab\Vidi\Grid\ButtonGroupComponent(),
+                'renderer' => version_compare(TYPO3_branch, '7.0', '<') ?
+                    new \Fab\Vidi\Grid\ButtonGroupComponent() :
+                    new \Fab\Vidi\Grid\ButtonGroupRenderer(),
             ),
         ]
     ]
