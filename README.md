@@ -49,7 +49,10 @@ The plugin can be configured mainly in TypoScript. In the Extension Manager poss
 Register a new template
 -----------------------
 
-By default the extension provides a limited set of forms. It is very likely you want to add new ones. To see set a new template, consider adding some TypoScript. Here are the minimum settings:
+By default the extension provides a limited set of forms: a basic mail form along with a newsletter registration example. It is very likely you want to add new ones. To register a new template and see it in the plugin record, consider the two necessary steps:
+
+* Create a new HTML template `EXT:foo/Resources/Private/Plugins/Formule/MyForm.html`. You can take inspiration from the one in `EXT:formule`.
+* Add some minimum TypoScript settings, e.g. in `EXT:foo/Configuration/TypoScript/Plugin/tx_formule.ts`
 
 ```
 
