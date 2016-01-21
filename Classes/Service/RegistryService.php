@@ -62,7 +62,12 @@ class RegistryService
      */
     protected function getKey()
     {
-        return 'Fab\Formule\\' . $this->getFrontendUser()->id;
+        $identifier = $this->getFrontendUser()->getKey('ses', 'formule_identifier');
+        if (is_null($identifier)) {
+            $identifier = $this->getFrontendUser()->id;
+            $this->getFrontendUser()->setKey('ses', 'formule_identifier', $identifier);
+        }
+        return 'Fab\Formule\\' . $identifier;
     }
 
     /**
@@ -74,4 +79,5 @@ class RegistryService
     {
         return $GLOBALS['TSFE']->fe_user;
     }
+
 }
