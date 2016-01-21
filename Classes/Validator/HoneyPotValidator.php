@@ -14,6 +14,7 @@ namespace Fab\Formule\Validator;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Formule\Service\TemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
@@ -37,17 +38,28 @@ class HoneyPotValidator extends AbstractValidator
     public function isValid($values)
     {
 
-        if (GeneralUtility::_GP('mail') || GeneralUtility::_GP('e-mail')) {
-            die('Looks strange - u sure you are not a bot?');
-        }
+        if ($this->getTemplateService()->hasHoneyPot()) {
 
-        if (GeneralUtility::_GP('subject2') !== strrev(GeneralUtility::_GP('subject3'))) {
-            die('Tempered with subject and subject2 - u sure you are not a bot?');
-        }
+            if (GeneralUtility::_GP('mail') || GeneralUtility::_GP('e-mail')) {
+                die('Looks strange - u sure you are not a bot?');
+            }
 
-        if (GeneralUtility::getIndpEnv('HTTP_USER_AGENT') == "") {
-            die('No user agent - u sure you are not a bot?');
-        }
+            if (GeneralUtility::_GP('subject2') !== strrev(GeneralUtility::_GP('subject3'))) {
+                die('Tempered with subject and subject2 - u sure you are not a bot?');
+            }
 
+            if (GeneralUtility::getIndpEnv('HTTP_USER_AGENT') == "") {
+                die('No user agent - u sure you are not a bot?');
+            }
+        }
     }
+
+    /**
+     * @return TemplateService
+     */
+    protected function getTemplateService()
+    {
+        return GeneralUtility::makeInstance(TemplateService::class);
+    }
+
 }

@@ -216,6 +216,15 @@ class TemplateService implements SingletonInterface
     }
 
     /**
+     * @return bool
+     */
+    public function hasHoneyPot()
+    {
+        $sectionCode = $this->getSection(self::SECTION_MAIN);
+        return (bool)preg_match('/<.*:honeyPot/', $sectionCode);
+    }
+
+    /**
      * @return array
      */
     public function getFields()
