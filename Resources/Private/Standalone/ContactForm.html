@@ -42,82 +42,60 @@
 	<div class="form-area">
 		<f:form action="submit" controller="Form" additionalAttributes="{role: 'form'}" method="post">
 			<h3>
-				<f:translate key="newsletter.form"/>
+				<f:translate key="contact.form"/>
 			</h3>
 			<div class="form-group">
 				<input type="text"
 				       class="form-control"
-				       id="first_name"
-				       name="first_name"
+				       id="name"
+				       name="name"
 				       value="{values.name}"
-				       placeholder="{f:translate(key:'first_name')}"
+				       placeholder="{f:translate(key:'name')}"
 				       required="required"/>
 			</div>
 			<div class="form-group">
 				<input type="text"
 				       class="form-control"
-				       id="last_name"
-				       name="last_name"
-				       value="{values.name}"
-				       placeholder="{f:translate(key:'last_name')}"
+				       id="email"
+				       name="email"
+				       value="{values.email}"
+				       placeholder="{f:translate(key:'email')}"
 				       required="required"/>
 			</div>
 			<div class="form-group">
-				<div class="input-group">
-					<div class="input-group-addon">@</div>
-					<input type="text"
-					       class="form-control"
-					       id="email"
-					       name="email"
-					       value="{values.email}"
-					       placeholder="{f:translate(key:'email')}"
-					       required="required"/>
-				</div>
+				<input type="text"
+				       class="form-control"
+				       id="subject"
+				       name="subject"
+				       value="{values.subject}"
+				       placeholder="{f:translate(key:'subject')}"
+				       required="required"/>
+			</div>
+			<div class="form-group">
+				<textarea class="form-control"
+				          id="message"
+				          name="message"
+				          placeholder="{f:translate(key:'message')}"
+				          maxlength="140"
+				          rows="7">{values.message}</textarea>
+				<p id="characterLeft" class="help-block">
+					<f:translate key="contact.limit"/>
+				</p>
 			</div>
 
-			<input type="submit" value="{f:translate(key:'newsletter.register')}" class="btn btn-primary pull-right">
+			<input type="submit" value="{f:translate(key:'submit')}" class="btn btn-primary pull-right">
 
 			<f:comment><!-- The only mandatory field --></f:comment>
 			<f:form.hidden name="values" value="{contentElement.uid}"/>
 
-			<f:comment><!-- VH to limit bots annoyance (required) --></f:comment>
+			<f:comment><!-- VH to limit bots annoyance (optional) --></f:comment>
 			<fo:honeyPot/>
 
 			<f:comment><!--Display hint in Development context (optional) --></f:comment>
 			<fo:message.development/>
+
 		</f:form>
 	</div>
 
-</f:section>
-
-<f:section name="emailAdmin">
-	Hello Admin,
-
-	A user filled out the contact form on www.example.org by {email}.
-
-	You **can** write content in your template using
-
-	* Markdown syntax
-	* Fluid syntax
-
-	Examples:
-
-	<f:translate key="email" extensionName="formule"/>: {email}
-
-	<f:link.page pageUid="1" absolute="1">Open page</f:link.page>
-
-	<fo:form.show labelsIn="formule"/>
-</f:section>
-
-<f:section name="feedback">
-	<p>
-		Dear {name},
-	</p>
-
-	<p>
-		We have received your request via the contact form on www.example.org. We will process your request and get in contact with you soon.
-	</p>
-
-	<fo:form.show labelsIn="formule"/>
 </f:section>
 </html>

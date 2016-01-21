@@ -12,7 +12,7 @@ plugin.tx_formule {
 
             1 {
                 title = Contact form
-                path = EXT:formule/Resources/Private/Standalone/MailForm.html
+                path = EXT:formule/Resources/Private/Standalone/ContactForm.html
 
                 # Load custom assets
                 #asset {
@@ -37,7 +37,7 @@ plugin.tx_formule {
 
             2 {
                 title = Newsletter subscription new
-                path = EXT:formule/Resources/Private/Standalone/Newsletter/NewSubscription.html
+                path = EXT:formule/Resources/Private/Standalone/NewsletterSubscription.html
 
                 # Persist configuration
                 persist {
@@ -62,7 +62,7 @@ plugin.tx_formule {
 
             3 {
                 title = Newsletter subscription edit
-                path = EXT:formule/Resources/Private/Standalone/SubscribeEditForm.html
+                path = EXT:formule/Resources/Private/Standalone/NewsletterPreferences.html
             }
         }
 

@@ -1,0 +1,105 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
+      xmlns:fo="http://typo3.org/ns/Fab/Formule/ViewHelpers">
+
+<f:layout name="Default"/>
+
+<f:section name="main">
+
+	<fo:loadAssets/>
+
+	<f:render section="FormError" partial="Form/Error" arguments="{_all}"/>
+
+	<div class="form-area">
+		<f:form action="submit" controller="Form" additionalAttributes="{role: 'form'}" method="post">
+			<h3>
+				<f:translate key="newsletter.form"/>
+			</h3>
+			<div class="form-group">
+				<input type="text"
+				       class="form-control"
+				       id="first_name"
+				       name="first_name"
+				       value="{values.name}"
+				       placeholder="{f:translate(key:'first_name')}"
+				       required="required"/>
+			</div>
+			<div class="form-group">
+				<input type="text"
+				       class="form-control"
+				       id="last_name"
+				       name="last_name"
+				       value="{values.name}"
+				       placeholder="{f:translate(key:'last_name')}"
+				       required="required"/>
+			</div>
+			<div class="form-group">
+				<div class="input-group">
+					<div class="input-group-addon">@</div>
+					<input type="text"
+					       class="form-control"
+					       id="email"
+					       name="email"
+					       value="{values.email}"
+					       placeholder="{f:translate(key:'email')}"
+					       required="required"/>
+				</div>
+			</div>
+
+			<input type="submit" value="{f:translate(key:'newsletter.register')}" class="btn btn-primary pull-right">
+
+			<f:comment><!-- The only mandatory field --></f:comment>
+			<f:form.hidden name="values" value="{contentElement.uid}"/>
+
+			<f:comment><!-- VH to limit bots annoyance (optional) --></f:comment>
+			<fo:honeyPot/>
+
+			<f:comment><!--Display hint in Development context (optional) --></f:comment>
+			<fo:message.development/>
+		</f:form>
+	</div>
+
+</f:section>
+
+<f:section name="emailAdmin">
+	Hello Admin,
+
+	A user filled out the contact form on www.example.org by {email}.
+
+	You **can** write content in your template using
+
+	* Markdown syntax
+	* Fluid syntax
+
+	Examples:
+
+	<f:translate key="email" extensionName="formule"/>: {email}
+
+	<f:link.page pageUid="1" absolute="1">Open page</f:link.page>
+
+	<fo:form.show labelsIn="formule"/>
+</f:section>
+
+<f:section name="emailUser">
+	Dear {first_name},
+
+	We have received your request via the contact form on {HTTP_HOST}. Please confirm your email address by clicking
+	<fo:link.confirm pageUid="1">this link</fo:link.confirm>.
+
+	If you think this is an error, please ignore this email.
+
+	Your's
+</f:section>
+
+<f:section name="feedback">
+	<p>
+		Dear {name},
+	</p>
+
+	<p>
+		We have received your message. We have sent you an email to confirm your email address.
+	</p>
+
+	<fo:form.show labelsIn="formule"/>
+</f:section>
+</html>

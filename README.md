@@ -64,7 +64,7 @@ By default the extension provides a limited set of forms: a basic mail form alon
 				# Use key "10", "11" and following for your own templates to be safe.
 				10 {
 					title = Foo detail view
-					path = EXT:foo/Resources/Private/Templates/formule/MailForm.html
+					path = EXT:foo/Resources/Private/Templates/formule/ContactForm.html
 					
 				}
 			}
@@ -175,6 +175,57 @@ The template has the bare minimum requirements. A Fluid form must be declared se
         <fo:message.development/>
     </f:form>
 ```
+
+Sections in template
+--------------------
+
+The template can be 
+
+
+```
+
+    # Required section
+    <f:section name="main">
+        Content of the template
+    </f:section>
+```
+
+This section is optional and is to define the body part of the email to the admin. If present if will replace the value from the flexform.
+
+
+```
+
+    <f:section name="emailAdmin">
+    
+    </f:section>
+```
+
+Same as above but for the end user. If present if will replace the value from the flexform.
+
+```
+
+    <f:section name="emailUser">
+    
+    </f:section>
+```
+
+This section is optional and is to define the feedback message for the end user after successfully submitting the form.
+
+```
+
+    <f:section name="feedback">
+    
+    </f:section>
+```
+
+Template variable
+------------------
+
+For convenience sake, the extension provides a bunch of global variables than can be used across emails (subject or body part):
+
+* {HTTP_HOST} : www.example.org
+* {HTTP_ORIGIN} : http://www.example.org
+* {HTTP_REFERER} : http://www.example.org/example/
 
 Fields control
 --------------
