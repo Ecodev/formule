@@ -49,11 +49,11 @@ class DevelopmentViewHelper extends AbstractViewHelper
             $output = sprintf(
                 "<pre style='clear: both'>%s CONTEXT<br /> %s %s %s %s <br />%s%s</pre>",
                 strtoupper((string)GeneralUtility::getApplicationContext()),
-                empty($to) ? '' : '<br />- This email will actually be sent to ' . implode(', ', array_keys($redirectTo)) . '.',
+                empty($to) ? '' : '<br />- Admin email will actually be sent to ' . implode(', ', array_keys($redirectTo)) . '.',
                 empty($to) ? '' : 'In Production, it will be sent: <br />    - to: ' . implode(', ', array_keys($to)),
                 empty($cc) ? '' : sprintf('<br/>    - cc: %s', implode(', ', array_keys($cc))),
                 empty($bcc) ? '' : sprintf('<br/>    - bcc: %s', implode(', ', array_keys($bcc))),
-                empty($settings['emailUserTo']) ? '' : '<br/>- An email to the user will be sent using the field "' . $settings['emailUserTo'] . '"',
+                empty($settings['emailUserTo']) ? '' : '<br/>- User email will be sent using the field "' . $settings['emailUserTo'] . '"',
                 $templateService->hasPersistingTable() ? '<br/>- Submitted data will be persisted into "' . $templateService->getPersistingTable() . '"' : ''
             );
         }
