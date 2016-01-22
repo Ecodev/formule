@@ -52,35 +52,26 @@
 							</config>
 						</TCEforms>
 					</settings.emailAdminTo>
-					<settings.emailAdminFrom>
-						<TCEforms>
-							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailFrom</label>
-							<config>
-								<type>user</type>
-								<userFunc>Fab\Formule\Backend\TceForms->renderEmailFrom</userFunc>
-							</config>
-						</TCEforms>
-					</settings.emailAdminFrom>
-					<settings.emailAdminCc>
-						<TCEforms>
-							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailCc</label>
-							<config>
-								<type>input</type>
-								<eval>text</eval>
-								<size>50</size>
-							</config>
-						</TCEforms>
-					</settings.emailAdminCc>
-					<settings.emailAdminBcc>
-						<TCEforms>
-							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailBcc</label>
-							<config>
-								<type>input</type>
-								<eval>text</eval>
-								<size>50</size>
-							</config>
-						</TCEforms>
-					</settings.emailAdminBcc>
+					<!--<settings.emailAdminCc>-->
+						<!--<TCEforms>-->
+							<!--<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailCc</label>-->
+							<!--<config>-->
+								<!--<type>input</type>-->
+								<!--<eval>text</eval>-->
+								<!--<size>50</size>-->
+							<!--</config>-->
+						<!--</TCEforms>-->
+					<!--</settings.emailAdminCc>-->
+					<!--<settings.emailAdminBcc>-->
+						<!--<TCEforms>-->
+							<!--<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailBcc</label>-->
+							<!--<config>-->
+								<!--<type>input</type>-->
+								<!--<eval>text</eval>-->
+								<!--<size>50</size>-->
+							<!--</config>-->
+						<!--</TCEforms>-->
+					<!--</settings.emailAdminBcc>-->
 					<settings.emailAdminSubject>
 						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailSubject</label>
@@ -124,15 +115,6 @@
 							</config>
 						</TCEforms>
 					</settings.emailUserTo>
-					<settings.emailUserFrom>
-						<TCEforms>
-							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailFrom</label>
-							<config>
-								<type>user</type>
-								<userFunc>Fab\Formule\Backend\TceForms->renderEmailFrom</userFunc>
-							</config>
-						</TCEforms>
-					</settings.emailUserFrom>
 					<settings.emailUserSubject>
 						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailSubject</label>
@@ -156,6 +138,35 @@
 				</el>
 			</ROOT>
 		</emailUser>
+
+		<sender>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:tab.sender</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<settings.nameFrom>
+						<TCEforms>
+							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.nameFrom</label>
+							<config>
+								<type>user</type>
+								<userFunc>Fab\Formule\Backend\TceForms->renderNameFrom</userFunc>
+							</config>
+						</TCEforms>
+					</settings.nameFrom>
+					<settings.emailFrom>
+						<TCEforms>
+							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailFrom</label>
+							<config>
+								<type>user</type>
+								<userFunc>Fab\Formule\Backend\TceForms->renderEmailFrom</userFunc>
+							</config>
+						</TCEforms>
+					</settings.emailFrom>
+				</el>
+			</ROOT>
+		</sender>
 
 		<feedback>
 			<ROOT>

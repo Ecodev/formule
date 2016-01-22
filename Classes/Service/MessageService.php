@@ -78,11 +78,12 @@ class MessageService
         // Parse body through Markdown processing.
         $body = Markdown::defaultTransform($body);
 
-        $this->getMailMessage()->setTo($this->getTo())
-            ->setCc($this->getCc())
-            ->setBcc($this->getBcc())
+        $this->getMailMessage()
             #->setSender($this->getFrom())
             ->setFrom($this->getFrom())
+            ->setTo($this->getTo())
+            #->setCc($this->getCc())
+            #->setBcc($this->getBcc())
             ->setSubject($subject)
             ->setBody($body, 'text/html');
 
@@ -138,20 +139,24 @@ class MessageService
 
     /**
      * @return array
-     * @throws \Exception
      * @throws \Fab\Formule\Exception\InvalidEmailFormatException
      */
     public function getFrom()
     {
 
-        $from = $this->get('from');
-        $from = $this->getEmailAddressService()->parse($from);
+        $emailFrom = [];
+        if (!empty($this->settings['emailFrom'])) {
 
-        // Compute sender from global configuration.
-        if (empty($from)) {
-            if (empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {
-                throw new \Exception('I could not find a sender email address. Missing value for "defaultMailFromAddress" or define a "from" value in the plugin settings', 1402032685);
+            $email = $this->settings['emailFrom'];
+            if (empty($this->settings['nameFrom'])) {
+                $name = $this->settings['emailFrom'];
+            } else {
+                $name = $this->settings['nameFrom'];
             }
+
+            $emailFrom = array($email => $name);
+            $this->getEmailValidator()->validate($emailFrom);
+        } elseif (!empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {
 
             $email = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
             if (empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'])) {
@@ -160,11 +165,11 @@ class MessageService
                 $name = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
             }
 
-            $from = array($email => $name);
-            $this->getEmailValidator()->validate($from);
+            $emailFrom = array($email => $name);
+            $this->getEmailValidator()->validate($emailFrom);
         }
 
-        return $from;
+        return $emailFrom;
     }
 
     /**

@@ -31,6 +31,39 @@ class TceForms
      * @param array $parameters
      * @return string
      */
+    public function renderNameFrom(array $parameters)
+    {
+        if (empty($parameters['row']['uid'])) {
+            $output = sprintf(
+                '<strong>%s</strong>',
+                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.missing.template')
+            );
+        } else {
+
+            $value = '';
+            if (!empty($parameters['itemFormElValue'])) {
+                $value = $parameters['itemFormElValue'];
+            } elseif (!empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'])) {
+                $value = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'];
+            }
+
+            $output = sprintf(
+                '<input type="text" name="%s" class="form-control t3js-clearable hasDefaultValue" value="%s" placeholder="%s"/>',
+                $parameters['itemFormElName'],
+                $value,
+                $value === '' ? 'Consider giving a value for $GLOBALS[\'TYPO3_CONF_VARS\'][\'MAIL\'][\'defaultMailFromName\']' : ''
+            );
+        }
+
+        return $output;
+    }
+
+    /**
+     * Render the field "renderEmailFrom"
+     *
+     * @param array $parameters
+     * @return string
+     */
     public function renderEmailFrom(array $parameters)
     {
         if (empty($parameters['row']['uid'])) {
@@ -40,17 +73,11 @@ class TceForms
             );
         } else {
 
-            $value = empty($parameters['itemFormElValue']) ? '' : $parameters['itemFormElValue'];
-            if ($value === '' && !empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {
-                if (empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'])) {
-                    $value = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
-                } else {
-                    $value = sprintf(
-                        '%s <%s>',
-                        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'],
-                        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress']
-                    );
-                }
+            $value = '';
+            if (!empty($parameters['itemFormElValue'])) {
+                $value = $parameters['itemFormElValue'];
+            } elseif (!empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {
+                $value = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
             }
 
             $output = sprintf(

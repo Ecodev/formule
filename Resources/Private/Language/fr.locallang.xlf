@@ -25,6 +25,9 @@
 			<trans-unit id="tab.feedback">
 				<target>Feedback</target>
 			</trans-unit>
+			<trans-unit id="tab.sender">
+				<target>Expéditeur</target>
+			</trans-unit>
 
 			<!-- Settings -->
 			<trans-unit id="settings.template">
@@ -39,8 +42,11 @@
 			<trans-unit id="settings.emailRecipient">
 				<target>Email destinataire (aucun email ne partira si la valeur est vide)</target>
 			</trans-unit>
+			<trans-unit id="settings.nameFrom">
+				<target>Nom expéditeur</target>
+			</trans-unit>
 			<trans-unit id="settings.emailFrom">
-				<target>Email de</target>
+				<target>Email expéditeur</target>
 			</trans-unit>
 			<trans-unit id="settings.emailCc">
 				<target>Email CC</target>

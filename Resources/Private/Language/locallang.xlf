@@ -25,6 +25,9 @@
 			<trans-unit id="tab.feedback">
 				<source>Feedback</source>
 			</trans-unit>
+			<trans-unit id="tab.sender">
+				<source>Sender</source>
+			</trans-unit>
 
 			<!-- Settings -->
 			<trans-unit id="settings.template">
@@ -38,6 +41,9 @@
 			</trans-unit>
 			<trans-unit id="settings.emailRecipient">
 				<source>Email Recipient (if empty no email will be sent)</source>
+			</trans-unit>
+			<trans-unit id="settings.nameFrom">
+				<source>Name From</source>
 			</trans-unit>
 			<trans-unit id="settings.emailFrom">
 				<source>Email From</source>

@@ -39,13 +39,17 @@ plugin.tx_formule {
                 title = Newsletter subscription new
                 path = EXT:formule/Resources/Private/Standalone/NewsletterSubscription.html
 
+                validators {
+                    0 = Fab\Formule\Processor\EmailValidator
+                }
+
                 # Persist configuration
                 persist {
-                    tableName = fe_users
+                    tableName = tt_address
 
                     defaultValues {
                         pid = 1
-                        disable = 1
+                        #disable = 1
                     }
 
                     processors {
@@ -63,6 +67,19 @@ plugin.tx_formule {
             3 {
                 title = Newsletter subscription edit
                 path = EXT:formule/Resources/Private/Standalone/NewsletterPreferences.html
+
+                interceptors {
+                    0 = Fab\Formule\Interceptor\UserDataInterceptor
+                }
+
+                # Persist configuration
+                persist {
+                    tableName = tt_address
+
+                    processors {
+                        0 = Fab\Formule\Processor\UserDataProcessor
+                    }
+                }
             }
         }
 
