@@ -160,6 +160,12 @@
 			<trans-unit id="newsletter.register">
 				<source>Register</source>
 			</trans-unit>
+			<trans-unit id="newsletter.update">
+				<source>Update</source>
+			</trans-unit>
+			<trans-unit id="newsletter.delete">
+				<source>Delete my subscription</source>
+			</trans-unit>
 
 			<!-- Frontend message -->
 			<trans-unit id="message.success">

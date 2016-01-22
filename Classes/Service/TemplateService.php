@@ -191,6 +191,13 @@ class TemplateService implements SingletonInterface
         $processors = is_array($persist) && empty($persist['processors']) ? [] : $persist['processors'];
         return $processors;
     }
+    /**
+     * @return array
+     */
+    public function getInterceptors()
+    {
+        return $this->get('interceptors');
+    }
 
     /**
      * @return string

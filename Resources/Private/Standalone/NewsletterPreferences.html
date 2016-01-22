@@ -19,12 +19,25 @@
 					<h3>
 						<f:translate key="newsletter.form"/>
 					</h3>
+
+
+					<div class="form-group">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox"
+								       id="is_registred"
+								       name="is_registred"/>
+
+								Receive newsletter
+							</label>
+						</div>
+					</div>
 					<div class="form-group">
 						<input type="text"
 						       class="form-control"
 						       id="first_name"
 						       name="first_name"
-						       value="{values.name}"
+						       value="{values.first_name}"
 						       placeholder="{f:translate(key:'first_name')}"
 						       required="required"/>
 					</div>
@@ -33,7 +46,7 @@
 						       class="form-control"
 						       id="last_name"
 						       name="last_name"
-						       value="{values.name}"
+						       value="{values.last_name}"
 						       placeholder="{f:translate(key:'last_name')}"
 						       required="required"/>
 					</div>
@@ -51,8 +64,13 @@
 					</div>
 
 					<input type="submit"
-					       value="{f:translate(key:'newsletter.register')}"
+					       style="margin-left: 10px"
+					       value="{f:translate(key:'newsletter.update')}"
 					       class="btn btn-primary pull-right">
+
+					<input type="submit"
+					       value="{f:translate(key:'newsletter.delete')}"
+					       class="btn btn-danger pull-right">
 
 					<f:comment><!-- The only mandatory field --></f:comment>
 					<f:form.hidden name="values" value="{contentElement.uid}"/>

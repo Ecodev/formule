@@ -1,5 +1,5 @@
 <?php
-namespace Fab\Formule\Processor;
+namespace Fab\Formule\Interceptor;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -13,6 +13,8 @@ namespace Fab\Formule\Processor;
  *
  * The TYPO3 project - inspiring people to share!
  */
+use Fab\Formule\Service\TemplateService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class UserDataInterceptor
@@ -28,13 +30,31 @@ class UserDataInterceptor extends AbstractInterceptor
     public function intercept(array $values, $insertOrUpdate = '')
     {
 
-        $values['name'] = $values['first_name'] . ' ' . $values['last_name'];
+        $token = GeneralUtility::_GP('token');
 
-        if ($insertOrUpdate === ProcessorInterface::INSERT) {
-            $values['username'] = ''; // todo
-            $values['password'] = ''; // todo
-            #$values['token'] = ''; // todo
+        $tableName = $this->getTemplateService()->getPersistingTableName();
+        $clause = sprintf('token = "%s"',  $this->getDatabaseConnection()->quoteStr($token, $tableName));
+
+        $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', $tableName, $clause);
+
+        $fields = $this->getTemplateService()->getFields();
+
+        // is mapping necessary here?
+        foreach ($fields as $field) {
+            if (isset($record[$field])) {
+                $values[$field] = $record[$field];
+            }
         }
+
+        $values['uid'] = $record['uid'];
         return $values;
+    }
+
+    /**
+     * @return TemplateService
+     */
+    protected function getTemplateService()
+    {
+        return GeneralUtility::makeInstance(TemplateService::class);
     }
 }

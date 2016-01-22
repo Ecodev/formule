@@ -1,5 +1,5 @@
 <?php
-namespace Fab\Formule\Processor;
+namespace Fab\Formule\Interceptor;
 
 /**
  * This file is part of the TYPO3 CMS project.

@@ -1,5 +1,5 @@
 <?php
-namespace Fab\Formule\Processor;
+namespace Fab\Formule\Interceptor;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -20,13 +20,9 @@ namespace Fab\Formule\Processor;
 interface InterceptorInterface
 {
 
-    const INSERT = 'insert';
-    const UPDATE = 'update';
-
     /**
      * @param array $values
-     * @param string $insertOrUpdate
      * @return array
      */
-    public function intercept(array $values, $insertOrUpdate = '');
+    public function intercept(array $values);
 }

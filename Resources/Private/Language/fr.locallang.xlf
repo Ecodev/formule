@@ -157,6 +157,12 @@
 			<trans-unit id="newsletter.register">
 				<target>S'inscrire</target>
 			</trans-unit>
+			<trans-unit id="newsletter.update">
+				<target>Modifier</target>
+			</trans-unit>
+			<trans-unit id="newsletter.delete">
+				<target>Supprimer mon inscription</target>
+			</trans-unit>
 
 			<!-- Frontend message -->
 			<trans-unit id="message.success">

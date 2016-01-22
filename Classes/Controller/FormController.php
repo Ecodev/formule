@@ -42,8 +42,17 @@ class FormController extends ActionController
             $message = '<strong style="color: red">Please select a template in formule!</strong>';
         } else {
 
+            $values = $this->getArgumentService()->getValues();
+
             // Check the template path according to the Plugin settings.
             $templateService = $this->getTemplateService($this->settings['template']);
+            foreach ($templateService->getInterceptors() as $className) {
+
+                /** @var \Fab\Formule\Interceptor\InterceptorInterface $interceptor */
+                $interceptor = GeneralUtility::makeInstance($className);
+                $values = $interceptor->intercept($values);
+            };
+
             $pathAbs = $templateService->getResolvedPath();
             if (!is_file($pathAbs)) {
                 return sprintf('<strong style="color:red;">I could not find the template file %s.</strong>', $pathAbs);
@@ -51,7 +60,7 @@ class FormController extends ActionController
 
             $this->view->setTemplatePathAndFilename($pathAbs);
             $this->view->assign('contentElement', $this->configurationManager->getContentObject()->data);
-            $this->view->assign('values', $this->getArgumentService()->getValues());
+            $this->view->assign('values', $values);
         }
 
         return $message;
