@@ -62,33 +62,26 @@
 </f:section>
 
 <f:section name="emailAdmin">
-	Hello Admin,
+Hello Admin,
 
-	A user filled out the contact form on www.example.org by {email}.
+A user filled out the newsletter subscription form on {HTTP_POST} by {email}.
 
-	You **can** write content in your template using
+An email has been sent to him to confirm his email address.
 
-	* Markdown syntax
-	* Fluid syntax
+To see see this user click <fo:link.backend>this link</fo:link.backend> and search for {values.first_name}
 
-	Examples:
-
-	<f:translate key="email" extensionName="formule"/>: {email}
-
-	<f:link.page pageUid="1" absolute="1">Open page</f:link.page>
-
-	<fo:form.show labelsIn="formule"/>
+<fo:form.show labelsIn="formule"/>
 </f:section>
 
 <f:section name="emailUser">
-	Dear {first_name},
+Thank you,
 
-	We have received your request via the contact form on {HTTP_HOST}. Please confirm your email address by clicking
-	<fo:link.confirm pageUid="1">this link</fo:link.confirm>.
+We have received your request via our subscription form. Please confirm your email address by clicking
+<fo:link.confirm pageUid="350">this link</fo:link.confirm>.
 
-	If you think this is an error, please ignore this email.
+If you think this is an error, please ignore this email.
 
-	Your's
+Your's
 </f:section>
 
 <f:section name="feedback">

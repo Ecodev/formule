@@ -77,6 +77,7 @@ Load additional assets
 ----------------------
 
 Below is a more complex example which will load additional JS / CSS. 
+This TypoScript could be written placed in a file, e.g. in `EXT:foo/Configuration/TypoScript/Plugin/tx_formule.ts`
 
 ```
 
@@ -112,6 +113,7 @@ Persist to the database
 -----------------------
 
 One can also set a configuration to persist submitted data into the database.
+This TypoScript could be written placed in a file, e.g. in `EXT:foo/Configuration/TypoScript/Plugin/tx_formule.ts`
 
 ```
 
@@ -224,7 +226,6 @@ Template variable
 For convenience sake, the extension provides a bunch of global variables than can be used across emails (subject or body part):
 
 * {HTTP_HOST} : www.example.org
-* {HTTP_ORIGIN} : http://www.example.org
 * {HTTP_REFERER} : http://www.example.org/example/
 
 Fields control

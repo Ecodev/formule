@@ -109,8 +109,6 @@ CREATE TABLE %s (
     }
 
     /**
-     * Gets all extension keys that registered a category configuration.
-     *
      * @return array
      */
     public function getExtensionKeys()
@@ -119,8 +117,6 @@ CREATE TABLE %s (
     }
 
     /**
-     * Tells whether a table has a category configuration in the registry.
-     *
      * @param string $tableName Name of the table to be looked up
      * @param string $fieldName Name of the field to be looked up
      * @return boolean
@@ -128,6 +124,15 @@ CREATE TABLE %s (
     public function isRegistered($tableName, $fieldName = 'token')
     {
         return isset($this->registry[$tableName][$fieldName]);
+    }
+
+    /**
+     * @param string $tableName Name of the table to be looked up
+     * @return string
+     */
+    public function getTokenField($tableName)
+    {
+        return key($this->registry[$tableName]);
     }
 
     /**
@@ -182,8 +187,8 @@ CREATE TABLE %s (
     /**
      * Add a new field into the TCA types -> showitem
      *
-     * @param string $tableName Name of the table to be categorized
-     * @param string $fieldName Name of the field to be used to store token
+     * @param string $tableName
+     * @param string $fieldName
      * @param array $options Additional configuration options
      *              + fieldList: field configuration to be added to showitems
      *              + typesList: list of types that shall visualize the token field

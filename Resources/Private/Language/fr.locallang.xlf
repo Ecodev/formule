@@ -149,7 +149,7 @@
 				<target>Inscription à la newsletter</target>
 			</trans-unit>
 			<trans-unit id="newsletter.register">
-				<target>S'inscire</target>
+				<target>S'inscrire</target>
 			</trans-unit>
 
 			<!-- Frontend message -->
