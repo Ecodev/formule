@@ -52,3 +52,23 @@ if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('messenger')) 
 		}
 	});
 }
+
+if (TYPO3_MODE === 'BE') {
+	if (!(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
+		$signalSlotDispatcher->connect(
+			\TYPO3\CMS\Extensionmanager\Utility\InstallUtility::class,
+			'tablesDefinitionIsBeingBuilt',
+			\Fab\Formule\Token\TokenRegistry::class,
+			'addExtensionTokenDatabaseSchemaToTablesDefinition'
+		);
+	}
+
+	$signalSlotDispatcher->connect(
+		\TYPO3\CMS\Install\Service\SqlExpectedSchemaService::class,
+		'tablesDefinitionIsBeingBuilt',
+		\Fab\Formule\Token\TokenRegistry::class,
+		'addTokenDatabaseSchemaToTablesDefinition'
+	);
+
+}
+

@@ -84,7 +84,7 @@
 				<source>No template selected yet</source>
 			</trans-unit>
 
-			<!-- Custom field "warning" -->
+			<!-- Custom fields warning, template, token -->
 			<trans-unit id="warning">
 				<source>Warning</source>
 			</trans-unit>
@@ -102,6 +102,9 @@
 			</trans-unit>
 			<trans-unit id="template.message">
 				<source>Message is configured in the template</source>
+			</trans-unit>
+			<trans-unit id="token">
+				<source>Token</source>
 			</trans-unit>
 
 			<!-- Frontend fields -->
