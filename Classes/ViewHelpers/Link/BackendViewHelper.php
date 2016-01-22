@@ -27,6 +27,22 @@ class BackendViewHelper extends AbstractViewHelper
      */
     public function render()
     {
+        $content = $this->renderChildren();
+
+        if ($content) {
+            $link = sprintf('<a href="%s">%s</a>', $this->getUrl(), $content);
+        } else {
+            $link = $this->getUrl();
+        }
+
+        return $link;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getUrl()
+    {
         $values = $this->templateVariableContainer->getAll();
         $parsedURL = parse_url($values['HTTP_REFERER']);
         $url = $parsedURL['scheme'] . '://' . $parsedURL['host'] . '/typo3';

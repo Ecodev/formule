@@ -32,6 +32,25 @@ class ConfirmViewHelper extends AbstractViewHelper
      */
     public function render($pageUid)
     {
+
+        $content = $this->renderChildren();
+
+        if ($content) {
+            $link = sprintf('<a href="%s">%s</a>', $this->getUrl($pageUid), $content);
+        } else {
+            $link = $this->getUrl($pageUid);
+        }
+
+        return $link;
+
+    }
+
+    /**
+     * @param int $pageUid
+     * @return string
+     */
+    protected function getUrl($pageUid)
+    {
         $arguments = [];
         $values = $this->templateVariableContainer->getAll();
         $templateService = $this->getTemplateService($values['templateIdentifier']);

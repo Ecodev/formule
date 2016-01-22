@@ -48,18 +48,18 @@ class MessageService
     /**
      * @var string
      */
-    protected $type;
+    protected $messageTarget;
 
     /**
      * constructor.
      *
      * @param array $settings
-     * @param string $messageType
+     * @param string $messageTarget
      */
-    public function __construct(array $settings, $messageType)
+    public function __construct(array $settings, $messageTarget)
     {
         $this->settings = $settings;
-        $this->messageType = $messageType;
+        $this->messageTarget = $messageTarget;
     }
 
     /**
@@ -227,7 +227,7 @@ class MessageService
      */
     protected function getBody()
     {
-        $section = $this->type === self::TO_ADMIN ? TemplateService::SECTION_EMAIL_ADMIN : TemplateService::SECTION_EMAIL_USER;
+        $section = $this->messageTarget === self::TO_ADMIN ? TemplateService::SECTION_EMAIL_ADMIN : TemplateService::SECTION_EMAIL_USER;
         $body = $this->getTemplateService($this->settings['template'])->getSection($section);
         if (empty($body)) {
             $body = $this->get('body');
@@ -240,7 +240,7 @@ class MessageService
      */
     protected function get($key)
     {
-        return $this->settings['email' . $this->messageType . ucfirst($key)];
+        return $this->settings['email' . $this->messageTarget . ucfirst($key)];
     }
 
     /**
