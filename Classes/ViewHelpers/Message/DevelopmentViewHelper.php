@@ -41,24 +41,45 @@ class DevelopmentViewHelper extends AbstractViewHelper
             $contentElement = $this->templateVariableContainer->get('contentElement');
             $settings = $this->getFlexFormService()->extractSettings($contentElement['pi_flexform']);
             $to = $this->getEmailAddressService()->parse($settings['emailAdminTo']);
-            $cc = $this->getEmailAddressService()->parse($settings['emailAdminCc']);
-            $bcc = $this->getEmailAddressService()->parse($settings['emailAdminBcc']);
+            #$cc = $this->getEmailAddressService()->parse($settings['emailAdminCc']);
+            #$bcc = $this->getEmailAddressService()->parse($settings['emailAdminBcc']);
 
             $templateService = $this->getTemplateService($settings['template']);
 
             $output = sprintf(
-                "<pre style='clear: both'>%s CONTEXT<br /> %s %s %s %s <br />%s%s</pre>",
+                "<pre style='clear: both'>%s CONTEXT<br /> %s %s %s %s %s</pre>",
                 strtoupper((string)GeneralUtility::getApplicationContext()),
-                empty($to) ? '' : '<br />- Admin email will actually be sent to ' . implode(', ', array_keys($redirectTo)) . '.',
-                empty($to) ? '' : 'In Production, it will be sent: <br />    - to: ' . implode(', ', array_keys($to)),
-                empty($cc) ? '' : sprintf('<br/>    - cc: %s', implode(', ', array_keys($cc))),
-                empty($bcc) ? '' : sprintf('<br/>    - bcc: %s', implode(', ', array_keys($bcc))),
+                $this->hasEmails($settings) ? '<br />- All emails will be redirected to ' . implode(', ', array_keys($redirectTo)) . '.' : '',
+                empty($to) ? '' : '<br />- Admin email will be sent to: ' . implode(', ', array_keys($to)),
+                #empty($cc) ? '' : sprintf('<br/>    - cc: %s', implode(', ', array_keys($cc))),
+                #empty($bcc) ? '' : sprintf('<br/>    - bcc: %s', implode(', ', array_keys($bcc))),
                 empty($settings['emailUserTo']) ? '' : '<br/>- User email will be sent using the field "' . $settings['emailUserTo'] . '"',
+                $this->isSenderOk($settings) ? '' : '<br/>- ATTENTION! No sender could be found. This will be a problem when sending emails.',
                 $templateService->hasPersistingTable() ? '<br/>- Submitted data will be persisted into "' . $templateService->getPersistingTable() . '"' : ''
             );
         }
 
         return $output;
+    }
+
+    /**
+     * @param array $settings
+     * @return bool
+     */
+    public function hasEmails(array $settings) {
+        return !empty($settings['emailAdminTo']) && !empty($settings['emailUserTo']);
+    }
+
+    /**
+     * @param array $settings
+     * @return bool
+     */
+    public function isSenderOk(array $settings) {
+        $isOk = true;
+        if ($this->hasEmails($settings)) {
+            $isOk = !empty($settings['emailFrom']) || !empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress']);
+        }
+        return $isOk;
     }
 
     /**
