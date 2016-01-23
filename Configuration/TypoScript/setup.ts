@@ -45,11 +45,11 @@ plugin.tx_formule {
 
                 # Persist configuration
                 persist {
-                    tableName = tt_address
+                    tableName = fe_users
 
                     defaultValues {
                         pid = 1
-                        #disable = 1
+                        disable = 1
                     }
 
                     processors {
@@ -68,13 +68,13 @@ plugin.tx_formule {
                 title = Newsletter subscription edit
                 path = EXT:formule/Resources/Private/Standalone/NewsletterPreferences.html
 
-                interceptors {
-                    0 = Fab\Formule\Interceptor\UserDataInterceptor
+                loaders {
+                    0 = Fab\Formule\Loader\UserDataLoader
                 }
 
                 # Persist configuration
                 persist {
-                    tableName = tt_address
+                    tableName = fe_users
 
                     processors {
                         0 = Fab\Formule\Processor\UserDataProcessor

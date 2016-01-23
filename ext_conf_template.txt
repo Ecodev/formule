@@ -1,6 +1,3 @@
-# cat=basic//; type=string; label=Tokenisable tables: Comma separated list of table name to be declared as "tokenisable". A field "token" will be created in order to identify a record. This is useful to generate unique URLs to retrieve a User (e.g. when editing newsletter preferences).
-tokenisable_tables =
-
 # cat=basic//; type=boolean; label=Autoload TypoScript: If enabled, the extension will automatically load the TypoScript setup that is required. When un-checking make sure to include / load the TypoScript on your own as a Static TypoScript.
 autoload_typoscript = 1
 

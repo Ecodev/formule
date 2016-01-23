@@ -44,10 +44,3 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['formule_
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['formule_pi1'] = 'pi_flexform';
 
 $GLOBALS['TBE_MODULES_EXT']["xMOD_db_new_content_el"]['addElClasses']['tx_formule_wizard'] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formule') . 'Classes/Backend/Wizard.php';
-
-
-# Declare token tables from the EM configuration.
-$tableNames = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $configuration['tokenisable_tables']['value'], true);
-foreach ($tableNames as $tableName) {
-	\Fab\Formule\Token\TokenUtility::makeTokenisable('formule', $tableName);
-}

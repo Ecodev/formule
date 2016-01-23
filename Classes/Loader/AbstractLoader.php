@@ -1,5 +1,5 @@
 <?php
-namespace Fab\Formule\Interceptor;
+namespace Fab\Formule\Loader;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -15,14 +15,17 @@ namespace Fab\Formule\Interceptor;
  */
 
 /**
- * Interface InterceptorInterface
+ * Class AbstractLoader
  */
-interface InterceptorInterface
+abstract class AbstractLoader implements LoaderInterface
 {
-
     /**
-     * @param array $values
-     * @return array
+     * Returns a pointer to the database.
+     *
+     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
      */
-    public function intercept(array $values);
+    protected function getDatabaseConnection()
+    {
+        return $GLOBALS['TYPO3_DB'];
+    }
 }

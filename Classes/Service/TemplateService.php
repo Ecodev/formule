@@ -194,9 +194,10 @@ class TemplateService implements SingletonInterface
     /**
      * @return array
      */
-    public function getInterceptors()
+    public function getLoaders()
     {
-        return $this->get('interceptors');
+        $loaders = $this->get('loaders');
+        return is_array($loaders) ? $loaders : [];
     }
 
     /**

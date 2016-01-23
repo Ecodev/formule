@@ -15,7 +15,7 @@ namespace Fab\Formule\Processor;
  */
 
 /**
- * Interface InterceptorInterface
+ * Interface LoaderInterface
  */
 interface ValidatorInterface
 {

@@ -14,12 +14,10 @@ namespace Fab\Formule\Processor;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Fab\Formule\Service\TemplateService;
-use Fab\Formule\Token\TokenRegistry;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Class UserDataProcessor
+ * Class UserDataProcessor.
+ * Only an example class to be copy / pasted and adjusted!!!
  */
 class UserDataProcessor extends AbstractProcessor
 {
@@ -32,21 +30,14 @@ class UserDataProcessor extends AbstractProcessor
     public function process(array $values, $insertOrUpdate = '')
     {
 
-        #$values['name'] = $values['first_name'] . ' ' . $values['last_name'];
+        $values['name'] = $values['first_name'] . ' ' . $values['last_name'];
 
         if ($insertOrUpdate === ProcessorInterface::INSERT) {
-            #$values['username'] = ''; // todo must be unique
-            #$values['password'] = ''; // todo must be salted
-
-            if ($this->getTemplateService()->hasPersistingTable()) {
-
-                $tableName = $this->getTemplateService()->getPersistingTable();
-                $isRegistered = TokenRegistry::getInstance()->isRegistered($tableName);
-                if ($isRegistered) {
-                    $tokenField = TokenRegistry::getInstance()->getTokenField($tableName);
-                    $values[$tokenField] = $this->getUuid();
-                }
-            }
+            $values['username'] = ''; // to-do must be controlled as unique
+            $values['password'] = ''; // to-do must be salted
+            #$values['token'] = $this->getUuid(); // fields to be created...
+            #$values['is_confirmed'] = 0;
+            #$values['is_subscribed'] = 1;
         }
 
         return $values;
@@ -77,14 +68,6 @@ class UserDataProcessor extends AbstractProcessor
             // 48 bits for "node"
             mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
         );
-    }
-
-    /**
-     * @return TemplateService
-     */
-    protected function getTemplateService()
-    {
-        return GeneralUtility::makeInstance(TemplateService::class);
     }
 
 }

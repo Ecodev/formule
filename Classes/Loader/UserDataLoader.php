@@ -1,5 +1,5 @@
 <?php
-namespace Fab\Formule\Interceptor;
+namespace Fab\Formule\Loader;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -17,9 +17,10 @@ use Fab\Formule\Service\TemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Class UserDataInterceptor
+ * Class UserDataLoader
+ * Only an example class to be copy / pasted and adjusted!!!
  */
-class UserDataInterceptor extends AbstractInterceptor
+class UserDataLoader extends AbstractLoader
 {
 
     /**

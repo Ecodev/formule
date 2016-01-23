@@ -46,11 +46,11 @@ class FormController extends ActionController
 
             // Check the template path according to the Plugin settings.
             $templateService = $this->getTemplateService($this->settings['template']);
-            foreach ($templateService->getInterceptors() as $className) {
+            foreach ($templateService->getLoaders() as $className) {
 
-                /** @var \Fab\Formule\Interceptor\InterceptorInterface $interceptor */
-                $interceptor = GeneralUtility::makeInstance($className);
-                $values = $interceptor->intercept($values);
+                /** @var \Fab\Formule\Loader\LoaderInterface $loader */
+                $loader = GeneralUtility::makeInstance($className);
+                $values = $loader->intercept($values);
             };
 
             $pathAbs = $templateService->getResolvedPath();
