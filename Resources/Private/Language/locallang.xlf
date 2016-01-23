@@ -180,10 +180,13 @@
 				<source>Following error(s) occurred:</source>
 			</trans-unit>
 			<trans-unit id="error.required">
-				<source>Required field</source>
+				<source>Required field.</source>
 			</trans-unit>
 			<trans-unit id="error.email.unique">
 				<source>This email has already been registred. Please choose another one.</source>
+			</trans-unit>
+			<trans-unit id="error.email.format">
+				<source>Format email is not valid.</source>
 			</trans-unit>
 			<trans-unit id="token.invalid">
 				<source>I could not retrieve valid data.</source>

@@ -16,9 +16,9 @@ namespace Fab\Formule\Validator;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
- * Class UniqueEmailValidator
+ * Class EmailUniqueValidator
  */
-class UniqueEmailValidator extends AbstractValidator
+class EmailUniqueValidator extends AbstractValidator
 {
 
     /**
@@ -38,9 +38,11 @@ class UniqueEmailValidator extends AbstractValidator
 
         if (!empty($record)) {
             $value = LocalizationUtility::translate('error.email.unique', 'formule');
-            $messages[] = $value;
+            $messages['email'] = $value;
         }
 
         return $messages;
     }
+
+
 }

@@ -15,6 +15,7 @@ namespace Fab\Formule\Domain\Validator;
  */
 
 use Fab\Formule\Service\TemplateService;
+use Fab\Formule\Service\ValidationService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
@@ -37,7 +38,8 @@ class UserDefinedValidator extends AbstractValidator
             $messages = $validator->validate($values);
 
             if (!empty($messages)) {
-                foreach ($messages as $message) {
+                foreach ($messages as $fieldName => $message) {
+                    $this->getValidationService()->addError($fieldName, $message);
                     $this->addError($message, 1453535466);
                 }
             }
@@ -50,6 +52,14 @@ class UserDefinedValidator extends AbstractValidator
     protected function getTemplateService()
     {
         return GeneralUtility::makeInstance(TemplateService::class);
+    }
+
+    /**
+     * @return ValidationService
+     */
+    protected function getValidationService()
+    {
+        return GeneralUtility::makeInstance(ValidationService::class);
     }
 
 }

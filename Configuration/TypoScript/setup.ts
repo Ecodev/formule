@@ -14,6 +14,10 @@ plugin.tx_formule {
                 title = Contact form
                 path = EXT:formule/Resources/Private/Standalone/ContactForm.html
 
+                validators {
+                    0 = Fab\Formule\Validator\EmailFormatValidator
+                }
+
                 # Load custom assets
                 #asset {
                 #
@@ -40,7 +44,8 @@ plugin.tx_formule {
                 path = EXT:formule/Resources/Private/Standalone/NewsletterSubscription.html
 
                 validators {
-                    0 = Fab\Formule\Validator\UniqueEmailValidator
+                    0 = Fab\Formule\Validator\EmailUniqueValidator
+                    1 = Fab\Formule\Validator\EmailFormatValidator
                 }
 
                 # Persist configuration
@@ -70,6 +75,11 @@ plugin.tx_formule {
 
                 loaders {
                     0 = Fab\Formule\Loader\UserDataLoader
+                }
+
+                validators {
+                    0 = Fab\Formule\Validator\EmailUniqueValidator
+                    1 = Fab\Formule\Validator\EmailFormatValidator
                 }
 
                 # Persist configuration

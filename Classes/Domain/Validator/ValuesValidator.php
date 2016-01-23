@@ -15,6 +15,7 @@ namespace Fab\Formule\Domain\Validator;
  */
 
 use Fab\Formule\Service\TemplateService;
+use Fab\Formule\Service\ValidationService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
@@ -33,8 +34,9 @@ class ValuesValidator extends AbstractValidator
         foreach ($this->getTemplateService()->getRequiredFields() as $requiredField) {
             if (empty($values[$requiredField])) {
 
-                $value = LocalizationUtility::translate('error.required', 'formule');
-                $this->addError(sprintf('%s "%s"', $value, $requiredField), 1452897562);
+                $message = LocalizationUtility::translate('error.required', 'formule');
+                $this->getValidationService()->addError($requiredField, $message);
+                $this->addError(sprintf('%s How to retrieve label???', $message), 1452897562);
             }
         }
     }
@@ -45,6 +47,14 @@ class ValuesValidator extends AbstractValidator
     protected function getTemplateService()
     {
         return GeneralUtility::makeInstance(TemplateService::class);
+    }
+
+    /**
+     * @return ValidationService
+     */
+    protected function getValidationService()
+    {
+        return GeneralUtility::makeInstance(ValidationService::class);
     }
 
 }

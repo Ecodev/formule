@@ -174,13 +174,16 @@
 
 			<!-- Frontend error -->
 			<trans-unit id="error.occurred">
-				<target>Les erreurs suivantes sont survenues</target>
+				<target>Les erreurs suivantes sont survenues.</target>
 			</trans-unit>
 			<trans-unit id="error.required">
-				<target>Champ requis</target>
+				<target>Champ requis.</target>
 			</trans-unit>
 			<trans-unit id="error.email.unique">
 				<target>Cet email est déjà enregistré. Veuillez choisir un autre.</target>
+			</trans-unit>
+			<trans-unit id="error.email.format">
+				<target>Format de l'email non valide.</target>
 			</trans-unit>
 			<trans-unit id="token.invalid">
 				<target>Impossible de trouver des informations à charger.</target>

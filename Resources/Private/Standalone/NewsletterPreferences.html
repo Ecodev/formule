@@ -12,27 +12,15 @@
 
 		<f:then>
 
-			<f:render section="FormError" partial="Form/Error" arguments="{_all}"/>
-
 			<div class="form-area">
 				<f:form action="submit" controller="Form" additionalAttributes="{role: 'form'}" method="post">
 					<h3>
 						<f:translate key="newsletter.form"/>
 					</h3>
 
+					<f:render section="FormError" partial="Form/Error" arguments="{_all}"/>
 
-					<div class="form-group">
-						<div class="checkbox">
-							<label>
-								<input type="checkbox"
-								       id="is_registred"
-								       name="is_registred"/>
-
-								Receive newsletter
-							</label>
-						</div>
-					</div>
-					<div class="form-group">
+					<div class="form-group {fo:hasError(field: 'first_name')}">
 						<input type="text"
 						       class="form-control"
 						       id="first_name"
@@ -40,8 +28,9 @@
 						       value="{values.first_name}"
 						       placeholder="{f:translate(key:'first_name')}"
 						       required="required"/>
+						<span class="help-block">{fo:message.error(field: 'first_name')}</span>
 					</div>
-					<div class="form-group">
+					<div class="form-group {fo:hasError(field: 'last_name')}">
 						<input type="text"
 						       class="form-control"
 						       id="last_name"
@@ -49,8 +38,9 @@
 						       value="{values.last_name}"
 						       placeholder="{f:translate(key:'last_name')}"
 						       required="required"/>
+						<span class="help-block">{fo:message.error(field: 'last_name')}</span>
 					</div>
-					<div class="form-group">
+					<div class="form-group {fo:hasError(field: 'email')}">
 						<div class="input-group">
 							<div class="input-group-addon">@</div>
 							<input type="text"
@@ -60,6 +50,7 @@
 							       value="{values.email}"
 							       placeholder="{f:translate(key:'email')}"
 							       required="required"/>
+							<span class="help-block">{fo:message.error(field: 'email')}</span>
 						</div>
 					</div>
 

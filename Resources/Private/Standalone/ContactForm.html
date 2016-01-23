@@ -37,14 +37,16 @@
 		</script>
 	</fo:loadAssets>
 
-	<f:render section="FormError" partial="Form/Error" arguments="{_all}"/>
 
 	<div class="form-area">
 		<f:form action="submit" controller="Form" additionalAttributes="{role: 'form'}" method="post">
 			<h3>
 				<f:translate key="contact.form"/>
 			</h3>
-			<div class="form-group">
+
+			<f:render section="FormError" partial="Form/Error" arguments="{_all}"/>
+
+			<div class="form-group {fo:hasError(field: 'name')}">
 				<input type="text"
 				       class="form-control"
 				       id="name"
@@ -52,8 +54,9 @@
 				       value="{values.name}"
 				       placeholder="{f:translate(key:'name')}"
 				       required="required"/>
+				<span class="help-block">{fo:message.error(field: 'name')}</span>
 			</div>
-			<div class="form-group">
+			<div class="form-group {fo:hasError(field: 'email')}">
 				<input type="text"
 				       class="form-control"
 				       id="email"
@@ -61,8 +64,9 @@
 				       value="{values.email}"
 				       placeholder="{f:translate(key:'email')}"
 				       required="required"/>
+				<span class="help-block">{fo:message.error(field: 'email')}</span>
 			</div>
-			<div class="form-group">
+			<div class="form-group {fo:hasError(field: 'subject')}">
 				<input type="text"
 				       class="form-control"
 				       id="subject"
@@ -70,14 +74,16 @@
 				       value="{values.subject}"
 				       placeholder="{f:translate(key:'subject')}"
 				       required="required"/>
+				<span class="help-block">{fo:message.error(field: 'subject')}</span>
 			</div>
-			<div class="form-group">
+			<div class="form-group {fo:hasError(field: 'message')}">
 				<textarea class="form-control"
 				          id="message"
 				          name="message"
 				          placeholder="{f:translate(key:'message')}"
 				          maxlength="140"
 				          rows="7">{values.message}</textarea>
+				<span class="help-block">{fo:message.error(field: 'message')}</span>
 				<p id="characterLeft" class="help-block">
 					<f:translate key="contact.limit"/>
 				</p>
