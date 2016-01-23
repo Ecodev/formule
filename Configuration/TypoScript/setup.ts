@@ -40,7 +40,7 @@ plugin.tx_formule {
                 path = EXT:formule/Resources/Private/Standalone/NewsletterSubscription.html
 
                 validators {
-                    0 = Fab\Formule\Processor\EmailValidator
+                    0 = Fab\Formule\Validator\UniqueEmailValidator
                 }
 
                 # Persist configuration

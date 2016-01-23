@@ -1,5 +1,5 @@
 <?php
-namespace Fab\Formule\Processor;
+namespace Fab\Formule\Validator;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -22,8 +22,7 @@ interface ValidatorInterface
 
     /**
      * @param array $values
-     * @param string $insertOrUpdate
      * @return array
      */
-    public function validate(array $values, $insertOrUpdate = '');
+    public function validate(array $values);
 }

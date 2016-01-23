@@ -14,6 +14,7 @@ namespace Fab\Formule\Service;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Formule\Exception\InvalidEmailFormatException;
 use TYPO3\CMS\Core\SingletonInterface;
 
 /**
@@ -40,6 +41,28 @@ class EmailAddressService implements SingletonInterface
             }
         }
         return $emails;
+    }
+
+    /**
+     * Validate emails to be used in the SwiftMailer framework
+     *
+     * @throws InvalidEmailFormatException
+     * @param $emails
+     * @return boolean
+     */
+    public function validate($emails)
+    {
+        foreach ($emails as $email => $name) {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $message = sprintf('Email provided is not valid, given value "%s"', $email);
+                throw new InvalidEmailFormatException($message, 1350297165);
+            }
+            if (strlen($name) <= 0) {
+                $message = sprintf('Name should not be empty, given value "%s"', $name);
+                throw new InvalidEmailFormatException($message, 1350297170);
+            }
+        }
+        return true;
     }
 
 }

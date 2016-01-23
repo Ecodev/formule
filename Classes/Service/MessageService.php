@@ -14,7 +14,6 @@ namespace Fab\Formule\Service;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Fab\Formule\Validator\EmailValidator;
 use Michelf\Markdown;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -155,7 +154,7 @@ class MessageService
             }
 
             $emailFrom = array($email => $name);
-            $this->getEmailValidator()->validate($emailFrom);
+            $this->getEmailAddressService()->validate($emailFrom);
         } elseif (!empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {
 
             $email = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
@@ -166,7 +165,7 @@ class MessageService
             }
 
             $emailFrom = array($email => $name);
-            $this->getEmailValidator()->validate($emailFrom);
+            $this->getEmailAddressService()->validate($emailFrom);
         }
 
         return $emailFrom;
@@ -276,14 +275,6 @@ class MessageService
     public function getEmailAddressService()
     {
         return GeneralUtility::makeInstance(EmailAddressService::class);
-    }
-
-    /**
-     * @return EmailValidator
-     */
-    public function getEmailValidator()
-    {
-        return GeneralUtility::makeInstance(EmailValidator::class);
     }
 
     /**

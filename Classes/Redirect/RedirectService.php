@@ -14,7 +14,7 @@ namespace Fab\Formule\Redirect;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Fab\Formule\Validator\EmailValidator;
+use Fab\Formule\Service\EmailAddressService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Formule\Utility\ConfigurationUtility;
@@ -49,18 +49,18 @@ class RedirectService implements SingletonInterface
                 $recipients[$email] = $email;
             }
 
-            $this->getEmailValidator()->validate($recipients);
+            $this->getEmailAddressService()->validate($recipients);
         }
 
         return $recipients;
     }
 
     /**
-     * @return EmailValidator
+     * @return EmailAddressService
      */
-    public function getEmailValidator()
+    public function getEmailAddressService()
     {
-        return GeneralUtility::makeInstance(EmailValidator::class);
+        return GeneralUtility::makeInstance(EmailAddressService::class);
     }
 
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Fab\Formule\Validator;
+namespace Fab\Formule\Domain\Validator;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -16,13 +16,12 @@ namespace Fab\Formule\Validator;
 
 use Fab\Formule\Service\TemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
 /**
- * Validate the honey pot.
+ * Instantiate additional validators coming from the TS configuration.
  */
-class FieldValuesValidator extends AbstractValidator
+class UserDefinedValidator extends AbstractValidator
 {
 
     /**
@@ -30,11 +29,17 @@ class FieldValuesValidator extends AbstractValidator
      */
     public function isValid($values)
     {
-        foreach ($this->getTemplateService()->getRequiredFields() as $requiredField) {
-            if (empty($values[$requiredField])) {
 
-                $value = LocalizationUtility::translate('error.required', 'formule');
-                $this->addError(sprintf('%s "%s"', $value, $requiredField), 1452897562);
+        foreach ($this->getTemplateService()->getValidators() as $className) {
+
+            /** @var \Fab\Formule\Validator\ValidatorInterface $validator */
+            $validator = GeneralUtility::makeInstance($className);
+            $messages = $validator->validate($values);
+
+            if (!empty($messages)) {
+                foreach ($messages as $message) {
+                    $this->addError($message, 1453535466);
+                }
             }
         }
     }

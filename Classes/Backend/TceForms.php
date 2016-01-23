@@ -319,23 +319,37 @@ Examples:
     }
     </style>
 
+    <!-- template used -->
     <div class="box-summary">
         <div class="summary-title">%s</div>
         <div>%s</div>
     </div>
+
+    <!-- extracted fields -->
     <div class="box-summary">
         <div class="summary-title">%s</div>
         <div>%s</div>
     </div>
+
+    <!-- required fields -->
     <div class="box-summary">
         <div class="summary-title">%s</div>
         <div>%s</div>
     </div>
+
+    <!-- spam protection -->
+    <div class="box-summary">
+        <div class="summary-title">%s</div>
+        <div>%s</div>
+    </div>
+
+    <!-- persist table name -->
     <div class="box-summary">
         <div class="summary-title">%s</div>
         <div title="%s %s">%s</div>
     </div>
 
+    <!-- possible warnings -->
     <div>
         <div><strong style="color: red">%s</strong></div>
         <div>%s</div>
@@ -347,6 +361,10 @@ Examples:
                 implode(', ', $templateService->getFields()),
                 $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.mandatory.fields'),
                 implode(', ', $templateService->getRequiredFields()),
+                $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.spam.protection'),
+                $templateService->hasHoneyPot() ?
+                    $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.yes') :
+                    $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.no'),
                 $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.persisted.data'),
                 $templateService->hasPersistingTable() ?
                     $this->getLanguageService()->sL('LLL:EXT:formule/Resources/Private/Language/locallang.xlf:summary.persisted.to') :

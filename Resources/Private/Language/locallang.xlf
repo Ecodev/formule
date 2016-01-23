@@ -74,6 +74,9 @@
 			<trans-unit id="summary.mandatory.fields">
 				<source>Mandatory fields</source>
 			</trans-unit>
+			<trans-unit id="summary.spam.protection">
+				<source>Spam protection</source>
+			</trans-unit>
 			<trans-unit id="summary.persisted.data">
 				<source>Persisted data</source>
 			</trans-unit>
@@ -178,6 +181,9 @@
 			</trans-unit>
 			<trans-unit id="error.required">
 				<source>Required field</source>
+			</trans-unit>
+			<trans-unit id="error.email.unique">
+				<source>This email has already been registred. Please choose another one.</source>
 			</trans-unit>
 			<trans-unit id="token.invalid">
 				<source>I could not retrieve valid data.</source>

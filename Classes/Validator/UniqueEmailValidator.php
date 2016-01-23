@@ -1,5 +1,5 @@
 <?php
-namespace Fab\Formule\Processor;
+namespace Fab\Formule\Validator;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -13,6 +13,7 @@ namespace Fab\Formule\Processor;
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Class UniqueEmailValidator
@@ -22,19 +23,24 @@ class UniqueEmailValidator extends AbstractValidator
 
     /**
      * @param array $values
-     * @param string $insertOrUpdate
      * @return array
      */
-    public function validate(array $values, $insertOrUpdate = '')
+    public function validate(array $values)
     {
 
-        $values['name'] = $values['first_name'] . ' ' . $values['last_name'];
+        $messages = [];
 
-        if ($insertOrUpdate === ProcessorInterface::INSERT) {
-            $values['username'] = ''; // todo
-            $values['password'] = ''; // todo
-            #$values['token'] = ''; // todo
+        $tableName = $this->getTemplateService()->getPersistingTable();
+        $clause = sprintf('email = "%s"', $this->getDatabaseConnection()->quoteStr($values['email'], $tableName));
+        $clause .= $this->getPageRepository()->enableFields($tableName);
+        $clause .= $this->getPageRepository()->deleteClause($tableName);
+        $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', $tableName, $clause);
+
+        if (!empty($record)) {
+            $value = LocalizationUtility::translate('error.email.unique', 'formule');
+            $messages[] = $value;
         }
-        return $values;
+
+        return $messages;
     }
 }

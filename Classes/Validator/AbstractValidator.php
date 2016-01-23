@@ -1,5 +1,5 @@
 <?php
-namespace Fab\Formule\Processor;
+namespace Fab\Formule\Validator;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -13,6 +13,9 @@ namespace Fab\Formule\Processor;
  *
  * The TYPO3 project - inspiring people to share!
  */
+
+use Fab\Formule\Service\TemplateService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class AbstractValidator
@@ -28,4 +31,23 @@ abstract class AbstractValidator implements ValidatorInterface
     {
         return $GLOBALS['TYPO3_DB'];
     }
+
+    /**
+     * @return TemplateService
+     */
+    protected function getTemplateService()
+    {
+        return GeneralUtility::makeInstance(TemplateService::class);
+    }
+
+    /**
+     * Returns an instance of the page repository.
+     *
+     * @return \TYPO3\CMS\Frontend\Page\PageRepository
+     */
+    protected function getPageRepository()
+    {
+        return $GLOBALS['TSFE']->sys_page;
+    }
+
 }

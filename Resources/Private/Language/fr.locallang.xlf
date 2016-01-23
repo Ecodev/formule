@@ -74,6 +74,9 @@
 			<trans-unit id="summary.mandatory.fields">
 				<target>Champs obligatoires</target>
 			</trans-unit>
+			<trans-unit id="summary.spam.protection">
+				<target>Protection anti-spam</target>
+			</trans-unit>
 			<trans-unit id="summary.persisted.data">
 				<target>Donné persistée</target>
 			</trans-unit>
@@ -171,10 +174,13 @@
 
 			<!-- Frontend error -->
 			<trans-unit id="error.occurred">
-				<target>Les erreurs suivantes sont survenus</target>
+				<target>Les erreurs suivantes sont survenues</target>
 			</trans-unit>
 			<trans-unit id="error.required">
 				<target>Champ requis</target>
+			</trans-unit>
+			<trans-unit id="error.email.unique">
+				<target>Cet email est déjà enregistré. Veuillez choisir un autre.</target>
 			</trans-unit>
 			<trans-unit id="token.invalid">
 				<target>Impossible de trouver des informations à charger.</target>

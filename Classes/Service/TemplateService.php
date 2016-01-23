@@ -191,6 +191,7 @@ class TemplateService implements SingletonInterface
         $processors = is_array($persist) && empty($persist['processors']) ? [] : $persist['processors'];
         return $processors;
     }
+
     /**
      * @return array
      */
@@ -198,6 +199,15 @@ class TemplateService implements SingletonInterface
     {
         $loaders = $this->get('loaders');
         return is_array($loaders) ? $loaders : [];
+    }
+
+    /**
+     * @return array
+     */
+    public function getValidators()
+    {
+        $validators = $this->get('validators');
+        return is_array($validators) ? $validators : [];
     }
 
     /**

@@ -46,6 +46,8 @@ class FormController extends ActionController
 
             // Check the template path according to the Plugin settings.
             $templateService = $this->getTemplateService($this->settings['template']);
+
+            // Possible loaders
             foreach ($templateService->getLoaders() as $className) {
 
                 /** @var \Fab\Formule\Loader\LoaderInterface $loader */
@@ -53,6 +55,7 @@ class FormController extends ActionController
                 $values = $loader->intercept($values);
             };
 
+            // Set final template path.
             $pathAbs = $templateService->getResolvedPath();
             if (!is_file($pathAbs)) {
                 return sprintf('<strong style="color:red;">I could not find the template file %s.</strong>', $pathAbs);
@@ -83,15 +86,16 @@ class FormController extends ActionController
 
     /**
      * @param array $values
-     * @validate $values \Fab\Formule\Validator\HoneyPotValidator
-     * @validate $values \Fab\Formule\Validator\FieldValuesValidator
+     * @validate $values \Fab\Formule\Domain\Validator\HoneyPotValidator
+     * @validate $values \Fab\Formule\Domain\Validator\ValuesValidator
+     * @validate $values \Fab\Formule\Domain\Validator\UserDefinedValidator
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      */
     public function submitAction(array $values = [])
     {
-        $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'preProcessValues', [$values]);
+        $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'beforeProcessValues', [$values]);
         $values = $signalResult[0];
 
         // Check the template path according to the Plugin settings.
@@ -104,7 +108,8 @@ class FormController extends ActionController
                 $values = $this->getDataService()->update($values);
             }
 
-            $this->getSignalSlotDispatcher()->dispatch(self::class, 'postDataPersist', [$values]);
+            $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'afterPersistValues', [$values]);
+            $values = $signalResult[0];
         }
 
         // We want this information in the values array.
