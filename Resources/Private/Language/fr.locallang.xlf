@@ -179,6 +179,28 @@
 			<trans-unit id="message.success">
 				<target>Merci. Vos réglages ont été correctement enregistrés.</target>
 			</trans-unit>
+			<trans-unit id="newsletter.admin.body1">
+				<target><![CDATA[Hello Admin,
+
+Un visiteur a rempli le formulaire d'inscription à la newsletter depuis {HTTP_POST} avec {email}.
+
+An email lui a été envoyé pour confirmation de son email adresse.
+
+Pour retrouver son contact, veuillez cliquer sur %s et chercher "{last_name}" comme occurrence.]]></target>
+			</trans-unit>
+			<trans-unit id="newsletter.user.body1">
+				<target><![CDATA[{first_name} {last_name},
+
+Nous avons reçu votre inscription à notre newsletter via le formulaire de notre site. Veuillez confirmer votre adresse email en cliquant %s.
+
+Si vous pensez avoir reçu cet email par erreur, veuillez ignorer ce message.]]></target>
+			</trans-unit>
+			<trans-unit id="link">
+				<target>ce lien</target>
+			</trans-unit>
+			<trans-unit id="message.feedback">
+				<target>Merci, nous avons bien reçu votre inscription. Nous vous avons envoyé un email qui contient un lien pour vérifier votre adresse email.</target>
+			</trans-unit>
 
 			<!-- Frontend error -->
 			<trans-unit id="error.occurred">

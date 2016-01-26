@@ -38,16 +38,13 @@
 				<span class="help-block">{fo:message.error(field: 'last_name')}</span>
 			</div>
 			<div class="form-group {fo:hasError(field: 'email')}">
-				<div class="input-group">
-					<div class="input-group-addon">@</div>
-					<input type="text"
-					       class="form-control"
-					       id="email"
-					       name="email"
-					       value="{values.email}"
-					       placeholder="{f:translate(key:'email')}"
-					       required="required"/>
-				</div>
+				<input type="text"
+				       class="form-control"
+				       id="email"
+				       name="email"
+				       value="{values.email}"
+				       placeholder="{f:translate(key:'email')}"
+				       required="required"/>
 				<span class="help-block">{fo:message.error(field: 'email')}</span>
 			</div>
 
@@ -67,35 +64,18 @@
 </f:section>
 
 <f:section name="emailAdmin">
-Hello Admin,
-
-A user filled out the newsletter subscription form on {HTTP_POST} by {email}.
-
-An email has been sent to him to confirm his email address.
-
-To see see this user click <fo:link.backend>this link</fo:link.backend> and search for "{last_name}".
+<f:translate key="newsletter.admin.body1" arguments="{0: '{f:translate(key: \'link\') -> fo:link.backend()}'}"/>
 
 <fo:form.show labelsIn="formule"/>
 </f:section>
 
 <f:section name="emailUser">
-Thank you,
-
-We have received your request via our subscription form. Please confirm your email address by clicking
-<fo:link.confirm pageUid="350">this link</fo:link.confirm>.
-
-If you think this is an error, please ignore this email.
-
-Your's
+<f:translate key="newsletter.user.body1" arguments="{0: '{f:translate(key: \'link\') -> fo:link.confirm(pageUid: 350)}'}"/>
 </f:section>
 
 <f:section name="feedback">
 	<p>
-		Dear {name},
-	</p>
-
-	<p>
-		We have received your message. We have sent you an email to confirm your email address.
+		<f:translate key="message.feedback"/>
 	</p>
 
 	<fo:form.show labelsIn="formule"/>

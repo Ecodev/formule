@@ -182,6 +182,28 @@
 			<trans-unit id="message.success">
 				<source>Thank you. Your settings have been successfully updated.</source>
 			</trans-unit>
+			<trans-unit id="newsletter.admin.body1">
+				<source><![CDATA[Hello Admin,
+
+A user filled out the newsletter subscription form on {HTTP_POST} by {email}.
+
+An email has been sent to him to confirm his email address.
+
+To see see this user click %s and search for "{last_name}".]]></source>
+			</trans-unit>
+			<trans-unit id="newsletter.user.body1">
+				<source><![CDATA[{first_name} {last_name},
+
+We have received your request via our subscription form. Please confirm your email address by clicking %s.
+
+If you think this is an error, please ignore this email.]]></source>
+			</trans-unit>
+			<trans-unit id="link">
+				<source>this link</source>
+			</trans-unit>
+			<trans-unit id="message.feedback">
+				<source>We have received your message. We have sent you an email to confirm your email address.</source>
+			</trans-unit>
 
 			<!-- Frontend error -->
 			<trans-unit id="error.occurred">
@@ -199,7 +221,6 @@
 			<trans-unit id="token.invalid">
 				<source>I could not retrieve valid data.</source>
 			</trans-unit>
-
 
 		</body>
 	</file>

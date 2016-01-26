@@ -21,7 +21,7 @@ use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * View helper to some honey pot field.
+ * View helper to create a confirm link.
  */
 class ConfirmViewHelper extends AbstractViewHelper
 {

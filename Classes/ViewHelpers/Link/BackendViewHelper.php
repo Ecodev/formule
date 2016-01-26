@@ -17,7 +17,7 @@ namespace Fab\Formule\ViewHelpers\Link;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * View helper to some honey pot field.
+ * View helper to create a link to the BE.
  */
 class BackendViewHelper extends AbstractViewHelper
 {
