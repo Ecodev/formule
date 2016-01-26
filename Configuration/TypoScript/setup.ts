@@ -11,7 +11,7 @@ plugin.tx_formule {
         templates {
 
             1 {
-                title = Contact form
+                title = LLL:EXT:formule/Resources/Private/Language/locallang.xlf:contact.form
                 path = EXT:formule/Resources/Private/Standalone/ContactForm.html
 
                 validators {
@@ -40,8 +40,8 @@ plugin.tx_formule {
             }
 
             2 {
-                title = Newsletter subscription new
-                path = EXT:formule/Resources/Private/Standalone/NewsletterSubscription.html
+                title = LLL:EXT:formule/Resources/Private/Language/locallang.xlf:newsletter.new
+                path = EXT:formule/Resources/Private/Standalone/Newsletter/SubscriptionNew.html
 
                 validators {
                     0 = Fab\Formule\Validator\EmailUniqueValidator
@@ -70,8 +70,8 @@ plugin.tx_formule {
             }
 
             3 {
-                title = Newsletter subscription edit
-                path = EXT:formule/Resources/Private/Standalone/NewsletterPreferences.html
+                title = LLL:EXT:formule/Resources/Private/Language/locallang.xlf:newsletter.edit
+                path = EXT:formule/Resources/Private/Standalone/Newsletter/SubscriptionEdit.html
 
                 loaders {
                     0 = Fab\Formule\Loader\UserDataLoader
