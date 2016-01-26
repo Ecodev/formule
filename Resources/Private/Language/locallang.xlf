@@ -116,6 +116,14 @@
 				<source>Token</source>
 			</trans-unit>
 
+			<!--TypoScript -->
+			<trans-unit id="newsletter.new">
+				<source>Newsletter new subscription</source>
+			</trans-unit>
+			<trans-unit id="newsletter.edit">
+				<source>Newsletter edit preferences</source>
+			</trans-unit>
+
 			<!-- Frontend fields -->
 			<trans-unit id="name">
 				<source>Name</source>
@@ -156,7 +164,7 @@
 				<source>characters left.</source>
 			</trans-unit>
 
-			<!-- Frontend contact form -->
+			<!-- Frontend newsletter -->
 			<trans-unit id="newsletter.form">
 				<source>Sign up for updates</source>
 			</trans-unit>

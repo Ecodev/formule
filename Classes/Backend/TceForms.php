@@ -406,7 +406,12 @@ Examples:
 
             $parameters['items'][] = ''; // Empty value
             foreach ($ts['templates'] as $key => $template) {
-                $values = array($template['title'], $key, NULL);
+                $templateTitle = $this->getLanguageService()->sL($template['title']);
+
+                if (empty($templateTitle)) {
+                    $templateTitle = $template['title'];
+                }
+                $values = array($templateTitle, $key, NULL);
                 if (empty($template['dataType']) || $template['dataType'] === $configuredDataType) {
                     $parameters['items'][] = $values;
                 }

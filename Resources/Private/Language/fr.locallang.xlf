@@ -113,6 +113,14 @@
 				<target>Le message est configuré dans le template</target>
 			</trans-unit>
 
+			<!--TypoScript -->
+			<trans-unit id="newsletter.new">
+				<target>Newsletter nouvelle inscription</target>
+			</trans-unit>
+			<trans-unit id="newsletter.edit">
+				<target>Newsletter édition inscription</target>
+			</trans-unit>
+
 			<!-- Frontend fields -->
 			<trans-unit id="name">
 				<target>Nom</target>
@@ -153,7 +161,7 @@
 				<target>caractères encore possibles.</target>
 			</trans-unit>
 
-			<!-- Frontend contact form -->
+			<!-- Frontend newsletter -->
 			<trans-unit id="newsletter.form">
 				<target>Inscription à la newsletter</target>
 			</trans-unit>
