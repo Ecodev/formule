@@ -42,7 +42,7 @@ class ArgumentService
 
                 foreach ($templateFields as $templateField) {
                     $value = GeneralUtility::_GP($templateField);
-                    if (!empty($value)) {
+                    if (!is_null($value)) {
                         $values[$templateField] = $value;
                     }
                 }
