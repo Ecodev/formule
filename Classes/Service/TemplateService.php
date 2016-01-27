@@ -20,6 +20,7 @@ use RuntimeException;
 use SimpleXMLElement;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 
 /**
  * TemplateService
@@ -112,8 +113,8 @@ class TemplateService implements SingletonInterface
     public function getIdentifierField()
     {
         $persist = $this->get('persist');
-        $identfierField = is_array($persist) && empty($persist['token']) ? 'token' : $persist['token'];
-        return $identfierField;
+        $identifierField = is_array($persist) && empty($persist['token']) ? 'token' : $persist['token'];
+        return $identifierField;
     }
 
     /**
@@ -122,6 +123,73 @@ class TemplateService implements SingletonInterface
     public function hasPersistingTable()
     {
         return $this->getPersistingTable() !== '';
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasRedirect()
+    {
+        $redirect = $this->get('redirect');
+        return is_array($redirect) && !empty($redirect);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDefaultRedirectAction()
+    {
+        return $this->getRedirectAction() === 'feedback';
+    }
+
+    /**
+     * @return string
+     */
+    public function getRedirectUrl()
+    {
+        $arguments = [];
+
+        if ($this->hasIdentifierValue()) {
+            $arguments[$this->getIdentifierField()] = $this->getIdentifierValue();
+        }
+
+        $uriBuilder = $this->getUriBuilder()
+            ->reset()
+            ->setTargetPageUid($this->getRedirectPageUid())
+            ->setUseCacheHash(false)
+            ->setCreateAbsoluteUri(true)
+            ->setArguments($arguments);
+
+        return $uriBuilder->build();
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getRedirectPageUid()
+    {
+
+        $redirect = $this->get('redirect');
+        return is_array($redirect) && !empty($redirect['pageUid']) ? $redirect['pageUid'] : null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRedirectAction()
+    {
+
+        $redirect = $this->get('redirect');
+        return is_array($redirect) && !empty($redirect['action']) ? $redirect['action'] : 'feedback';
+    }
+
+    /**
+     * @return string
+     */
+    public function getRedirectController()
+    {
+        $redirect = $this->get('redirect');
+        return is_array($redirect) && !empty($redirect['controller']) ? $redirect['controller'] : 'Formule';
     }
 
     /**
@@ -377,6 +445,33 @@ class TemplateService implements SingletonInterface
     }
 
     /**
+     * @return string
+     */
+    protected function hasIdentifierValue()
+    {
+        return (bool)$this->getIdentifierValue();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getIdentifierValue()
+    {
+        $identifierField = $this->getIdentifierField();
+        return (string)GeneralUtility::_GP($identifierField);
+    }
+
+    /**
+     * @return UriBuilder
+     */
+    protected function getUriBuilder()
+    {
+        /** @var $uriBuilder UriBuilder */
+        $uriBuilder = $this->getObjectManager()->get(UriBuilder::class);
+        return $uriBuilder;
+    }
+
+    /**
      * @return TypoScriptService
      */
     protected function getTypoScriptService()
@@ -391,5 +486,14 @@ class TemplateService implements SingletonInterface
     {
         return $GLOBALS['LANG'];
     }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Object\ObjectManager
+     */
+    protected function getObjectManager()
+    {
+        return GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+    }
+
 
 }

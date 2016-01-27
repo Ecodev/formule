@@ -91,6 +91,10 @@ plugin.tx_formule {
                         0 = Fab\Formule\Processor\UserDataProcessor
                     }
                 }
+
+                redirect {
+                    action = show
+                }
             }
         }
 

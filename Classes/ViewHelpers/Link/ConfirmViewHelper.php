@@ -54,12 +54,8 @@ class ConfirmViewHelper extends AbstractViewHelper
         $values = $this->templateVariableContainer->getAll();
         $templateService = $this->getTemplateService($values['templateIdentifier']);
 
-        if ($templateService->hasPersistingTable()) {
-            $tableName = $templateService->getPersistingTableName();
-
-            if (!empty($values['token'])) {
-                $arguments['token'] = $values['token'];
-            }
+        if ($templateService->hasPersistingTable() && !empty($values['token'])) {
+            $arguments['token'] = $values['token'];
         }
 
         $url = $this->getUriBuilder()
@@ -87,7 +83,7 @@ class ConfirmViewHelper extends AbstractViewHelper
     protected function getUriBuilder()
     {
         /** @var $uriBuilder UriBuilder */
-        $uriBuilder = $this->objectManager->get(\TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder::class);
+        $uriBuilder = $this->objectManager->get(UriBuilder::class);
         return $uriBuilder;
     }
 

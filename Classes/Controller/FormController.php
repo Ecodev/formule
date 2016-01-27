@@ -22,6 +22,7 @@ use Fab\Formule\Service\TemplateService;
 use Fab\Formule\TypeConverter\ValuesConverter;
 use Michelf\Markdown;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -132,11 +133,18 @@ class FormController extends ActionController
         // Save in registry... Trick to avoid POSTing the arguments again which might contain very long text.
         $this->getRegistryService()->set('values', $values);
 
-        $pageUid = null;
-        if ((int)$this->settings['redirectPage'] > 0) {
-            $pageUid = (int)$this->settings['redirectPage'];
+        if ($templateService->hasRedirect() && !$templateService->isDefaultRedirectAction()) {
+            $url = $templateService->getRedirectUrl();
+            HttpUtility::redirect($url);
+        } else {
+            $this->redirect(
+                $templateService->getRedirectAction(),
+                $templateService->getRedirectController(),
+                null,
+                [],
+                $templateService->getRedirectPageUid()
+            );
         }
-        $this->redirect('feedback', 'Form', 'formule', [], $pageUid);
     }
 
     /**
