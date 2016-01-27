@@ -15,6 +15,7 @@ namespace Fab\Formule\Service;
  */
 
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * FlushMessageQueue
@@ -102,7 +103,7 @@ class FlushMessageQueue implements SingletonInterface
      */
     protected function getKey()
     {
-        return 'formule-flush-messages';
+        return 'formule-flush-messages-' . $this->getTemplateService()->getTemplateIdentifier();
     }
 
     /**
@@ -113,6 +114,14 @@ class FlushMessageQueue implements SingletonInterface
     protected function getFrontendUser()
     {
         return $GLOBALS['TSFE']->fe_user;
+    }
+
+    /**
+     * @return TemplateService
+     */
+    protected function getTemplateService()
+    {
+        return GeneralUtility::makeInstance(TemplateService::class);
     }
 
 }

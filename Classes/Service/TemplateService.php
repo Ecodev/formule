@@ -31,6 +31,7 @@ class TemplateService implements SingletonInterface
     const SECTION_FEEDBACK = 'feedback';
     const SECTION_EMAIL_ADMIN = 'emailAdmin';
     const SECTION_EMAIL_USER = 'emailUser';
+
     /**
      * @var int
      */
@@ -380,6 +381,14 @@ class TemplateService implements SingletonInterface
             $this->sections[$sectionName] = $sectionCode;
         }
         return $this->sections[$sectionName];
+    }
+
+    /**
+     * @return int
+     */
+    public function getTemplateIdentifier()
+    {
+        return $this->templateIdentifier;
     }
 
     /**
