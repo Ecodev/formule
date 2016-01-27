@@ -76,6 +76,7 @@ class DataService
         );
 
         $finalValues = $this->processValues($finalValues, ProcessorInterface::UPDATE);
+        unset($finalValues['token'], $finalValues['uid']);
 
         $result = $this->getDatabaseConnection()->exec_UPDATEquery(
             $this->getTemplateService()->getPersistingTable(),
@@ -170,7 +171,11 @@ class DataService
         foreach ($values as $fieldName => $value) {
 
             $resolvedField = $this->resolveField($fieldName);
-            $sanitizedValues[$resolvedField] = $this->getDatabaseConnection()->quoteStr($value, $tableName);
+
+            // Field must exist in the TCA.
+            if (isset($GLOBALS['TCA'][$tableName]['columns'][$resolvedField])) {
+                $sanitizedValues[$resolvedField] = $this->getDatabaseConnection()->quoteStr($value, $tableName);
+            }
         }
 
         return $sanitizedValues;

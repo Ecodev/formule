@@ -8,6 +8,20 @@
 
 	<fo:loadAssets/>
 
+	<fo:loadAssets>
+		<script>
+			$(document).ready(function() {
+				$('#submit-delete').click(function(e) {
+					if (confirm('{f:translate(key: "confirm.delete")}')) {
+						$('#btn-delete').val(1);
+					} else {
+						e.preventDefault();
+					}
+				});
+			});
+		</script>
+	</fo:loadAssets>
+
 	<f:if condition="{values.uid}">
 
 		<f:then>
@@ -76,6 +90,7 @@
 					       class="btn btn-primary pull-right">
 
 					<input type="submit"
+					       id="submit-delete"
 					       value="{f:translate(key:'newsletter.delete')}"
 					       class="btn btn-danger pull-right">
 
@@ -83,6 +98,7 @@
 					<f:form.hidden name="values" value="{contentElement.uid}"/>
 
 					<input type="hidden" name="token" value="{fo:gp(key: 'token')}"/>
+					<input type="hidden" id="btn-delete" name="delete" value="0"/>
 
 					<f:comment><!--Display hint in Development context (optional) --></f:comment>
 					<fo:message.development/>

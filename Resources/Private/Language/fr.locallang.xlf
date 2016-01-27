@@ -185,6 +185,9 @@
 			<trans-unit id="message.create.success">
 				<target>Nous avons correctement enregistré vos données.</target>
 			</trans-unit>
+			<trans-unit id="confirm.delete">
+				<target>Êtes-vous sûr de vouloir supprimer votre compte?</target>
+			</trans-unit>
 			<trans-unit id="newsletter.admin.body1">
 				<target><![CDATA[Hello Admin,
 

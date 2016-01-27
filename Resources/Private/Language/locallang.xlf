@@ -188,6 +188,9 @@
 			<trans-unit id="message.update.success">
 				<source>We have successfully stored your data.</source>
 			</trans-unit>
+			<trans-unit id="confirm.delete">
+				<source>Are you sure you want to delete your account?</source>
+			</trans-unit>
 			<trans-unit id="newsletter.admin.body1">
 				<source><![CDATA[Hello Admin,
 
