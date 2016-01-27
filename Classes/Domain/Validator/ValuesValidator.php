@@ -36,7 +36,7 @@ class ValuesValidator extends AbstractValidator
 
                 $message = LocalizationUtility::translate('error.required', 'formule');
                 $this->getValidationService()->addError($requiredField, $message);
-                $this->addError(sprintf('%s How to retrieve label???', $message), 1452897562);
+                $this->addError(sprintf('%s %s How to retrieve label???', $message, $requiredField), 1452897562);
             }
         }
     }
