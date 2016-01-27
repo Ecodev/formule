@@ -102,10 +102,10 @@ class FormController extends ActionController
         $templateService = $this->getTemplateService($this->settings['template']);
 
         if ($templateService->hasPersistingTable()) {
-            if (empty($values[DataService::RECORD_IDENTIFIER])) {
-                $values = $this->getDataService()->create($values);
-            } else {
+            if ($this->getDataService()->recordExists()) {
                 $values = $this->getDataService()->update($values);
+            } else {
+                $values = $this->getDataService()->create($values);
             }
 
             $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'afterPersistValues', [$values]);

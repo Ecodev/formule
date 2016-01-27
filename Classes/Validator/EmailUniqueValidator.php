@@ -13,6 +13,8 @@ namespace Fab\Formule\Validator;
  *
  * The TYPO3 project - inspiring people to share!
  */
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -27,12 +29,25 @@ class EmailUniqueValidator extends AbstractValidator
      */
     public function validate(array $values)
     {
-
         $messages = [];
 
         $tableName = $this->getTemplateService()->getPersistingTable();
+
         $clause = sprintf('email = "%s"', $this->getDatabaseConnection()->quoteStr($values['email'], $tableName));
-        $clause .= $this->getPageRepository()->enableFields($tableName);
+
+        // true means we are updating the record.
+        $identifierField = $this->getTemplateService()->getIdentifierField();
+        $identifierValue = GeneralUtility::_GP($identifierField);
+
+        if (!empty($identifierValue)) {
+            $clause .= sprintf(
+                ' AND %s != "%s"',
+                $identifierField,
+                $this->getDatabaseConnection()->quoteStr($identifierValue, $tableName)
+            );
+        }
+
+        #$clause .= $this->getPageRepository()->enableFields($tableName);
         $clause .= $this->getPageRepository()->deleteClause($tableName);
         $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', $tableName, $clause);
 

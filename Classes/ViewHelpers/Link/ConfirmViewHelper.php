@@ -15,7 +15,6 @@ namespace Fab\Formule\ViewHelpers\Link;
  */
 
 use Fab\Formule\Service\TemplateService;
-use Fab\Formule\Token\TokenRegistry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -58,13 +57,8 @@ class ConfirmViewHelper extends AbstractViewHelper
         if ($templateService->hasPersistingTable()) {
             $tableName = $templateService->getPersistingTableName();
 
-            $isRegister = TokenRegistry::getInstance()->isRegistered($tableName);
-
-            if ($isRegister) {
-                $tokenField = TokenRegistry::getInstance()->getTokenField($tableName);
-                if (!empty($values[$tokenField])) {
-                    $arguments[$tokenField] = $values[$tokenField];
-                }
+            if (!empty($values['token'])) {
+                $arguments['token'] = $values['token'];
             }
         }
 

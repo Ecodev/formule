@@ -24,8 +24,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class DataService
 {
 
-    const RECORD_IDENTIFIER = 'uid';
-
     /**
      * DataService constructor.
      *
@@ -60,7 +58,7 @@ class DataService
             ]);
         }
 
-        $finalValues[DataService::RECORD_IDENTIFIER] = $this->getDatabaseConnection()->sql_insert_id();
+        $finalValues['uid'] = $this->getDatabaseConnection()->sql_insert_id();
         return $finalValues;
     }
 
@@ -70,29 +68,27 @@ class DataService
      */
     public function update(array $values)
     {
-        $finalValues = $values;
 
-        $identifier = (int)DataService::RECORD_IDENTIFIER;
-        if ($this->recordExists($identifier)) {
+        // Finalize values
+        $finalValues = array_merge(
+            $this->getSanitizedValues($values),
+            $this->getTimeStamp()
+        );
 
-            // Finalize values
-            $finalValues = array_merge(
-                $this->getSanitizedValues($values),
-                $this->getTimeStamp()
-            );
+        $finalValues = $this->processValues($finalValues, ProcessorInterface::UPDATE);
 
-            $finalValues = $this->processValues($finalValues, ProcessorInterface::UPDATE);
+        $result = $this->getDatabaseConnection()->exec_UPDATEquery(
+            $this->getTemplateService()->getPersistingTable(),
+            $this->getClause(),
+            $finalValues
+        );
 
-            $clause = DataService::RECORD_IDENTIFIER . ' = ' . $identifier;
-            $result = $this->getDatabaseConnection()->exec_UPDATEquery($this->getTemplateService()->getPersistingTable(), $clause, $finalValues);
-
-            if (!$result) {
-                $this->getLogger()->error('Formule: I could not update ' . $this->getTemplateService()->getPersistingTable() . ':' . $identifier, [
-                    $result = $this->getDatabaseConnection()->UPDATEquery($this->getTemplateService()->getPersistingTable(), $clause, $finalValues)
-                ]);
-            }
-
+        if (!$result) {
+            $this->getLogger()->error('Formule: I could not update ' . $this->getTemplateService()->getPersistingTable() . ':' . $this->getTemplateService()->getIdentifierField(), [
+                $result = $this->getDatabaseConnection()->UPDATEquery($this->getTemplateService()->getPersistingTable(), $clause, $finalValues)
+            ]);
         }
+
         return $finalValues;
     }
 
@@ -115,16 +111,52 @@ class DataService
     }
 
     /**
-     * @param int $identifier
      * @return bool
      */
-    protected function recordExists($identifier)
+    public function recordExists()
     {
-        $tableName = $this->getTemplateService()->getPersistingTable();
-        $clause = DataService::RECORD_IDENTIFIER . ' = ' . $identifier;
-        $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', $tableName, $clause);
+        $record = [];
+
+        if ($this->hasIdentifierValue()) {
+
+            $tableName = $this->getTemplateService()->getPersistingTable();
+
+            $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', $tableName, $this->getClause());
+        }
 
         return !empty($record);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getClause()
+    {
+        $tableName = $this->getTemplateService()->getPersistingTable();
+        $clause = sprintf(
+            '%s = "%s"',
+            $this->getTemplateService()->getIdentifierField(),
+            $this->getDatabaseConnection()->quoteStr($this->getIdentifierValue(), $tableName)
+        );
+        $clause .= $this->getPageRepository()->deleteClause($tableName);
+        return $clause;
+    }
+
+    /**
+     * @return string
+     */
+    protected function hasIdentifierValue()
+    {
+        return (bool)$this->getIdentifierValue();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getIdentifierValue()
+    {
+        $identifierField = $this->getTemplateService()->getIdentifierField();
+        return (string)GeneralUtility::_GP($identifierField);
     }
 
     /**
@@ -221,4 +253,13 @@ class DataService
         return $loggerManager->getLogger(get_class($this));
     }
 
+    /**
+     * Returns an instance of the page repository.
+     *
+     * @return \TYPO3\CMS\Frontend\Page\PageRepository
+     */
+    protected function getPageRepository()
+    {
+        return $GLOBALS['TSFE']->sys_page;
+    }
 }

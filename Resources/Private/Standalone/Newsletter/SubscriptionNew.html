@@ -15,7 +15,9 @@
 				<f:translate key="newsletter.form"/>
 			</h3>
 
-			<f:render section="FormError" partial="Form/Error" arguments="{_all}"/>
+			<f:if condition="{fo:context.isDevelopment()}">
+				<f:render section="FormError" partial="Form/Error" arguments="{_all}"/>
+			</f:if>
 
 			<div class="form-group {fo:hasError(field: 'first_name')}">
 				<input type="text"
@@ -64,18 +66,22 @@
 </f:section>
 
 <f:section name="emailAdmin">
-<f:translate key="newsletter.admin.body1" arguments="{0: '{f:translate(key: \'link\') -> fo:link.backend()}'}"/>
+<f:translate key="newsletter.admin.body1"
+             arguments="{0: '{f:translate(key: \'link\') -> fo:link.backend()}'}"
+             extensionName="formule"/>
 
 <fo:form.show labelsIn="formule"/>
 </f:section>
 
 <f:section name="emailUser">
-<f:translate key="newsletter.user.body1" arguments="{0: '{f:translate(key: \'link\') -> fo:link.confirm(pageUid: 350)}'}"/>
+<f:translate key="newsletter.user.body1"
+             arguments="{0: '{f:translate(key: \'link\') -> fo:link.confirm(pageUid: 350)}'}"
+             extensionName="formule"/>
 </f:section>
 
 <f:section name="feedback">
 	<p>
-		<f:translate key="message.feedback"/>
+		<f:translate key="message.feedback" extensionName="formule"/>
 	</p>
 
 	<fo:form.show labelsIn="formule"/>

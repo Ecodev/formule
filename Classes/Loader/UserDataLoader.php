@@ -13,6 +13,7 @@ namespace Fab\Formule\Loader;
  *
  * The TYPO3 project - inspiring people to share!
  */
+
 use Fab\Formule\Service\TemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 

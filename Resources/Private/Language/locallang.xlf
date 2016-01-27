@@ -149,6 +149,9 @@
 			<trans-unit id="submit">
 				<source>Submit Form</source>
 			</trans-unit>
+			<trans-unit id="is_newsletter_active">
+				<source>Receive newsletter?</source>
+			</trans-unit>
 
 			<!-- Frontend contact form -->
 			<trans-unit id="contact.form">

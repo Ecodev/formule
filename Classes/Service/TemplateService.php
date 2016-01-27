@@ -109,6 +109,16 @@ class TemplateService implements SingletonInterface
     /**
      * @return bool
      */
+    public function getIdentifierField()
+    {
+        $persist = $this->get('persist');
+        $identfierField = is_array($persist) && empty($persist['token']) ? 'token' : $persist['token'];
+        return $identfierField;
+    }
+
+    /**
+     * @return bool
+     */
     public function hasPersistingTable()
     {
         return $this->getPersistingTable() !== '';

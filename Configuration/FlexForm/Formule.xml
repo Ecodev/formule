@@ -110,7 +110,7 @@
 								<type>input</type>
 								<eval>text</eval>
 								<size>50</size>
-								<default>email</default>
+								<placeholder>email</placeholder>
 							</config>
 						</TCEforms>
 					</settings.emailUserTo>

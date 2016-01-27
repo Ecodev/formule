@@ -44,7 +44,9 @@
 				<f:translate key="contact.form"/>
 			</h3>
 
-			<f:render section="FormError" partial="Form/Error" arguments="{_all}"/>
+			<f:if condition="{fo:context.isDevelopment()}">
+				<f:render section="FormError" partial="Form/Error" arguments="{_all}"/>
+			</f:if>
 
 			<div class="form-group {fo:hasError(field: 'name')}">
 				<input type="text"

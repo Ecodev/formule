@@ -51,6 +51,7 @@ plugin.tx_formule {
                 # Persist configuration
                 persist {
                     tableName = fe_users
+                    identifierField = token
 
                     defaultValues {
                         pid = 1
