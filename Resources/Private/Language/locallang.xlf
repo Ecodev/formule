@@ -175,7 +175,7 @@
 				<source>Register</source>
 			</trans-unit>
 			<trans-unit id="newsletter.update">
-				<source>Update</source>
+				<source>Update my subscription</source>
 			</trans-unit>
 			<trans-unit id="newsletter.delete">
 				<source>Delete my subscription</source>

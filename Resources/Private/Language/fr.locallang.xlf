@@ -172,7 +172,7 @@
 				<target>S'inscrire</target>
 			</trans-unit>
 			<trans-unit id="newsletter.update">
-				<target>Modifier</target>
+				<target>Modifier mon inscription</target>
 			</trans-unit>
 			<trans-unit id="newsletter.delete">
 				<target>Supprimer mon inscription</target>
