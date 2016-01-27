@@ -67,7 +67,12 @@
 
 <f:section name="emailAdmin">
 <f:translate key="newsletter.admin.body1"
-             arguments="{0: '{f:translate(key: \'link\') -> fo:link.backend()}'}"
+             arguments="{
+             0: '{HTTP_HOST}',
+             1: '{email}',
+             2: '{f:translate(key: \'link\') -> fo:link.backend()}',
+             3: '{last_name}'
+             }"
              extensionName="formule"/>
 
 <fo:form.show labelsIn="formule"/>
@@ -75,7 +80,11 @@
 
 <f:section name="emailUser">
 <f:translate key="newsletter.user.body1"
-             arguments="{0: '{f:translate(key: \'link\') -> fo:link.confirm(pageUid: 350)}'}"
+             arguments="{
+             0: '{first_name}',
+             1: '{last_name}',
+             2: '{f:translate(key: \'link\') -> fo:link.confirm(pageUid: 350)}'
+             }"
              extensionName="formule"/>
 </f:section>
 

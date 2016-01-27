@@ -194,14 +194,14 @@
 			<trans-unit id="newsletter.admin.body1">
 				<source><![CDATA[Hello Admin,
 
-A user filled out the newsletter subscription form on {HTTP_POST} by {email}.
+A user filled out the newsletter subscription form on %s by %s.
 
 An email has been sent to him to confirm his email address.
 
-To see see this user click %s and search for "{last_name}".]]></source>
+To see see this user click %s and search for "%s".]]></source>
 			</trans-unit>
 			<trans-unit id="newsletter.user.body1">
-				<source><![CDATA[{first_name} {last_name},
+				<source><![CDATA[%s %s,
 
 We have received your request via our subscription form. Please confirm your email address by clicking %s.
 

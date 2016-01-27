@@ -191,14 +191,14 @@
 			<trans-unit id="newsletter.admin.body1">
 				<target><![CDATA[Hello Admin,
 
-Un visiteur a rempli le formulaire d'inscription à la newsletter depuis {HTTP_POST} avec {email}.
+Un visiteur a rempli le formulaire d'inscription à la newsletter depuis %s avec %s.
 
 An email lui a été envoyé pour confirmation de son email adresse.
 
-Pour retrouver son contact, veuillez cliquer sur %s et chercher "{last_name}" comme occurrence.]]></target>
+Pour retrouver son contact, veuillez cliquer sur %s et chercher "%s" comme occurrence.]]></target>
 			</trans-unit>
 			<trans-unit id="newsletter.user.body1">
-				<target><![CDATA[{first_name} {last_name},
+				<target><![CDATA[%s %s,
 
 Nous avons reçu votre inscription à notre newsletter via le formulaire de notre site. Veuillez confirmer votre adresse email en cliquant %s.
 
