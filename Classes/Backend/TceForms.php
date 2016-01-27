@@ -117,9 +117,7 @@ class TceForms
 
             if (empty($body)) {
                 if (empty($parameters['itemFormElValue'])) {
-                    $value = 'Dear {name},
-
-Thank you for your message. We will process your request and get in contact with you soon.
+                    $value = 'Thank you for your message. We will process your request and get in contact with you soon.
 
 If this field is let blank section "feedback" of the template will be rendered instead!
 
@@ -172,7 +170,7 @@ If this field is let blank section "feedback" of the template will be rendered i
 
             if (empty($body)) {
                 if (empty($parameters['itemFormElValue'])) {
-                    $value = 'Dear {name},
+                    $value = '{name},
 
 We have received your request via the contact form on {HTTP_HOST}. We will process your request and get in contact with you soon.
 
