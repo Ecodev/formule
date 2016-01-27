@@ -132,7 +132,7 @@ return array(
                 'width' => '50%',
             ],
             'sent_time' => [
-                'format' => \Fab\Vidi\Formatter\DateTime::class,
+                'format' => \Fab\Vidi\Formatter\Datetime::class,
             ],
             '__buttons' => array(
                 'renderer' => version_compare(TYPO3_branch, '7.0', '<') ?
