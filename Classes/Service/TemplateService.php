@@ -189,7 +189,7 @@ class TemplateService implements SingletonInterface
     public function getRedirectController()
     {
         $redirect = $this->get('redirect');
-        return is_array($redirect) && !empty($redirect['controller']) ? $redirect['controller'] : 'Formule';
+        return is_array($redirect) && !empty($redirect['controller']) ? $redirect['controller'] : 'Form';
     }
 
     /**
