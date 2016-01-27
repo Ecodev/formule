@@ -179,8 +179,11 @@
 			</trans-unit>
 
 			<!-- Frontend message -->
-			<trans-unit id="message.success">
-				<target>Merci. Vos réglages ont été correctement enregistrés.</target>
+			<trans-unit id="message.update.success">
+				<target>Vos réglages ont été correctement enregistrés.</target>
+			</trans-unit>
+			<trans-unit id="message.create.success">
+				<target>Nous avons correctement enregistré vos données.</target>
 			</trans-unit>
 			<trans-unit id="newsletter.admin.body1">
 				<target><![CDATA[Hello Admin,

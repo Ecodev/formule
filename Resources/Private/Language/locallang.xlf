@@ -107,10 +107,10 @@
 				<source>Mapping maybe necessary.</source>
 			</trans-unit>
 			<trans-unit id="template.body">
-				<source>Body is configured in the template</source>
+				<source>Body already is configured in the template</source>
 			</trans-unit>
 			<trans-unit id="template.message">
-				<source>Message is configured in the template</source>
+				<source>Message is already configured in the template</source>
 			</trans-unit>
 			<trans-unit id="token">
 				<source>Token</source>
@@ -182,8 +182,11 @@
 			</trans-unit>
 
 			<!-- Frontend message -->
-			<trans-unit id="message.success">
-				<source>Thank you. Your settings have been successfully updated.</source>
+			<trans-unit id="message.update.success">
+				<source>Your settings have been successfully updated.</source>
+			</trans-unit>
+			<trans-unit id="message.update.success">
+				<source>We have successfully stored your data.</source>
 			</trans-unit>
 			<trans-unit id="newsletter.admin.body1">
 				<source><![CDATA[Hello Admin,

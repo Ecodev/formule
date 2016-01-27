@@ -16,6 +16,7 @@ namespace Fab\Formule\Controller;
 
 use Fab\Formule\Service\ArgumentService;
 use Fab\Formule\Service\DataService;
+use Fab\Formule\Service\FlushMessageQueue;
 use Fab\Formule\Service\MessageService;
 use Fab\Formule\Service\RegistryService;
 use Fab\Formule\Service\TemplateService;
@@ -105,8 +106,12 @@ class FormController extends ActionController
         if ($templateService->hasPersistingTable()) {
             if ($this->getDataService()->recordExists()) {
                 $values = $this->getDataService()->update($values);
+                $label = 'LLL:EXT:formule/Resources/Private/Language/locallang.xlf:message.update.success';
+                $this->getFlushMessageQueue()->success($label);
             } else {
                 $values = $this->getDataService()->create($values);
+                $label = 'LLL:EXT:formule/Resources/Private/Language/locallang.xlf:message.create.success';
+                $this->getFlushMessageQueue()->success($label);
             }
 
             $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'afterPersistValues', [$values]);
@@ -230,6 +235,14 @@ class FormController extends ActionController
     protected function getDataService()
     {
         return GeneralUtility::makeInstance(DataService::class, $this->settings['template']);
+    }
+
+    /**
+     * @return FlushMessageQueue
+     */
+    protected function getFlushMessageQueue()
+    {
+        return GeneralUtility::makeInstance(FlushMessageQueue::class);
     }
 
 }

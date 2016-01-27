@@ -1,0 +1,20 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"
+      xmlns:fo="http://typo3.org/ns/Fab/Formule/ViewHelpers">
+
+<f:section name="FlushMessage">
+
+	<f:for each="{fo:flushMessages()}" as="message">
+		<div class="alert alert-{message.severity}" role="alert">
+			<f:if condition="{f:translate(key: '{message.text}')}">
+				<f:then>
+					<f:translate key="{message.text}"/>
+				</f:then>
+				<f:else>
+					{message.text}
+				</f:else>
+			</f:if>
+		</div>
+	</f:for>
+
+</f:section>
+</html>

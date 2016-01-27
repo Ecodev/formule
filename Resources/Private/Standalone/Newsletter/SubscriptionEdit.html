@@ -22,9 +22,7 @@
 						<f:render section="FormError" partial="Form/Error" arguments="{_all}"/>
 					</f:if>
 
-					<div class="alert alert-success" role="alert">
-						TODO: Thank you! Your email address has been confirmed.
-					</div>
+					<f:render section="FlushMessage" partial="FlushMessage" arguments="{_all}"/>
 
 					<div class="form-group {fo:hasError(field: 'first_name')}">
 						<input type="text"
@@ -101,7 +99,7 @@
 
 <f:section name="feedback">
 	<p class="success">
-		<f:translate key="message.success"/>
+		<f:translate key="message.update.success"/>
 	</p>
 
 	<fo:form.show labelsIn="formule"/>

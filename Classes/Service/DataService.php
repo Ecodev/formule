@@ -262,4 +262,5 @@ class DataService
     {
         return $GLOBALS['TSFE']->sys_page;
     }
+
 }
