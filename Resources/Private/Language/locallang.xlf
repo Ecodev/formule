@@ -168,9 +168,6 @@
 			</trans-unit>
 
 			<!-- Frontend newsletter -->
-			<trans-unit id="newsletter.form">
-				<source>Sign up for updates</source>
-			</trans-unit>
 			<trans-unit id="newsletter.register">
 				<source>Register</source>
 			</trans-unit>

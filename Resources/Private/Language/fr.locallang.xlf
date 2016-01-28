@@ -165,9 +165,6 @@
 			</trans-unit>
 
 			<!-- Frontend newsletter -->
-			<trans-unit id="newsletter.form">
-				<target>Inscription à la newsletter</target>
-			</trans-unit>
 			<trans-unit id="newsletter.register">
 				<target>S'inscrire</target>
 			</trans-unit>

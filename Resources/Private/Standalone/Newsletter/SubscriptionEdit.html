@@ -28,9 +28,6 @@
 
 			<div class="form-area">
 				<f:form action="submit" controller="Form" additionalAttributes="{role: 'form'}" method="post">
-					<h3>
-						<f:translate key="newsletter.form"/>
-					</h3>
 
 					<f:if condition="{fo:context.isDevelopment()}">
 						<f:render section="FormError" partial="Form/Error" arguments="{_all}"/>
