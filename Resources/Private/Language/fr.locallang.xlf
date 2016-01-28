@@ -147,7 +147,7 @@
 				<target>Envoyer</target>
 			</trans-unit>
 			<trans-unit id="is_newsletter_active">
-				<source>Recevoir la newsletter?</source>
+				<target>Recevoir la newsletter?</target>
 			</trans-unit>
 
 			<!-- Frontend contact form -->
