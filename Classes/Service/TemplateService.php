@@ -384,6 +384,18 @@ class TemplateService implements SingletonInterface
     }
 
     /**
+     * @return mixed|null
+     */
+    public function getVariable($name)
+    {
+        if (strpos($name, 'variable.') !== false) {
+            $name = str_replace('variable.', '', $name); // strip first segment.
+        }
+        $variable = $this->get('variable');
+        return is_array($variable) && isset($variable[$name]) ? $variable[$name] : null;
+    }
+
+    /**
      * @return int
      */
     public function getTemplateIdentifier()

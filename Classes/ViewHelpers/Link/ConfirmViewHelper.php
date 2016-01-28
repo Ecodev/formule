@@ -26,14 +26,16 @@ class ConfirmViewHelper extends AbstractViewHelper
 {
 
     /**
-     * @param int $pageUid
+     * @param string|int $pageUid
      * @return string
      */
     public function render($pageUid)
     {
 
+        // Render inner content
         $content = $this->renderChildren();
 
+        $pageUid = $this->resolvePageUid($pageUid);
         if ($content) {
             $link = sprintf('<a href="%s">%s</a>', $this->getUrl($pageUid), $content);
         } else {
@@ -41,7 +43,21 @@ class ConfirmViewHelper extends AbstractViewHelper
         }
 
         return $link;
+    }
 
+    /**
+     * @param string|int $pageUid
+     * @return int
+     */
+    protected function resolvePageUid($pageUid)
+    {
+        $resolvedPageUid = $this->getTemplateService()->getVariable($pageUid);
+
+        if (empty($resolvedPageUid)) {
+            $resolvedPageUid = $pageUid;
+        }
+
+        return $resolvedPageUid;
     }
 
     /**
@@ -51,10 +67,8 @@ class ConfirmViewHelper extends AbstractViewHelper
     protected function getUrl($pageUid)
     {
         $arguments = [];
-        $values = $this->templateVariableContainer->getAll();
-        $templateService = $this->getTemplateService($values['templateIdentifier']);
 
-        if ($templateService->hasPersistingTable() && !empty($values['token'])) {
+        if ($this->getTemplateService()->hasPersistingTable() && !empty($values['token'])) {
             $arguments['token'] = $values['token'];
         }
 
@@ -72,9 +86,11 @@ class ConfirmViewHelper extends AbstractViewHelper
      * @param int $templateIdentifier
      * @return TemplateService
      */
-    protected function getTemplateService($templateIdentifier)
+    protected function getTemplateService()
     {
-        return GeneralUtility::makeInstance(TemplateService::class, $templateIdentifier);
+
+        $values = $this->templateVariableContainer->getAll();
+        return GeneralUtility::makeInstance(TemplateService::class, $values['templateIdentifier']);
     }
 
     /**

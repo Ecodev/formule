@@ -8,12 +8,8 @@
 
 	<fo:loadAssets/>
 
-
 	<div class="form-area">
 		<f:form action="submit" controller="Form" additionalAttributes="{role: 'form'}" method="post">
-			<h3>
-				<f:translate key="newsletter.form"/>
-			</h3>
 
 			<f:if condition="{fo:context.isDevelopment()}">
 				<f:render section="FormError" partial="Form/Error" arguments="{_all}"/>
@@ -83,7 +79,7 @@
              arguments="{
              0: '{first_name}',
              1: '{last_name}',
-             2: '{f:translate(key: \'link\') -> fo:link.confirm(pageUid: 350)}'
+             2: '{f:translate(key: \'link\') -> fo:link.confirm(pageUid: \'variable.preferencesPageUid\')}'
              }"
              extensionName="formule"/>
 </f:section>

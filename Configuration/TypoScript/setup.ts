@@ -48,6 +48,11 @@ plugin.tx_formule {
                     1 = Fab\Formule\Validator\EmailFormatValidator
                 }
 
+                # Variable to be used across the template.
+                variable {
+                    preferencesPageUid = 1
+                }
+
                 # Persist configuration
                 persist {
                     tableName = fe_users
