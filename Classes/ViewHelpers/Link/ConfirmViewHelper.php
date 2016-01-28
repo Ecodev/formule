@@ -68,6 +68,7 @@ class ConfirmViewHelper extends AbstractViewHelper
     {
         $arguments = [];
 
+        $values = $this->templateVariableContainer->getAll();
         if ($this->getTemplateService()->hasPersistingTable() && !empty($values['token'])) {
             $arguments['token'] = $values['token'];
         }
