@@ -44,10 +44,10 @@ class FormController extends ActionController
             $message = '<strong style="color: red">Please select a template in formule!</strong>';
         } else {
 
-            $values = $this->getArgumentService()->getValues();
-
             // Check the template path according to the Plugin settings.
-            $templateService = $this->getTemplateService($this->settings['template']);
+            $templateService = $this->getTemplateService();
+
+            $values = $this->getArgumentService()->getValues();
 
             // Possible loaders
             foreach ($templateService->getLoaders() as $className) {
@@ -97,11 +97,12 @@ class FormController extends ActionController
      */
     public function submitAction(array $values = [])
     {
+
         $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'beforeProcessValues', [$values]);
         $values = $signalResult[0];
 
         // Check the template path according to the Plugin settings.
-        $templateService = $this->getTemplateService($this->settings['template']);
+        $templateService = $this->getTemplateService();
 
         if ($templateService->hasPersistingTable()) {
             if ($this->getDataService()->recordExists()) {
@@ -169,7 +170,7 @@ class FormController extends ActionController
         $view = $this->objectManager->get(StandaloneView::class);
         $view->assignMultiple($values);
 
-        $templateService = $this->getTemplateService($this->settings['template']);
+        $templateService = $this->getTemplateService();
         $body = $templateService->getSection(TemplateService::SECTION_FEEDBACK);
 
         if (empty($body)) {
@@ -196,12 +197,11 @@ class FormController extends ActionController
     }
 
     /**
-     * @param int $templateIdentifier
      * @return TemplateService
      */
-    protected function getTemplateService($templateIdentifier)
+    protected function getTemplateService()
     {
-        return GeneralUtility::makeInstance(TemplateService::class, $templateIdentifier);
+        return GeneralUtility::makeInstance(TemplateService::class, $this->settings['template'], $this->settings);
     }
 
     /**

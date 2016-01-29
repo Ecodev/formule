@@ -202,7 +202,7 @@ Wir haben Ihre Anmeldung für unseren Newsletter über das Formular der Website 
 Wenn Sie denken, dass sie dieses Mail irrtümlicherweise erhalten haben, so löschen Sie bitte diese Mitteilung.]]></target>
 			</trans-unit>
 			<trans-unit id="link">
-				<target>ce lien</target>
+				<target>dieses Link</target>
 			</trans-unit>
 			<trans-unit id="message.feedback">
 				<target>Herzlichen Dank. Wir haben Ihre Anmeldung erhalten und Ihnen ein E-mail geschickt mit einem Link um Ihre Adresse zu überprüfen.</target>

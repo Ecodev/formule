@@ -48,6 +48,11 @@ class TemplateService implements SingletonInterface
     protected $namespaces;
 
     /**
+     * @var array
+     */
+    protected $settings;
+
+    /**
      * @var string
      */
     static public $SCAN_PATTERN_NAMESPACEDECLARATION = '/(?<!\\\\){namespace\\s*(?P<identifier>[a-zA-Z]+[a-zA-Z0-9]*)\\s*=\\s*(?P<phpNamespace>(?:[A-Za-z0-9\.]+|Tx)(?:LEGACY_NAMESPACE_SEPARATOR\\w+|FLUID_NAMESPACE_SEPARATOR\\w+)+)\\s*}/m';
@@ -67,10 +72,12 @@ class TemplateService implements SingletonInterface
      * Constructor.
      *
      * @param int $templateIdentifier
+     * @param array $settings
      */
-    public function __construct($templateIdentifier)
+    public function __construct($templateIdentifier = 0, $settings = [])
     {
         $this->templateIdentifier = (int)$templateIdentifier;
+        $this->settings = $settings;
     }
 
     /**
@@ -217,13 +224,26 @@ class TemplateService implements SingletonInterface
     /**
      * @return array
      */
+    public function getSettings()
+    {
+        if (empty($this->settings)) {
+            $settings = $this->getTypoScriptService()->getSettings();
+        } else {
+            $settings = $this->settings;
+        }
+        return $settings;
+    }
+
+    /**
+     * @return array
+     */
     public function getMappings()
     {
         $persist = $this->get('persist');
 
         $mappings = is_array($persist) && empty($persist['mappings']) ? [] : $persist['mappings'];
 
-        $ts = $this->getTypoScriptService()->getSettings();
+        $ts = $this->getSettings();
         $tableName = $this->getPersistingTableName();
 
         if (isset($ts['defaultMappings'][$tableName])) {
@@ -303,7 +323,7 @@ class TemplateService implements SingletonInterface
      */
     public function get($key)
     {
-        $ts = $this->getTypoScriptService()->getSettings();
+        $ts = $this->getSettings();
 
         if (empty($ts['templates'][$this->templateIdentifier])) {
             $message = 'Formule: I could not find a template for the give key "' . $this->templateIdentifier . '"';
