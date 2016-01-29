@@ -4,6 +4,226 @@
 	      product-name="formule">
 		<header/>
 		<body>
+			<!-- Wizard -->
+			<trans-unit id="wizard.title">
+				<target>Art des Formulars</target>
+			</trans-unit>
+			<trans-unit id="wizard.description">
+				<target>Zeigt verschiedene Arten von Formularen wie Kontaktformular usw, Anmaldung für Newsletter usw.</target>
+			</trans-unit>
+
+			<!-- Tabs -->
+			<trans-unit id="tab.general">
+				<target>Allgemein</target>
+			</trans-unit>
+			<trans-unit id="tab.emailAdmin">
+				<target>E-mail Admin</target>
+			</trans-unit>
+			<trans-unit id="tab.emailUser">
+				<target>E-mail Benutzer</target>
+			</trans-unit>
+			<trans-unit id="tab.feedback">
+				<target>Rückmeldung</target>
+			</trans-unit>
+			<trans-unit id="tab.sender">
+				<target>Absender</target>
+			</trans-unit>
+
+			<!-- Settings -->
+			<trans-unit id="settings.template">
+				<target>verwendetes Template </target>
+			</trans-unit>
+			<trans-unit id="settings.redirectPid">
+				<target>Umleitungsseite nach der Eingabe</target>
+			</trans-unit>
+			<trans-unit id="settings.summary">
+				<target>Zusammenfassung</target>
+			</trans-unit>
+			<trans-unit id="settings.emailRecipient">
+				<target>E-mail Empfänger (wenn das Feld leer ist, wird kein E-mail verschickt)</target>
+			</trans-unit>
+			<trans-unit id="settings.nameFrom">
+				<target>Name Absender</target>
+			</trans-unit>
+			<trans-unit id="settings.emailFrom">
+				<target>E-mail Empfänger</target>
+			</trans-unit>
+			<trans-unit id="settings.emailCc">
+				<target>E-mail CC</target>
+			</trans-unit>
+			<trans-unit id="settings.emailBcc">
+				<target>E-mail BCC</target>
+			</trans-unit>
+			<trans-unit id="settings.emailSubject">
+				<target>E-mail Subjekt</target>
+			</trans-unit>
+			<trans-unit id="settings.emailBody">
+				<target>E-mail Mitteilung</target>
+			</trans-unit>
+			<trans-unit id="settings.feedbackMessage">
+				<target>Rückmeldung</target>
+			</trans-unit>
+
+			<!-- Custom field "summary" -->
+			<trans-unit id="summary.template.used">
+				<target>verwendetes Template</target>
+			</trans-unit>
+			<trans-unit id="summary.fields">
+				<target>ermitteltes Feld</target>
+			</trans-unit>
+			<trans-unit id="summary.mandatory.fields">
+				<target>obligatorisches Feld</target>
+			</trans-unit>
+			<trans-unit id="summary.spam.protection">
+				<target>Schutz gegen Spam</target>
+			</trans-unit>
+			<trans-unit id="summary.persisted.data">
+				<target>Verbleibende Daten</target>
+			</trans-unit>
+			<trans-unit id="summary.persisted.to">
+				<target>verbleibend in</target>
+			</trans-unit>
+			<trans-unit id="summary.yes">
+				<target>Ja</target>
+			</trans-unit>
+			<trans-unit id="summary.no">
+				<target>Nein</target>
+			</trans-unit>
+			<trans-unit id="summary.missing.template">
+				<target>Kein Template ausgewählt</target>
+			</trans-unit>
+
+			<!-- Custom field "warning" -->
+			<trans-unit id="warning">
+				<target>Warnung</target>
+			</trans-unit>
+			<trans-unit id="warning.missing.tca">
+				<target>TCA für Tabelle fehlt </target>
+			</trans-unit>
+			<trans-unit id="warning.missing.field">
+				<target>TCA Konfiguration fehlt für</target>
+			</trans-unit>
+			<trans-unit id="warning.mapping.necessary">
+				<target>Mapping wahrscheinlich notwendig.</target>
+			</trans-unit>
+			<trans-unit id="template.body">
+				<target>Der Der Textkörper ist konfiguriert im Template</target>
+			</trans-unit>
+			<trans-unit id="template.message">
+				<target>Die Mitteilung ist konfiguriert im Template</target>
+			</trans-unit>
+
+			<!--TypoScript -->
+			<trans-unit id="newsletter.new">
+				<target>Newsletter, neue Eintragung</target>
+			</trans-unit>
+			<trans-unit id="newsletter.edit">
+				<target>Newsletter Eintragung bearbeiten</target>
+			</trans-unit>
+
+			<!-- Frontend fields -->
+			<trans-unit id="name">
+				<target>Name</target>
+			</trans-unit>
+			<trans-unit id="email">
+				<target>E-mail</target>
+			</trans-unit>
+			<trans-unit id="mobile">
+				<target>Handy Nummer </target>
+			</trans-unit>
+			<trans-unit id="subject">
+				<target>Subjekt</target>
+			</trans-unit>
+			<trans-unit id="message">
+				<target>Mitteilung</target>
+			</trans-unit>
+			<trans-unit id="first_name">
+				<target>Vorname</target>
+			</trans-unit>
+			<trans-unit id="last_name">
+				<target>Name</target>
+			</trans-unit>
+			<trans-unit id="submit">
+				<target>Senden</target>
+			</trans-unit>
+			<trans-unit id="is_newsletter_active">
+				<target>Newsletter erhalten?</target>
+			</trans-unit>
+
+			<!-- Frontend contact form -->
+			<trans-unit id="contact.form">
+				<target>Kontaktformular</target>
+			</trans-unit>
+			<trans-unit id="contact.limit.met">
+				<target>Die Limite ist erreicht</target>
+			</trans-unit>
+			<trans-unit id="contact.limit.total.characters">
+				<target>Noch 140 Zeichen.</target>
+			</trans-unit>
+			<trans-unit id="contact.limit.characters">
+				<target>Zeichen sind noch möglich.</target>
+			</trans-unit>
+
+			<!-- Frontend newsletter -->
+			<trans-unit id="newsletter.register">
+				<target>Anmeldung</target>
+			</trans-unit>
+			<trans-unit id="newsletter.update">
+				<target>Meine Eintragung ändern</target>
+			</trans-unit>
+			<trans-unit id="newsletter.delete">
+				<target>Meine Eintragung löschen</target>
+			</trans-unit>
+
+			<!-- Frontend message -->
+			<trans-unit id="message.update.success">
+				<target>Ihre Einstellungen wurden gespeichert.</target>
+			</trans-unit>
+			<trans-unit id="message.create.success">
+				<target>Wir haben ihre Angaben registriert.</target>
+			</trans-unit>
+			<trans-unit id="confirm.delete">
+				<target>Sind sie sicher, dass sie ihr Konto löschen wollen ?</target>
+			</trans-unit>
+			<trans-unit id="newsletter.admin.body1">
+				<target><![CDATA[Hello Admin,
+
+Ein Besucher hat das Anmeldeformular für den Newsletter ausgefüllt über %s mit %s.
+
+Ein E-mail zur Bestätigung seiner E-mail Adresse wurde verschickt.
+
+Um den Kontakt zu finden auf %s klicken und "%s" suchen.]]></target>
+			</trans-unit>
+			<trans-unit id="newsletter.user.body1">
+				<target><![CDATA[%s %s,
+
+Wir haben Ihre Anmeldung für unseren Newsletter über das Formular der Website von ATD Vierte Welt erhalten. Bestätigen Sie bitte Ihre E-mail Adresse indem sie auf %s klicken.
+
+Wenn Sie denken, dass sie dieses Mail irrtümlicherweise erhalten haben, so löschen Sie bitte diese Mitteilung.]]></target>
+			</trans-unit>
+			<trans-unit id="link">
+				<target>ce lien</target>
+			</trans-unit>
+			<trans-unit id="message.feedback">
+				<target>Herzlichen Dank. Wir haben Ihre Anmeldung erhalten und Ihnen ein E-mail geschickt mit einem Link um Ihre Adresse zu überprüfen.</target>
+			</trans-unit>
+
+			<!-- Frontend error -->
+			<trans-unit id="error.occurred">
+				<target>Folgende Fehler sind aufgetreten: </target>
+			</trans-unit>
+			<trans-unit id="error.required">
+				<target>Obligatorisches Feld.</target>
+			</trans-unit>
+			<trans-unit id="error.email.unique">
+				<target>Diese E-mail Adresse ist schon registriert. Wählen Sie bitte eine andere.</target>
+			</trans-unit>
+			<trans-unit id="error.email.format">
+				<target>Ungültiges E-Mail Format.</target>
+			</trans-unit>
+			<trans-unit id="token.invalid">
+				<target>Unmöglich die Informationen zu laden.</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
