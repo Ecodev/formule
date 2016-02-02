@@ -201,7 +201,7 @@ class FormController extends ActionController
      */
     protected function getTemplateService()
     {
-        return GeneralUtility::makeInstance(TemplateService::class, $this->settings['template'], $this->settings);
+        return GeneralUtility::makeInstance(TemplateService::class, $this->settings['template']);
     }
 
     /**

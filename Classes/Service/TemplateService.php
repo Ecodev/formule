@@ -72,12 +72,10 @@ class TemplateService implements SingletonInterface
      * Constructor.
      *
      * @param int $templateIdentifier
-     * @param array $settings
      */
-    public function __construct($templateIdentifier = 0, $settings = [])
+    public function __construct($templateIdentifier = 0)
     {
         $this->templateIdentifier = (int)$templateIdentifier;
-        $this->settings = $settings;
     }
 
     /**
@@ -224,26 +222,13 @@ class TemplateService implements SingletonInterface
     /**
      * @return array
      */
-    public function getSettings()
-    {
-        if (empty($this->settings)) {
-            $settings = $this->getTypoScriptService()->getSettings();
-        } else {
-            $settings = $this->settings;
-        }
-        return $settings;
-    }
-
-    /**
-     * @return array
-     */
     public function getMappings()
     {
         $persist = $this->get('persist');
 
         $mappings = is_array($persist) && empty($persist['mappings']) ? [] : $persist['mappings'];
 
-        $ts = $this->getSettings();
+        $ts = $this->getTypoScriptService()->getSettings();
         $tableName = $this->getPersistingTableName();
 
         if (isset($ts['defaultMappings'][$tableName])) {
@@ -323,7 +308,7 @@ class TemplateService implements SingletonInterface
      */
     public function get($key)
     {
-        $ts = $this->getSettings();
+        $ts = $this->getTypoScriptService()->getSettings();
 
         if (empty($ts['templates'][$this->templateIdentifier])) {
             $message = 'Formule: I could not find a template for the give key "' . $this->templateIdentifier . '"';
@@ -535,6 +520,5 @@ class TemplateService implements SingletonInterface
     {
         return GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
     }
-
 
 }
