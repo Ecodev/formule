@@ -83,13 +83,15 @@ class MessageService
             ->setTo($this->getTo())
             #->setCc($this->getCc())
             #->setBcc($this->getBcc())
-            ->setSubject($subject)
-            ->setBody($body, 'text/html');
+            ->setSubject($subject);
 
         // Attach plain text version if HTML tags are found in body
         if ($this->hasHtml($body)) {
             $text = Html2Text::getInstance()->convert($body);
-            $this->getMailMessage()->addPart($text, 'text/plain');
+            $this->getMailMessage()->setBody($text);
+            #$this->getMailMessage()->addPart($body, 'text/html'); // does not work well...
+        } else {
+            $this->getMailMessage()->setBody($body, 'text/html');
         }
 
         // Handle attachment

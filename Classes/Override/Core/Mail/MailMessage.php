@@ -59,11 +59,11 @@ class MailMessage extends \TYPO3\CMS\Core\Mail\MailMessage
         $cc = $this->getCc();
         $bcc = $this->getBcc();
 
-        $messageBody = sprintf("%s CONTEXT: this message is for testing purposes. In Production it will be sent: <br />to: %s<br />%s%s<br />%s",
+        $messageBody = sprintf("%s CONTEXT: this message is for testing purposes. In Production it will be sent: \nto: %s\n%s%s\n%s",
             strtoupper((string)GeneralUtility::getApplicationContext()),
             implode(',', array_keys($to)),
-            empty($cc) ? '' : sprintf('cc: %s <br/>', implode(',', array_keys($cc))),
-            empty($bbc) ? '' : sprintf('bcc: %s <br/>', implode(',', array_keys($bcc))),
+            empty($cc) ? '' : sprintf("cc: %s \n", implode(',', array_keys($cc))),
+            empty($bbc) ? '' : sprintf("bcc: %s \n", implode(',', array_keys($bcc))),
             $messageBody
         );
 
