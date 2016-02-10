@@ -338,8 +338,12 @@ class TemplateService implements SingletonInterface
             $templateFields = $matches[1];
         }
 
+        $templateFields = array_unique($templateFields);
+
         $key = array_search('values', $templateFields);
-        unset($templateFields[$key]);
+        if (false !== $key) {
+            unset($templateFields[$key]);
+        }
 
         return $templateFields;
     }
