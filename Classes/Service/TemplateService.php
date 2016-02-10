@@ -353,12 +353,12 @@ class TemplateService implements SingletonInterface
      */
     public function getRequiredFields()
     {
-        preg_match_all('/name="(\w+)".*required=/sU', $this->getSection(self::SECTION_MAIN), $matches);
-
         $requiredFields = [];
-
-        if (!empty($matches[1])) {
-            $requiredFields = $matches[1];
+        foreach ($this->getFields() as $field) {
+            $expression = sprintf('/name="%s"[^>]*required[^>]*>/s', $field);
+            if (preg_match($expression, $this->getSection(self::SECTION_MAIN))) {
+                $requiredFields[] = $field;
+            }
         }
         return $requiredFields;
     }
