@@ -340,9 +340,13 @@ class TemplateService implements SingletonInterface
 
         $templateFields = array_unique($templateFields);
 
-        $key = array_search('values', $templateFields);
-        if (false !== $key) {
-            unset($templateFields[$key]);
+        $ts = $this->getTypoScriptService()->getSettings();
+        $excludedFields = GeneralUtility::trimExplode(',', $ts['excludedFieldsFromTemplateParsing'], true);
+        foreach ($excludedFields as $excludedField) {
+            $key = array_search($excludedField, $templateFields);
+            if (false !== $key) {
+                unset($templateFields[$key]);
+            }
         }
 
         return $templateFields;

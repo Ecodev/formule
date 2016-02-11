@@ -115,5 +115,6 @@ plugin.tx_formule {
         }
 
         loadAssetWithVhsIfAvailable = 1
+        excludedFieldsFromTemplateParsing = values
     }
 }
