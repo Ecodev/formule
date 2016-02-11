@@ -86,7 +86,7 @@ class DataService
 
         if (!$result) {
             $this->getLogger()->error('Formule: I could not update ' . $this->getTemplateService()->getPersistingTable() . ':' . $this->getTemplateService()->getIdentifierField(), [
-                $result = $this->getDatabaseConnection()->UPDATEquery($this->getTemplateService()->getPersistingTable(), $clause, $finalValues)
+                $result = $this->getDatabaseConnection()->UPDATEquery($this->getTemplateService()->getPersistingTable(), $this->getClause(), $finalValues)
             ]);
         }
 
