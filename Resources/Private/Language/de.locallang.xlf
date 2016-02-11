@@ -227,6 +227,9 @@ Wenn Sie denken, dass sie dieses Mail irrtümlicherweise erhalten haben, so lös
 			<trans-unit id="error.password.too.short">
 				<target>Das Passwort ist zu kurz.</target>
 			</trans-unit>
+			<trans-unit id="error.name.identical">
+				<target>Vorname und Nachname müssen verschieden sein.</target>
+			</trans-unit>
 			<trans-unit id="token.invalid">
 				<target>Unmöglich die Informationen zu laden.</target>
 			</trans-unit>

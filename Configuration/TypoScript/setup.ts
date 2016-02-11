@@ -86,6 +86,7 @@ plugin.tx_formule {
                 validators {
                     0 = Fab\Formule\Validator\EmailUniqueValidator
                     1 = Fab\Formule\Validator\EmailFormatValidator
+                    2 = Fab\Formule\Validator\NameValidator
                 }
 
                 # Persist configuration
