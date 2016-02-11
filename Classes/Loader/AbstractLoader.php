@@ -28,4 +28,5 @@ abstract class AbstractLoader implements LoaderInterface
     {
         return $GLOBALS['TYPO3_DB'];
     }
+
 }

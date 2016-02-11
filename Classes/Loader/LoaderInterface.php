@@ -24,5 +24,5 @@ interface LoaderInterface
      * @param array $values
      * @return array
      */
-    public function intercept(array $values);
+    public function load(array $values);
 }

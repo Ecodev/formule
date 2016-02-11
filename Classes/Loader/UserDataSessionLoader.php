@@ -25,7 +25,7 @@ class UserDataSessionLoader extends AbstractLoader
      * @param string $insertOrUpdate
      * @return array
      */
-    public function intercept(array $values, $insertOrUpdate = '')
+    public function load(array $values, $insertOrUpdate = '')
     {
         $userData = $this->getFrontendUser()->user;
 

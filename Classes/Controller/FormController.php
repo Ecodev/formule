@@ -54,7 +54,7 @@ class FormController extends ActionController
 
                 /** @var \Fab\Formule\Loader\LoaderInterface $loader */
                 $loader = GeneralUtility::makeInstance($className);
-                $values = $loader->intercept($values);
+                $values = $loader->load($values);
             };
 
             // Set final template path.
