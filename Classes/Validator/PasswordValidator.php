@@ -17,9 +17,9 @@ namespace Fab\Formule\Validator;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
- * Class EmailFormatValidator
+ * Class PasswordValidator
  */
-class EmailFormatValidator extends AbstractValidator
+class PasswordValidator extends AbstractValidator
 {
 
     /**
@@ -30,9 +30,20 @@ class EmailFormatValidator extends AbstractValidator
     {
 
         $messages = [];
-        if (filter_var($values['email'], FILTER_VALIDATE_EMAIL) === false) {
-            $value = LocalizationUtility::translate('error.email.format', 'formule');
-            $messages['email'] = $value;
+        if ($values['password'] !== $values['password_confirmation']) {
+            $value = LocalizationUtility::translate('error.password.not.corresponding', 'formule');
+            $messages['password'] = $value;
+        }
+
+        if (!empty($values['password']) && strlen($values['password']) < 8) {
+            $value = LocalizationUtility::translate('error.password.too.short', 'formule');
+
+            if (isset($messages['password'])) {
+                $messages['password']= $messages['password'] . ' ' .$value;
+            } else {
+                $messages['password']= $value;
+            }
+
         }
 
         return $messages;

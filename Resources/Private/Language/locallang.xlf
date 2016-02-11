@@ -224,6 +224,12 @@ If you think this is an error, please ignore this email.]]></source>
 			<trans-unit id="error.email.format">
 				<source>Format email is not valid.</source>
 			</trans-unit>
+			<trans-unit id="error.password.not.corresponding">
+				<source>Password does not correspond.</source>
+			</trans-unit>
+			<trans-unit id="error.password.too.short">
+				<source>Password is too short.</source>
+			</trans-unit>
 			<trans-unit id="token.invalid">
 				<source>I could not retrieve valid data.</source>
 			</trans-unit>

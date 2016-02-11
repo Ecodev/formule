@@ -221,6 +221,12 @@ Si vous pensez avoir reçu cet email par erreur, veuillez ignorer ce message.]]>
 			<trans-unit id="error.email.format">
 				<target>Format de l'email non valide.</target>
 			</trans-unit>
+			<trans-unit id="error.password.not.corresponding">
+				<target>Les mots de passe ne correspondent pas.</target>
+			</trans-unit>
+			<trans-unit id="error.password.too.short">
+				<target>Le mot de passe est trop court.</target>
+			</trans-unit>
 			<trans-unit id="token.invalid">
 				<target>Impossible de charger les informations.</target>
 			</trans-unit>

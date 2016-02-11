@@ -221,6 +221,12 @@ Wenn Sie denken, dass sie dieses Mail irrtümlicherweise erhalten haben, so lös
 			<trans-unit id="error.email.format">
 				<target>Ungültiges E-Mail Format.</target>
 			</trans-unit>
+			<trans-unit id="error.password.not.corresponding">
+				<target>Die Passwörter sind nicht identisch.</target>
+			</trans-unit>
+			<trans-unit id="error.password.too.short">
+				<target>Das Passwort ist zu kurz.</target>
+			</trans-unit>
 			<trans-unit id="token.invalid">
 				<target>Unmöglich die Informationen zu laden.</target>
 			</trans-unit>
