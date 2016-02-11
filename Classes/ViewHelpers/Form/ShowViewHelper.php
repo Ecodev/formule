@@ -33,14 +33,17 @@ class ShowViewHelper extends AbstractViewHelper
      *
      * @param string $labelsIn
      * @param string $labelPrefix
+     * @param string $excludedFields
      * @return string
      */
-    public function render($labelsIn = 'formule', $labelPrefix = '')
+    public function render($labelsIn = 'formule', $labelPrefix = '', $excludedFields = '')
     {
 
         $output = '';
 
         $values = $this->templateVariableContainer->getAll();
+
+        $excludedFields = GeneralUtility::trimExplode(',', $excludedFields, true);
 
         $allowedFields = $this->getTemplateService($values['templateIdentifier'])->getFields();
 
@@ -49,7 +52,7 @@ class ShowViewHelper extends AbstractViewHelper
             $_values = [];
             foreach ($values as $key => $value) {
 
-                if (in_array($key, $allowedFields)) {
+                if (in_array($key, $allowedFields) && !in_array($key, $excludedFields)) {
 
                     $_values[] = sprintf('
     <tr>
