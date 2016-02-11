@@ -29,13 +29,18 @@ class UserDataLoader extends AbstractLoader
      * @param string $insertOrUpdate
      * @return array
      */
-    public function intercept(array $values, $insertOrUpdate = '')
+    public function load(array $values, $insertOrUpdate = '')
     {
 
-        $token = GeneralUtility::_GP('token');
+        $identifierField = $this->getTemplateService()->getIdentifierField();
+        $identifierValue = GeneralUtility::_GP($identifierField);
 
         $tableName = $this->getTemplateService()->getPersistingTableName();
-        $clause = sprintf('token = "%s"',  $this->getDatabaseConnection()->quoteStr($token, $tableName));
+        $clause = sprintf(
+            '%s = "%s"',
+            $identifierField,
+            $this->getDatabaseConnection()->quoteStr($identifierValue, $tableName)
+        );
 
         $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', $tableName, $clause);
 
