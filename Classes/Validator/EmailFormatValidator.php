@@ -38,5 +38,4 @@ class EmailFormatValidator extends AbstractValidator
         return $messages;
     }
 
-
 }
