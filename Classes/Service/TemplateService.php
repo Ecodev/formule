@@ -119,7 +119,7 @@ class TemplateService implements SingletonInterface
     public function getIdentifierField()
     {
         $persist = $this->get('persist');
-        $identifierField = is_array($persist) && empty($persist['token']) ? 'token' : $persist['token'];
+        $identifierField = is_array($persist) && empty($persist['identifierField']) ? 'uid' : $persist['identifierField'];
         return $identifierField;
     }
 
