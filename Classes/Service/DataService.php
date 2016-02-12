@@ -105,7 +105,7 @@ class DataService
 
             /** @var ProcessorInterface $processor */
             $processor = GeneralUtility::makeInstance($className);
-            $values = array_merge($values, $processor->process($values, $insertOrUpdate));
+            $values = $processor->process($values, $insertOrUpdate);
         };
 
         return $values;

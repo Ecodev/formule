@@ -41,6 +41,12 @@ class UserDataProcessor extends AbstractProcessor
             #$values['token'] = $this->getUuid(); // fields to be created...
             #$values['is_confirmed'] = 0;
             #$values['is_subscribed'] = 1;
+        } else {
+            if (empty($values['password'])) {
+                unset($values['password']);
+            } else {
+                $values['password'] = $this->getSaltedPassword($values['password']);
+            }
         }
 
         return $values;
