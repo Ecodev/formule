@@ -14,7 +14,7 @@ namespace Fab\Formule\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Fab\Formule\Service\FlushMessageQueue;
+use Fab\Formule\Service\FlashMessageQueue;
 use Fab\Formule\Service\TemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;

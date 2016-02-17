@@ -14,14 +14,14 @@ namespace Fab\Formule\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Fab\Formule\Service\FlushMessageQueue;
+use Fab\Formule\Service\FlashMessageQueue;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper which returns flush messages.
  */
-class FlushMessagesViewHelper extends AbstractViewHelper
+class FlashMessagesViewHelper extends AbstractViewHelper
 {
 
     /**
@@ -29,16 +29,16 @@ class FlushMessagesViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-        $messages = $this->getFlushMessageQueue()->getMessagesAndFlush();
+        $messages = $this->getFlashMessageQueue()->getMessagesAndFlush();
         return $messages;
     }
 
     /**
-     * @return FlushMessageQueue
+     * @return FlashMessageQueue
      */
-    protected function getFlushMessageQueue()
+    protected function getFlashMessageQueue()
     {
-        return GeneralUtility::makeInstance(FlushMessageQueue::class);
+        return GeneralUtility::makeInstance(FlashMessageQueue::class);
     }
 
 }

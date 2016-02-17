@@ -18,9 +18,9 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * FlushMessageQueue
+ * FlashMessageQueue
  */
-class FlushMessageQueue implements SingletonInterface
+class FlashMessageQueue implements SingletonInterface
 {
 
     const SUCCESS = 'success';

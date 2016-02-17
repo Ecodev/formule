@@ -33,7 +33,7 @@
 						<f:render section="FormError" partial="Form/Error" arguments="{_all}"/>
 					</f:if>
 
-					<f:render section="FlushMessage" partial="FlushMessage" arguments="{_all}"/>
+					<f:render section="FlashMessage" partial="FlashMessage" arguments="{_all}"/>
 
 					<div class="form-group {fo:hasError(field: 'first_name')}">
 						<input type="text"
