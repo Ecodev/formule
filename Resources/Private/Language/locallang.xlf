@@ -182,7 +182,7 @@
 			<trans-unit id="message.update.success">
 				<source>Your settings have been successfully updated.</source>
 			</trans-unit>
-			<trans-unit id="message.update.success">
+			<trans-unit id="message.create.success">
 				<source>We have successfully stored your data.</source>
 			</trans-unit>
 			<trans-unit id="confirm.delete">
