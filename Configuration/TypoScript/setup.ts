@@ -1,9 +1,15 @@
 plugin.tx_formule {
 
     view {
-        templateRootPath = {$plugin.tx_formule.view.templateRootPath}
-        partialRootPath = {$plugin.tx_formule.view.partialRootPath}
-        layoutRootPath = {$plugin.tx_formule.view.layoutRootPath}
+        templateRootPaths {
+            10 = {$plugin.tx_formule.view.templateRootPath}
+        }
+        partialRootPaths {
+            10 = {$plugin.tx_formule.view.partialRootPath}
+        }
+        layoutRootPaths {
+            10 = {$plugin.tx_formule.view.layoutRootPath}
+        }
     }
 
     settings {
