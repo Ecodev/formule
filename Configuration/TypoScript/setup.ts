@@ -65,6 +65,8 @@ plugin.tx_formule {
 
                     processors {
                         0 = Fab\Formule\Processor\UserDataProcessor
+                        #1 = Fab\Formule\Processor\PdfUploadProcessor
+                        # <fo:message.upload/>
                     }
 
                     mappings {
