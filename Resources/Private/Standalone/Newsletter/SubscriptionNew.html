@@ -4,6 +4,7 @@
 
 <f:layout name="Default"/>
 
+<!-- Frontend - show action -->
 <f:section name="main">
 
 	<fo:loadAssets/>
@@ -61,6 +62,8 @@
 
 </f:section>
 
+<!-- Email - body for the admin -->
+<!-- Hint! Content will be parsed as markdown, so do not indent this code -->
 <f:section name="emailAdmin">
 <f:translate key="newsletter.admin.body1"
              arguments="{
@@ -74,6 +77,8 @@
 <fo:form.show labelsIn="formule"/>
 </f:section>
 
+<!-- Email - body for the user -->
+<!-- Hint! Content will be parsed as markdown, so do not indent this code -->
 <f:section name="emailUser">
 <f:translate key="newsletter.user.body1"
              arguments="{
@@ -84,6 +89,7 @@
              extensionName="formule"/>
 </f:section>
 
+<!-- Frontend - feedback action -->
 <f:section name="feedback">
 	<p>
 		<f:translate key="message.feedback" extensionName="formule"/>
