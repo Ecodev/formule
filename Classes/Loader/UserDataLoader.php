@@ -26,10 +26,9 @@ class UserDataLoader extends AbstractLoader
 
     /**
      * @param array $values
-     * @param string $insertOrUpdate
      * @return array
      */
-    public function load(array $values, $insertOrUpdate = '')
+    public function load(array $values)
     {
 
         $identifierField = $this->getTemplateService()->getIdentifierField();

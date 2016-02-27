@@ -38,12 +38,16 @@ class RegistryService
      * Fetch the entry of the registry Entry and clean up the registry afterwards.
      *
      * @param string $key
+     * @param bool $fetchAndFlush
      * @return mixed
      */
-    public function get($key)
+    public function get($key, $fetchAndFlush = true)
     {
         $entry = $this->getRegistry()->get($this->getKey(), $key);
-        $this->getRegistry()->remove($this->getKey(), $key);
+
+        if ($fetchAndFlush) {
+            $this->getRegistry()->remove($this->getKey(), $key);
+        }
         return $entry;
     }
 

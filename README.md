@@ -146,6 +146,26 @@ This TypoScript could be written placed in a file, e.g. in `EXT:foo/Configuratio
 
 ```
 
+Loading data
+------------
+
+To pre-load data and inject values in the form, one can configure loaders. A Loader corresponds to a PHP class where one can fetch some data and return an array of values.
+
+```
+
+    plugin.tx_formule.settings.template.11 {
+    
+        title = Newsletter subscription new
+        path = EXT:foo/Resources/Private/Standalone/Newsletter/NewSubscription.html
+
+        loaders {
+            0 = Fab\Formule\Loader\UserDataLoader
+        }
+
+    }
+
+```
+
 HTML template
 -------------
 

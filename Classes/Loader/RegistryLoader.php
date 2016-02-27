@@ -14,10 +14,14 @@ namespace Fab\Formule\Loader;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Formule\Service\RegistryService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
- * Load user data from session.
+ * Class RegistryLoader
+ * Useful to transmit data from a form to another.
  */
-class UserDataSessionLoader extends AbstractLoader
+class RegistryLoader extends AbstractLoader
 {
 
     /**
@@ -26,22 +30,20 @@ class UserDataSessionLoader extends AbstractLoader
      */
     public function load(array $values)
     {
-        $userData = $this->getFrontendUser()->user;
-
-        if (!empty($userData)) {
-            $values = array_merge($values, $userData);
+        // Fetch data and flush
+        $registryValues = $this->getRegistryService()->get('values'); // Hint! use second argument $fetchAndFlush = false to keep values in registry.
+        if (is_array($registryValues)) {
+            $values = array_merge($values, $registryValues);
         }
 
         return $values;
     }
 
     /**
-     * Returns an instance of the current Frontend User.
-     *
-     * @return \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication
+     * @return RegistryService
      */
-    protected function getFrontendUser()
+    protected function getRegistryService()
     {
-        return $GLOBALS['TSFE']->fe_user;
+        return GeneralUtility::makeInstance(RegistryService::class);
     }
 }
