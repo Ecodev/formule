@@ -353,6 +353,21 @@ class TemplateService implements SingletonInterface
     }
 
     /**
+     * @return string
+     */
+    public function getPreferredEmailBodyEncoding()
+    {
+        $preferEmailBodyEncoding = $this->get('preferEmailBodyEncoding');
+        if (is_null($preferEmailBodyEncoding)) {
+
+            $ts = $this->getTypoScriptService()->getSettings();
+            $preferEmailBodyEncoding = $ts['preferEmailBodyEncoding'];
+        }
+
+        return $preferEmailBodyEncoding;
+    }
+
+    /**
      * @return array
      */
     public function getRequiredFields()

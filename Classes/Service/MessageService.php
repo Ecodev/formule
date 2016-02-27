@@ -85,13 +85,19 @@ class MessageService
             #->setBcc($this->getBcc())
             ->setSubject($subject);
 
-        // Attach plain text version if HTML tags are found in body
-        if ($this->hasHtml($body)) {
+        // According to preference.
+        if ($this->isPlainTextPreferred()) {
             $text = Html2Text::getInstance()->convert($body);
             $this->getMailMessage()->setBody($text);
-            #$this->getMailMessage()->addPart($body, 'text/html'); // does not work well...
         } else {
             $this->getMailMessage()->setBody($body, 'text/html');
+
+            // Attach plain text version if HTML tags are found in body
+            if ($this->hasHtml($body)) {
+                $text = Html2Text::getInstance()->convert($body);
+                $this->getMailMessage()->addPart($text, 'text/plain');
+            }
+
         }
 
         // Handle attachment
@@ -221,6 +227,14 @@ class MessageService
     protected function getSubject()
     {
         return $this->get('subject');
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isPlainTextPreferred()
+    {
+        return $this->getTemplateService($this->settings['template'])->getPreferredEmailBodyEncoding() === 'text';
     }
 
     /**

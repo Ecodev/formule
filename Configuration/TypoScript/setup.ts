@@ -124,5 +124,10 @@ plugin.tx_formule {
 
         loadAssetWithVhsIfAvailable = 1
         excludedFieldsFromTemplateParsing = values
+
+        # Tell how to encode email body by default, could be "text" or "html"
+        # If set "html", email will be multiparted.
+        # If set "text", email will be plain text only.
+        preferEmailBodyEncoding = html
     }
 }
