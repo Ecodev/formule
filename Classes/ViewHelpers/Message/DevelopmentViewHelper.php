@@ -67,7 +67,7 @@ class DevelopmentViewHelper extends AbstractViewHelper
      * @return bool
      */
     public function hasEmails(array $settings) {
-        return !empty($settings['emailAdminTo']) && !empty($settings['emailUserTo']);
+        return !empty($settings['emailAdminTo']) || !empty($settings['emailUserTo']);
     }
 
     /**
