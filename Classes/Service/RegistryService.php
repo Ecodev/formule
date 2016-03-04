@@ -66,22 +66,10 @@ class RegistryService
      */
     protected function getKey()
     {
-        $identifier = $this->getFrontendUser()->getKey('ses', 'formule_identifier');
-        if (is_null($identifier)) {
-            $identifier = $this->getFrontendUser()->id;
-            $this->getFrontendUser()->setKey('ses', 'formule_identifier', $identifier);
+        if ('' === session_id()) {
+            session_start();
         }
-        return 'Fab\Formule\\' . $identifier;
-    }
-
-    /**
-     * Returns an instance of the current Frontend User.
-     *
-     * @return \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication
-     */
-    protected function getFrontendUser()
-    {
-        return $GLOBALS['TSFE']->fe_user;
+        return 'Fab\Formule\\' . session_id();
     }
 
 }
