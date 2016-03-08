@@ -70,7 +70,7 @@ class PdfUploadProcessor extends AbstractProcessor
                 $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
                 $mime = finfo_file($finfo, $uploadedFile['tmp_name']);
                 finfo_close($finfo);
-                if ($mime == 'application/pdf') {
+                if ($mime === 'application/pdf') {
                     $file = $storage->addUploadedFile($uploadedFile);
                     $fileName = $file->getName();
                 }
