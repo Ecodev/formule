@@ -174,7 +174,7 @@ class DataService
 
             // Field must exist in the TCA.
             if (isset($GLOBALS['TCA'][$tableName]['columns'][$resolvedField])) {
-                $sanitizedValues[$resolvedField] = $this->getDatabaseConnection()->quoteStr($value, $tableName);
+                $sanitizedValues[$resolvedField] = $value;
             }
         }
 
