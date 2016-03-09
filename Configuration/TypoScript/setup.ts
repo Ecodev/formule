@@ -71,8 +71,14 @@ plugin.tx_formule {
 
                     processors {
                         0 = Fab\Formule\Processor\UserDataProcessor
-                        #1 = Fab\Formule\Processor\PdfUploadProcessor
-                        # <fo:message.upload/>
+
+                        # Processor example to handle file upload.
+                        # ProTip: you can integrate <fo:message.upload/> in your HTML template.
+                        # 1 = Fab\Formule\Processor\PdfUploadProcessor
+
+
+                        # Processor example to flush cache on certain pages after a database change.
+                        # 2 = Fab\Formule\Processor\CacheHandler
                     }
 
                     mappings {
