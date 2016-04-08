@@ -16,5 +16,5 @@
 	"replace": {
 		"formule": "self.version",
 		"typo3-ter/formule": "self.version"
-	},
+	}
 }
