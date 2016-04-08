@@ -4,7 +4,7 @@
 	"description": "Render a variety of forms template based on the FE such as contact form, registration form, etc... effortless!",
 	"homepage": "https://github.com/Ecodev/formule",
 	"license": ["GPL-2.0+"],
-	"keywords": ["TYPO3 CMS", "generic listing"],
+	"keywords": ["TYPO3 CMS", "form"],
 	"support": {
 		"issues": "https://github.com/Ecodev/formule/issues"
 	},
@@ -13,5 +13,8 @@
 			"Fab\\Formule\\": "Classes/"
 		}
 	},
-	"version": "0.9.0-dev"
+	"replace": {
+		"formule": "self.version",
+		"typo3-ter/formule": "self.version"
+	},
 }
