@@ -17,10 +17,10 @@ $EM_CONF[$_EXTKEY] = array(
 	'author' => 'Udriot Fabien',
 	'author_email' => 'fabien.udriot@ecodev.ch',
 	'state' => 'beta',
-	'version' => '0.9.0-dev',
+	'version' => '0.9.0',
 	'constraints' => array(
 		'depends' => array(
-			'typo3' => '6.2.0-7.99.99',
+			'typo3' => '7.6.0-7.99.99',
 		),
 		'conflicts' => array(
 		),
