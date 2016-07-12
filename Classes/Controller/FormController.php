@@ -94,6 +94,7 @@ class FormController extends ActionController
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
     public function submitAction(array $values = [])
     {
@@ -140,7 +141,7 @@ class FormController extends ActionController
         $this->getRegistryService()->set('values', $values);
 
         if ($templateService->hasRedirect() && !$templateService->isDefaultRedirectAction()) {
-            $url = $templateService->getRedirectUrl();
+            $url = $templateService->getRedirectUrl($values);
             HttpUtility::redirect($url);
         } else {
             $this->redirect(

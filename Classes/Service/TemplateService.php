@@ -114,7 +114,7 @@ class TemplateService implements SingletonInterface
     }
 
     /**
-     * @return bool
+     * @return string
      */
     public function getIdentifierField()
     {
@@ -149,14 +149,17 @@ class TemplateService implements SingletonInterface
     }
 
     /**
+     * @param array $values
      * @return string
      */
-    public function getRedirectUrl()
+    public function getRedirectUrl(array $values)
     {
         $arguments = [];
 
         if ($this->hasIdentifierValue()) {
             $arguments[$this->getIdentifierField()] = $this->getIdentifierValue();
+        } elseif (!empty($values['uid'])) {
+            $arguments[$this->getIdentifierField()] = $values['uid'];
         }
 
         $uriBuilder = $this->getUriBuilder()
