@@ -26,7 +26,7 @@ class TceForms
 {
 
     /**
-     * Render the field "renderEmailFrom"
+     * Render the field "NameFrom"
      *
      * @param array $parameters
      * @return string
@@ -59,7 +59,7 @@ class TceForms
     }
 
     /**
-     * Render the field "renderEmailFrom"
+     * Render the field "EmailFrom"
      *
      * @param array $parameters
      * @return string
@@ -387,6 +387,7 @@ Examples:
      * This method modifies the list of items for FlexForm "template".
      *
      * @param array $parameters
+     * @throws \InvalidArgumentException
      */
     public function getTemplates(&$parameters)
     {
@@ -436,6 +437,7 @@ Examples:
     /**
      * @param array $flexform
      * @return string
+     * @throws \InvalidArgumentException
      */
     protected function getDataTypeFromFlexform(array $flexform = array())
     {
@@ -481,6 +483,7 @@ Examples:
 
     /**
      * @return TypoScriptService
+     * @throws \InvalidArgumentException
      */
     protected function getTypoScriptService()
     {
@@ -490,6 +493,7 @@ Examples:
     /**
      * @param int $templateIdentifier
      * @return TemplateService
+     * @throws \InvalidArgumentException
      */
     protected function getTemplateService($templateIdentifier)
     {
@@ -498,6 +502,7 @@ Examples:
 
     /**
      * @return FlexFormService
+     * @throws \InvalidArgumentException
      */
     protected function getFlexFormService()
     {
