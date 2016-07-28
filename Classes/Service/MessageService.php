@@ -64,6 +64,8 @@ class MessageService
     /**
      * @param array $values
      * @return bool
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
      */
     public function send(array $values)
     {
@@ -108,7 +110,7 @@ class MessageService
         $this->getMailMessage()->send();
         $isSent = $this->getMailMessage()->isSent();
 
-        $this->getLogginService()->log($this->getMailMessage());
+        $this->getLoggingService()->log($this->getMailMessage());
         return $isSent;
     }
 
@@ -123,7 +125,7 @@ class MessageService
     {
         $result = FALSE;
         //we compare the length of the string with html tags and without html tags
-        if (strlen($content) != strlen(strip_tags($content))) {
+        if (strlen($content) !== strlen(strip_tags($content))) {
             $result = TRUE;
         }
         return $result;
@@ -271,14 +273,16 @@ class MessageService
 
     /**
      * @return LoggingService
+     * @throws \InvalidArgumentException
      */
-    protected function getLogginService()
+    protected function getLoggingService()
     {
         return GeneralUtility::makeInstance(LoggingService::class);
     }
 
     /**
      * @return \TYPO3\CMS\Extbase\Object\ObjectManager
+     * @throws \InvalidArgumentException
      */
     protected function getObjectManager()
     {
@@ -287,6 +291,7 @@ class MessageService
 
     /**
      * @return EmailAddressService
+     * @throws \InvalidArgumentException
      */
     public function getEmailAddressService()
     {
@@ -296,6 +301,7 @@ class MessageService
     /**
      * @param int $templateIdentifier
      * @return TemplateService
+     * @throws \InvalidArgumentException
      */
     protected function getTemplateService($templateIdentifier)
     {
