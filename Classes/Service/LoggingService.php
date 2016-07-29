@@ -26,10 +26,16 @@ class LoggingService
 
     /**
      * @param MailMessage $message
+     * @throws \UnexpectedValueException
+     * @throws \BadFunctionCallException
      */
     public function log(MailMessage $message)
     {
-        $tableName = 'tx_formule_domain_model_sentmessage';
+
+        $tableName = ExtensionManagementUtility::isLoaded('messenger')
+            ? 'tx_messenger_domain_model_sentmessage'
+            : 'tx_formule_domain_model_sentmessage';
+
         $values = [
             'pid' => (int)$this->getFrontendObject()->id,
             'sender' => $this->formatEmails($message->getFrom()),
@@ -43,7 +49,6 @@ class LoggingService
             'is_sent' => (int)$message->isSent(),
             'sent_time' => time(),
             'ip' => GeneralUtility::getIndpEnv('REMOTE_ADDR'),
-            'tstamp' => time(),
             'crdate' => time(),
         ];
 

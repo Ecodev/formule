@@ -18,7 +18,6 @@ CREATE TABLE tx_formule_domain_model_sentmessage (
 	sent_time varchar(255) DEFAULT '' NOT NULL,
 	ip varchar(255) DEFAULT '' NOT NULL,
 
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),

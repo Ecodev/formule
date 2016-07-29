@@ -3,7 +3,6 @@ return array(
     'ctrl' => [
         'title' => 'LLL:EXT:formule/Resources/Private/Language/tx_formule_domain_model_sentmessage.xlf:tx_formule_domain_model_sentmessage',
         'label' => 'sender',
-        'tstamp' => 'tstamp',
         'crdate' => 'crdate',
         'rootLevel' => -1,
         'default_sortby' => 'ORDER BY sent_time DESC',
