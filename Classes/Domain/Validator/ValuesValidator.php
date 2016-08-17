@@ -28,11 +28,13 @@ class ValuesValidator extends AbstractValidator
 
     /**
      * @param array $values
+     * @throws \InvalidArgumentException
      */
     public function isValid($values)
     {
         foreach ($this->getTemplateService()->getRequiredFields() as $requiredField) {
-            if (empty($values[$requiredField])) {
+            $value = trim($values[$requiredField]);
+            if ((string)$value === '') {
 
                 $message = LocalizationUtility::translate('error.required', 'formule');
                 $this->getValidationService()->addError($requiredField, $message);

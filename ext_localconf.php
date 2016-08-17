@@ -52,3 +52,16 @@ if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('messenger')) 
         }
     });
 }
+
+
+/** @var $signalSlotDispatcher \TYPO3\CMS\Extbase\SignalSlot\Dispatcher */
+$signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
+
+// Connect some signals with slots.
+$signalSlotDispatcher->connect(
+    \Fab\Formule\Controller\FormController::class,
+    'beforeProcessValues',
+    \Fab\Formule\Slot\ValuesSanitizer::class,
+    'sanitize',
+    true
+);
