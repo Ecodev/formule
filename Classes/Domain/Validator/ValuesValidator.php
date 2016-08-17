@@ -43,6 +43,7 @@ class ValuesValidator extends AbstractValidator
 
     /**
      * @return TemplateService
+     * @throws \InvalidArgumentException
      */
     protected function getTemplateService()
     {
@@ -51,6 +52,7 @@ class ValuesValidator extends AbstractValidator
 
     /**
      * @return ValidationService
+     * @throws \InvalidArgumentException
      */
     protected function getValidationService()
     {

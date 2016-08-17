@@ -34,6 +34,8 @@ class HoneyPotValidator extends AbstractValidator
      * if any of these is wrong it dies with a message.
      *
      * @param array $values
+     * @throws \InvalidArgumentException
+     * @throws \UnexpectedValueException
      */
     public function isValid($values)
     {
@@ -56,6 +58,7 @@ class HoneyPotValidator extends AbstractValidator
 
     /**
      * @return TemplateService
+     * @throws \InvalidArgumentException
      */
     protected function getTemplateService()
     {

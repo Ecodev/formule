@@ -27,6 +27,7 @@ class UserDefinedValidator extends AbstractValidator
 
     /**
      * @param array $values
+     * @throws \InvalidArgumentException
      */
     public function isValid($values)
     {
@@ -37,7 +38,7 @@ class UserDefinedValidator extends AbstractValidator
             $validator = GeneralUtility::makeInstance($className);
             $messages = $validator->validate($values);
 
-            if (!empty($messages)) {
+            if (is_array($messages)) {
                 foreach ($messages as $fieldName => $message) {
                     $this->getValidationService()->addError($fieldName, $message);
                     $this->addError($message, 1453535466);
@@ -48,6 +49,7 @@ class UserDefinedValidator extends AbstractValidator
 
     /**
      * @return TemplateService
+     * @throws \InvalidArgumentException
      */
     protected function getTemplateService()
     {
@@ -56,6 +58,7 @@ class UserDefinedValidator extends AbstractValidator
 
     /**
      * @return ValidationService
+     * @throws \InvalidArgumentException
      */
     protected function getValidationService()
     {
