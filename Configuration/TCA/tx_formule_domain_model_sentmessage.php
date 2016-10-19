@@ -1,5 +1,5 @@
 <?php
-return array(
+$tca = [
     'ctrl' => [
         'title' => 'LLL:EXT:formule/Resources/Private/Language/tx_formule_domain_model_sentmessage.xlf:tx_formule_domain_model_sentmessage',
         'label' => 'sender',
@@ -108,18 +108,18 @@ return array(
         ],
 
     ],
+];
 
-    'grid' => [
+if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('vidi')) {
+    $tca['grid'] = [
         'facets' => [
             'uid',
             'recipient',
         ],
         'columns' => [
-            '__checkbox' => array(
-                'renderer' => version_compare(TYPO3_branch, '7.0', '<') ?
-                    new \Fab\Vidi\Grid\CheckBoxComponent() :
-                    new \Fab\Vidi\Grid\CheckBoxRenderer(),
-            ),
+            '__checkbox' => [
+                'renderer' => new \Fab\Vidi\Grid\CheckBoxRenderer(),
+            ],
             'sender' => [
                 'visible' => false,
             ],
@@ -133,11 +133,10 @@ return array(
             'sent_time' => [
                 'format' => \Fab\Vidi\Formatter\Datetime::class,
             ],
-            '__buttons' => array(
-                'renderer' => version_compare(TYPO3_branch, '7.0', '<') ?
-                    new \Fab\Vidi\Grid\ButtonGroupComponent() :
-                    new \Fab\Vidi\Grid\ButtonGroupRenderer(),
-            ),
+            '__buttons' => [
+                'renderer' => new \Fab\Vidi\Grid\ButtonGroupRenderer(),
+            ],
         ]
-    ]
-);
+    ];
+}
+return $tca;
