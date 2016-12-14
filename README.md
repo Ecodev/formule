@@ -166,6 +166,26 @@ To pre-load data and inject values in the form, one can configure loaders. A Loa
 
 ```
 
+Finishers
+---------
+
+Finisher actions let you finalize the submit of your form and do whatever action is necessary. Your own finisher class must implement FinisherInterface.
+
+```
+
+    plugin.tx_formule.settings.template.11 {
+    
+        title = Newsletter subscription new
+        path = EXT:foo/Resources/Private/Standalone/Newsletter/NewSubscription.html
+
+        finishers {
+            0 = Fab\Formule\Finisher\FooFinisher
+        }
+
+    }
+
+```
+
 HTML template
 -------------
 

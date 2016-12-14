@@ -285,6 +285,15 @@ class TemplateService implements SingletonInterface
     /**
      * @return array
      */
+    public function getFinishers()
+    {
+        $finishers = $this->get('finishers');
+        return is_array($finishers) ? $finishers : [];
+    }
+
+    /**
+     * @return array
+     */
     public function getValidators()
     {
         $validators = $this->get('validators');

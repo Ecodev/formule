@@ -129,6 +129,14 @@ class FormController extends ActionController
             $this->getMessageService(MessageService::TO_USER)->send($values);
         }
 
+        // Possible finishers
+        foreach ($templateService->getFinishers() as $className) {
+
+            /** @var \Fab\Formule\Finisher\FinisherInterface $finisher */
+            $finisher = GeneralUtility::makeInstance($className);
+            $values = $finisher->finish($values);
+        };
+
         $this->getSignalSlotDispatcher()->dispatch(self::class, 'beforeRedirect', [$values]);
 
         // Save in registry... Trick to avoid POSTing the arguments again which might contain very long text.
