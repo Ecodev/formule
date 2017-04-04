@@ -19,6 +19,7 @@ use Michelf\Markdown;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
@@ -92,6 +93,10 @@ class FormController extends ActionController
      */
     public function submitAction(array $values = [])
     {
+
+        if ($this->request->getMethod != 'POST') {
+            throw new UnsupportedRequestTypeException('Form must be submitted using POST');
+        }
 
         $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'beforeProcessValues', [$values]);
         $values = $signalResult[0];
