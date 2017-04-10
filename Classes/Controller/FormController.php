@@ -94,7 +94,7 @@ class FormController extends ActionController
     public function submitAction(array $values = [])
     {
 
-        if ($this->request->getMethod != 'POST') {
+        if ($this->request->getMethod() != 'POST') {
             throw new UnsupportedRequestTypeException('Form must be submitted using POST');
         }
 
