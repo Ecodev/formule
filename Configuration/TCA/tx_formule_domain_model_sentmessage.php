@@ -118,7 +118,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('vidi')) {
         ],
         'columns' => [
             '__checkbox' => [
-                'renderer' => new \Fab\Vidi\Grid\CheckBoxRenderer(),
+                'renderer' => \Fab\Vidi\Grid\CheckBoxRenderer::class,
             ],
             'sender' => [
                 'visible' => false,
@@ -134,7 +134,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('vidi')) {
                 'format' => \Fab\Vidi\Formatter\Datetime::class,
             ],
             '__buttons' => [
-                'renderer' => new \Fab\Vidi\Grid\ButtonGroupRenderer(),
+                'renderer' => \Fab\Vidi\Grid\ButtonGroupRenderer::class,
             ],
         ]
     ];
