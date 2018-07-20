@@ -7,13 +7,13 @@ $EM_CONF[$_EXTKEY] = [
     'author' => 'Udriot Fabien',
     'author_email' => 'fabien@ecodev.ch',
     'state' => 'stable',
-    'version' => '1.2.0',
+    'version' => '1.3.0',
     'psr-4' => [
         'Fab\\Formule\\' => 'Classes'
     ],
     'constraints' => [
         'depends' => [
-            'typo3' => '7.6.0-7.99.99',
+            'typo3' => '7.6.0-8.7.99',
         ],
         'conflicts' => [
         ],
