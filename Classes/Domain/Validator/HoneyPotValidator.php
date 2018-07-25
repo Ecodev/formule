@@ -51,7 +51,7 @@ class HoneyPotValidator extends AbstractValidator
     }
 
     /**
-     * @return TemplateService
+     * @return object|TemplateService
      * @throws \InvalidArgumentException
      */
     protected function getTemplateService()
