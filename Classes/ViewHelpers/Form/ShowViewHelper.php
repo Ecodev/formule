@@ -21,6 +21,10 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ShowViewHelper extends AbstractViewHelper
 {
+    /**
+     * @var bool
+     */
+    protected $escapeOutput = false;
 
     /**
      * Show sent values of a form.
@@ -87,7 +91,7 @@ class ShowViewHelper extends AbstractViewHelper
 
     /**
      * @param int $templateIdentifier
-     * @return TemplateService
+     * @return object|TemplateService
      */
     protected function getTemplateService($templateIdentifier)
     {

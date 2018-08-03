@@ -20,6 +20,10 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class DevelopmentViewHelper extends AbstractViewHelper
 {
+    /**
+     * @var bool
+     */
+    protected $escapeOutput = false;
 
     /**
      * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception\InvalidVariableException
