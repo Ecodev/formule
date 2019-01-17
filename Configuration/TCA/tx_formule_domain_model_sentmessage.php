@@ -7,7 +7,7 @@ $tca = [
         'rootLevel' => -1,
         'default_sortby' => 'ORDER BY sent_time DESC',
         'searchFields' => 'recipient',
-        'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('formule') . 'Resources/Public/Images/tx_formule_domain_model_sentmessage.png'
+        'iconfile' => 'EXT:formule/Resources/Public/Images/tx_formule_domain_model_sentmessage.png'
     ],
     'interface' => [
         'showRecordFieldList' => 'sender, recipient, subject, body, sent_time, is_sent, ip, context',
