@@ -3,8 +3,11 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('vidi')
-    && !\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('messenger')
+/** @var \TYPO3\CMS\Core\Package\PackageManager $packageManager */
+$packageManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Package\PackageManager::class);
+
+if ($packageManager->isPackageActive('vidi')
+    && !$packageManager->isPackageActive('messenger')
 ) {
 
     /** @var \Fab\Vidi\Module\ModuleLoader $moduleLoader */
