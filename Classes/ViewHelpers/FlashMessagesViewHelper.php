@@ -23,12 +23,11 @@ class FlashMessagesViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-        $messages = $this->getFlashMessageQueue()->getMessagesAndFlush();
-        return $messages;
+        return $this->getFlashMessageQueue()->getMessagesAndFlush();
     }
 
     /**
-     * @return FlashMessageQueue
+     * @return FlashMessageQueue|object
      */
     protected function getFlashMessageQueue()
     {

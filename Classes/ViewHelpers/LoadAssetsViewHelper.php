@@ -24,12 +24,21 @@ class LoadAssetsViewHelper extends AbstractViewHelper
     const TYPE_CSS = 'css';
 
     /**
-     * @param bool $footer
-     * @param string $type
+     * @return void
+     */
+    public function initializeArguments(): void
+    {
+        $this->registerArgument('footer', 'bool', '', false, true);
+        $this->registerArgument('type', 'string', '', false, self::TYPE_JS);
+    }
+
+    /**
      * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception\InvalidVariableException
      */
-    public function render($footer = true, $type = self::TYPE_JS)
+    public function render()
     {
+        $footer = $this->arguments['footer'];
+        $type = $this->arguments['type'];
         // Get variables
         $settings = $this->templateVariableContainer->get('settings');
 

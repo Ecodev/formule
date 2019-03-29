@@ -18,12 +18,20 @@ class GpViewHelper extends AbstractViewHelper
 {
 
     /**
-     * @param string $key
+     * @return void
+     */
+    public function initializeArguments(): void
+    {
+        $this->registerArgument('key', 'string', '', true);
+    }
+
+    /**
      * @return string
      */
-    public function render($key)
+    public function render()
     {
-        return GeneralUtility::_GP($key);
+        $key = $this->arguments['key'];
+        return GeneralUtility::_GP($key); // the value is automatically html encoded by fluid. So it is safe.
     }
 
 }
