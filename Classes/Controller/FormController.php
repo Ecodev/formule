@@ -93,6 +93,8 @@ class FormController extends ActionController
      */
     public function submitAction(array $values = [])
     {
+        // Fix settings in case two instances are loaded on the same page
+        $this->settings = array_merge($this->settings, ArgumentService::getSettings());
 
         if ($this->request->getMethod() !== 'POST') {
             throw new UnsupportedRequestTypeException('Form must be submitted using POST');
@@ -197,7 +199,7 @@ class FormController extends ActionController
     /**
      * Get the SignalSlot dispatcher.
      *
-     * @return Dispatcher
+     * @return Dispatcher|object
      */
     protected function getSignalSlotDispatcher()
     {
@@ -205,7 +207,7 @@ class FormController extends ActionController
     }
 
     /**
-     * @return TemplateService
+     * @return TemplateService|object
      */
     protected function getTemplateService()
     {
@@ -213,7 +215,7 @@ class FormController extends ActionController
     }
 
     /**
-     * @return ArgumentService
+     * @return ArgumentService|object
      */
     protected function getArgumentService()
     {
@@ -221,7 +223,7 @@ class FormController extends ActionController
     }
 
     /**
-     * @return RegistryService
+     * @return RegistryService|object
      */
     protected function getRegistryService()
     {
@@ -230,7 +232,7 @@ class FormController extends ActionController
 
     /**
      * @param string $messageType
-     * @return MessageService
+     * @return MessageService|object
      */
     protected function getMessageService($messageType)
     {
@@ -238,7 +240,7 @@ class FormController extends ActionController
     }
 
     /**
-     * @return DataService
+     * @return DataService|object
      */
     protected function getDataService()
     {
@@ -246,7 +248,7 @@ class FormController extends ActionController
     }
 
     /**
-     * @return FlashMessageQueue
+     * @return FlashMessageQueue|object
      */
     protected function getFlashMessageQueue()
     {

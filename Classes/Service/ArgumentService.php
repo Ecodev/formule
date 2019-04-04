@@ -22,6 +22,11 @@ class ArgumentService
     static protected $templateIdentifier = 0;
 
     /**
+     * @var array
+     */
+    static protected $settings = [];
+
+    /**
      * @param int $identifier
      * @return array
      */
@@ -35,13 +40,10 @@ class ArgumentService
 
             $record = $this->getRecord($identifier);
             if (!empty($record)) {
-                $settings = $this->getFlexFormService()->extractSettings($record['pi_flexform']);
+                self::$settings = $this->getFlexFormService()->extractSettings($record['pi_flexform']);
+                self::$templateIdentifier = (int)self::$settings['template'];
 
-                self::$templateIdentifier = (int)$settings['template'];
-                $templateService = $this->getTemplateService($settings['template']);
-                $templateFields = $templateService->getFields();
-
-                foreach ($templateFields as $templateField) {
+                foreach ($this->getTemplateService()->getFields() as $templateField) {
                     $value = GeneralUtility::_GP($templateField);
                     if ($value !== null) {
                         $values[$templateField] = $value;
@@ -101,12 +103,11 @@ class ArgumentService
     }
 
     /**
-     * @param string $templateIdentifier
      * @return TemplateService|object
      */
-    protected function getTemplateService($templateIdentifier)
+    protected function getTemplateService()
     {
-        return GeneralUtility::makeInstance(TemplateService::class, $templateIdentifier);
+        return GeneralUtility::makeInstance(TemplateService::class);
     }
 
     /**
@@ -125,6 +126,14 @@ class ArgumentService
     public static function getTemplateIdentifier(): int
     {
         return self::$templateIdentifier;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getSettings(): array
+    {
+        return self::$settings;
     }
 
 }
