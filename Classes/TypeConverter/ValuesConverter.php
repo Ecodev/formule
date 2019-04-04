@@ -9,7 +9,6 @@ namespace Fab\Formule\TypeConverter;
  */
 
 use Fab\Formule\Service\ArgumentService;
-use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface;
 use TYPO3\CMS\Extbase\Property\TypeConverter\AbstractTypeConverter;
@@ -23,7 +22,7 @@ class ValuesConverter extends AbstractTypeConverter
     /**
      * @var array<string>
      */
-    protected $sourceTypes = array('int');
+    protected $sourceTypes = ['int'];
 
     /**
      * @var string
@@ -42,9 +41,7 @@ class ValuesConverter extends AbstractTypeConverter
      * @param string $targetType
      * @param array $convertedChildProperties
      * @param PropertyMappingConfigurationInterface $configuration
-     * @throws \Exception
-     * @throws \TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException
-     * @return File
+     * @return array
      * @api
      */
     public function convertFrom($source, $targetType, array $convertedChildProperties = array(), PropertyMappingConfigurationInterface $configuration = NULL)
@@ -53,7 +50,7 @@ class ValuesConverter extends AbstractTypeConverter
     }
 
     /**
-     * @return ArgumentService
+     * @return ArgumentService|object
      */
     protected function getArgumentService()
     {

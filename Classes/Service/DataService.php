@@ -232,7 +232,7 @@ class DataService
     }
 
     /**
-     * @return TemplateService
+     * @return TemplateService|object
      */
     protected function getTemplateService()
     {

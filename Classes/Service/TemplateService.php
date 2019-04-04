@@ -66,7 +66,6 @@ class TemplateService
      */
     public function __construct($templateIdentifier = 0)
     {
-
         $this->templateIdentifier = (int)$templateIdentifier > 0
             ? (int)$templateIdentifier
             : ArgumentService::getTemplateIdentifier();
