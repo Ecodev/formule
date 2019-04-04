@@ -23,7 +23,7 @@ class GpViewHelper extends AbstractViewHelper
      */
     public function render($key)
     {
-        return GeneralUtility::_GP($key);
+        return htmlentities(GeneralUtility::_GP($key));
     }
 
 }

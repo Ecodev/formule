@@ -8,10 +8,7 @@ namespace Fab\Formule\Service;
  * LICENSE.md file that was distributed with this source code.
  */
 
-use DOMDocument;
-use DOMXPath;
 use RuntimeException;
-use SimpleXMLElement;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
@@ -19,7 +16,7 @@ use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 /**
  * TemplateService
  */
-class TemplateService implements SingletonInterface
+class TemplateService
 {
     const SECTION_MAIN = 'main';
     const SECTION_FEEDBACK = 'feedback';
@@ -69,7 +66,10 @@ class TemplateService implements SingletonInterface
      */
     public function __construct($templateIdentifier = 0)
     {
-        $this->templateIdentifier = (int)$templateIdentifier;
+
+        $this->templateIdentifier = (int)$templateIdentifier > 0
+            ? (int)$templateIdentifier
+            : ArgumentService::getTemplateIdentifier();
     }
 
     /**

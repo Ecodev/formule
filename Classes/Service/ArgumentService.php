@@ -17,26 +17,33 @@ class ArgumentService
 {
 
     /**
+     * @var int
+     */
+    static protected $templateIdentifier = 0;
+
+    /**
      * @param int $identifier
      * @return array
      */
-    public function getValues($identifier = 0)
+    public function getValues(int $identifier = 0): array
     {
         $values = [];
 
         $identifier = $this->sanitizeIdentifier($identifier);
+
         if ($identifier > 0) {
 
-            $record = $this->getRecord((int)$identifier);
+            $record = $this->getRecord($identifier);
             if (!empty($record)) {
                 $settings = $this->getFlexFormService()->extractSettings($record['pi_flexform']);
 
+                self::$templateIdentifier = (int)$settings['template'];
                 $templateService = $this->getTemplateService($settings['template']);
                 $templateFields = $templateService->getFields();
 
                 foreach ($templateFields as $templateField) {
                     $value = GeneralUtility::_GP($templateField);
-                    if (!is_null($value)) {
+                    if ($value !== null) {
                         $values[$templateField] = $value;
                     }
                 }
@@ -47,9 +54,9 @@ class ArgumentService
 
     /**
      * @param int $identifier
-     * @return array|null
+     * @return int
      */
-    protected function sanitizeIdentifier($identifier)
+    protected function sanitizeIdentifier(int $identifier): int
     {
         if ($identifier < 1) {
             $arguments = GeneralUtility::_GP('tx_formule_pi1');
@@ -86,7 +93,7 @@ class ArgumentService
     }
 
     /**
-     * @return FlexFormService
+     * @return FlexFormService|object
      */
     protected function getFlexFormService()
     {
@@ -95,7 +102,7 @@ class ArgumentService
 
     /**
      * @param string $templateIdentifier
-     * @return TemplateService
+     * @return TemplateService|object
      */
     protected function getTemplateService($templateIdentifier)
     {
@@ -110,6 +117,14 @@ class ArgumentService
     protected function getPageRepository()
     {
         return $GLOBALS['TSFE']->sys_page;
+    }
+
+    /**
+     * @return int
+     */
+    public static function getTemplateIdentifier(): int
+    {
+        return self::$templateIdentifier;
     }
 
 }
