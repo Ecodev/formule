@@ -18,5 +18,3 @@ if ($packageManager->isPackageActive('vidi')
         ->setDefaultPid(0)
         ->register();
 }
-
-$GLOBALS['TBE_MODULES_EXT']['xMOD_db_new_content_el']['addElClasses']['tx_formule_wizard'] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formule') . 'Classes/Backend/Wizard.php';
