@@ -20,11 +20,19 @@ class VariableViewHelper extends AbstractViewHelper
 {
 
     /**
-     * @param string $name
+     * @return void
+     */
+    public function initializeArguments(): void
+    {
+        $this->registerArgument('name', 'string', '', true);
+    }
+
+    /**
      * @return array
      */
-    public function render($name)
+    public function render()
     {
+        $name = $this->arguments['name'];
         return $this->getTemplateService()->getVariable($name);
     }
 

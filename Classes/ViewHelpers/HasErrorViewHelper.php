@@ -19,16 +19,24 @@ class HasErrorViewHelper extends AbstractViewHelper
 {
 
     /**
-     * @param string $field
+     * @return void
+     */
+    public function initializeArguments(): void
+    {
+        $this->registerArgument('field', 'string', '', true);
+    }
+
+    /**
      * @return string
      */
-    public function render($field)
+    public function render()
     {
+        $field = $this->arguments['field'];
         return $this->getValidationService()->hasErrors($field) ? 'has-error' : '';
     }
 
     /**
-     * @return ValidationService
+     * @return ValidationService|object
      */
     protected function getValidationService()
     {

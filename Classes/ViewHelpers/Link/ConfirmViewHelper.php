@@ -20,12 +20,19 @@ class ConfirmViewHelper extends AbstractViewHelper
 {
 
     /**
-     * @param string|int $pageUid
+     * @return void
+     */
+    public function initializeArguments(): void
+    {
+        $this->registerArgument('pageUid', 'string', '', true);
+    }
+
+    /**
      * @return string
      */
-    public function render($pageUid)
+    public function render()
     {
-
+        $pageUid = $this->arguments['pageUid'];
         // Render inner content
         $content = $this->renderChildren();
 
@@ -51,7 +58,7 @@ class ConfirmViewHelper extends AbstractViewHelper
             $resolvedPageUid = $pageUid;
         }
 
-        return $resolvedPageUid;
+        return (int)$resolvedPageUid;
     }
 
     /**

@@ -27,16 +27,25 @@ class ShowViewHelper extends AbstractViewHelper
     protected $escapeOutput = false;
 
     /**
+     * @return void
+     */
+    public function initializeArguments(): void
+    {
+        $this->registerArgument('labelsIn', 'string', '', false, 'formule');
+        $this->registerArgument('labelPrefix', 'string', '', false, '');
+        $this->registerArgument('excludedFields', 'string', '', false, '');
+    }
+
+    /**
      * Show sent values of a form.
      *
-     * @param string $labelsIn
-     * @param string $labelPrefix
-     * @param string $excludedFields
      * @return string
      */
-    public function render($labelsIn = 'formule', $labelPrefix = '', $excludedFields = '')
+    public function render()
     {
-
+        $labelsIn = $this->arguments['labelsIn'];
+        $labelPrefix = $this->arguments['labelPrefix'];
+        $excludedFields = $this->arguments['excludedFields'];
         $output = '';
 
         $values = $this->templateVariableContainer->getAll();
