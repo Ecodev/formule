@@ -25,7 +25,7 @@ class ConfigurationUtility implements SingletonInterface {
 	/**
 	 * Returns a class instance.
 	 *
-	 * @return \Fab\Formule\Utility\ConfigurationUtility
+	 * @return \Fab\Formule\Utility\ConfigurationUtility|object
 	 */
 	static public function getInstance() {
 		return GeneralUtility::makeInstance(self::class);
@@ -33,26 +33,25 @@ class ConfigurationUtility implements SingletonInterface {
 
 	/**
 	 * Constructor
-	 *
-	 * @return \Fab\Formule\Utility\ConfigurationUtility
-	 */
+     */
 	public function __construct() {
 
-		/** @var \TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility $configurationUtility */
-		$configurationUtility = $this->getObjectManager()->get('TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility');
-		$configuration = $configurationUtility->getCurrentConfiguration('formule');
+
+        $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+        )->get('formule');
 
 		// Fill up configuration array with relevant values.
-		foreach ($configuration as $key => $data) {
-			$this->configuration[$key] = $data['value'];
+		foreach ($configuration as $key => $value) {
+			$this->configuration[$key] = $value;
 		}
 	}
 
 	/**
-	 * @return ObjectManager
+	 * @return ObjectManager|object
 	 */
 	protected function getObjectManager() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+		return GeneralUtility::makeInstance(ObjectManager::class);
 	}
 
 	/**
