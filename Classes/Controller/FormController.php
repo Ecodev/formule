@@ -32,7 +32,7 @@ class FormController extends ActionController
     /**
      * @return string|null
      */
-    public function showAction()
+    public function showAction(): ?string
     {
         $message = null;
         if (empty($this->settings['template'])) {
@@ -69,7 +69,7 @@ class FormController extends ActionController
     /**
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      */
-    public function initializeSubmitAction()
+    public function initializeSubmitAction(): void
     {
         /** @var ValuesConverter $typeConverter */
         $typeConverter = $this->objectManager->get(ValuesConverter::class);
@@ -91,7 +91,7 @@ class FormController extends ActionController
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
-    public function submitAction(array $values = [])
+    public function submitAction(array $values = []): void
     {
         // Fix settings in case two instances are loaded on the same page
         $this->settings = array_merge($this->settings, ArgumentService::getSettings());
@@ -166,13 +166,13 @@ class FormController extends ActionController
     /**
      * @return string
      */
-    public function feedbackAction()
+    public function feedbackAction(): string
     {
         // We can retrieve only once.
         $values = $this->getRegistryService()->get('values');
 
         // Will be null if the User reload the feedback action
-        if (is_null($values)) {
+        if ($values === null) {
             $this->redirect('show');
         }
 

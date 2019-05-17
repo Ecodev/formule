@@ -22,7 +22,7 @@ class UserDataLoader extends AbstractLoader
      * @param array $values
      * @return array
      */
-    public function load(array $values)
+    public function load(array $values): array
     {
 
         $identifierField = $this->getTemplateService()->getIdentifierField();
@@ -51,7 +51,7 @@ class UserDataLoader extends AbstractLoader
     }
 
     /**
-     * @return TemplateService
+     * @return TemplateService|object
      */
     protected function getTemplateService()
     {

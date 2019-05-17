@@ -18,7 +18,7 @@ class UserDataSessionLoader extends AbstractLoader
      * @param array $values
      * @return array
      */
-    public function load(array $values)
+    public function load(array $values): array
     {
         $userData = $this->getFrontendUser()->user;
 
