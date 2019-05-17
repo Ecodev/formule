@@ -66,6 +66,10 @@ class TemplateService
      */
     public function __construct($templateIdentifier = 0)
     {
+        if ((int)$templateIdentifier > 0) {
+            ArgumentService::setTemplateIdentifier($templateIdentifier);
+        }
+
         $this->templateIdentifier = (int)$templateIdentifier > 0
             ? (int)$templateIdentifier
             : ArgumentService::getTemplateIdentifier();
@@ -74,7 +78,7 @@ class TemplateService
     /**
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->get('path');
     }
@@ -82,7 +86,7 @@ class TemplateService
     /**
      * @return array
      */
-    public function getAssets()
+    public function getAssets(): array
     {
         $assets = $this->get('asset');
         return is_array($assets) ? $assets : [];
@@ -91,7 +95,7 @@ class TemplateService
     /**
      * @return string
      */
-    public function getResolvedPath()
+    public function getResolvedPath(): string
     {
         return GeneralUtility::getFileAbsFileName($this->getPath());
     }
@@ -99,7 +103,7 @@ class TemplateService
     /**
      * @return string
      */
-    public function getPersistingTableName()
+    public function getPersistingTableName(): string
     {
         $persist = $this->get('persist');
         $tableName = is_array($persist) && empty($persist['tableName']) ? '' : $persist['tableName'];
@@ -109,7 +113,7 @@ class TemplateService
     /**
      * @return string
      */
-    public function getIdentifierField()
+    public function getIdentifierField(): string
     {
         $persist = $this->get('persist');
         $identifierField = is_array($persist) && empty($persist['identifierField']) ? 'uid' : $persist['identifierField'];
@@ -119,7 +123,7 @@ class TemplateService
     /**
      * @return bool
      */
-    public function hasPersistingTable()
+    public function hasPersistingTable(): bool
     {
         return $this->getPersistingTable() !== '';
     }
@@ -127,7 +131,7 @@ class TemplateService
     /**
      * @return bool
      */
-    public function hasRedirect()
+    public function hasRedirect(): bool
     {
         $redirect = $this->get('redirect');
         return is_array($redirect) && !empty($redirect);
@@ -136,7 +140,7 @@ class TemplateService
     /**
      * @return bool
      */
-    public function isDefaultRedirectAction()
+    public function isDefaultRedirectAction(): bool
     {
         return $this->getRedirectAction() === 'feedback';
     }
@@ -145,7 +149,7 @@ class TemplateService
      * @param array $values
      * @return string
      */
-    public function getRedirectUrl(array $values)
+    public function getRedirectUrl(array $values): string
     {
         $arguments = [];
 
@@ -168,7 +172,7 @@ class TemplateService
     /**
      * @return int|null
      */
-    public function getRedirectPageUid()
+    public function getRedirectPageUid(): ?int
     {
 
         $redirect = $this->get('redirect');
@@ -178,7 +182,7 @@ class TemplateService
     /**
      * @return string
      */
-    public function getRedirectAction()
+    public function getRedirectAction(): string
     {
 
         $redirect = $this->get('redirect');
@@ -188,7 +192,7 @@ class TemplateService
     /**
      * @return string
      */
-    public function getRedirectController()
+    public function getRedirectController(): string
     {
         $redirect = $this->get('redirect');
         return is_array($redirect) && !empty($redirect['controller']) ? $redirect['controller'] : 'Form';
@@ -197,7 +201,7 @@ class TemplateService
     /**
      * @return bool
      */
-    public function hasWarnings()
+    public function hasWarnings(): bool
     {
         $warnings = $this->getWarnings();
         return !empty($warnings);
@@ -206,7 +210,7 @@ class TemplateService
     /**
      * @return array
      */
-    public function getDefaultValues()
+    public function getDefaultValues(): array
     {
         $persist = $this->get('persist');
 
@@ -218,7 +222,7 @@ class TemplateService
     /**
      * @return array
      */
-    public function getMappings()
+    public function getMappings(): array
     {
         $persist = $this->get('persist');
 
@@ -237,7 +241,7 @@ class TemplateService
     /**
      * @return array
      */
-    public function getWarnings()
+    public function getWarnings(): array
     {
         $warnings = [];
         if ($this->hasPersistingTable()) {
@@ -265,7 +269,7 @@ class TemplateService
     /**
      * @return array
      */
-    public function getProcessors()
+    public function getProcessors(): array
     {
         $persist = $this->get('persist');
         $processors = is_array($persist) && empty($persist['processors']) ? [] : $persist['processors'];
@@ -275,7 +279,7 @@ class TemplateService
     /**
      * @return array
      */
-    public function getLoaders()
+    public function getLoaders(): array
     {
         $loaders = $this->get('loaders');
         return is_array($loaders) ? $loaders : [];
@@ -284,7 +288,7 @@ class TemplateService
     /**
      * @return array
      */
-    public function getFinishers()
+    public function getFinishers(): array
     {
         $finishers = $this->get('finishers');
         return is_array($finishers) ? $finishers : [];
@@ -293,7 +297,7 @@ class TemplateService
     /**
      * @return array
      */
-    public function getValidators()
+    public function getValidators(): array
     {
         $validators = $this->get('validators');
         return is_array($validators) ? $validators : [];
@@ -302,7 +306,7 @@ class TemplateService
     /**
      * @return string
      */
-    public function getPersistingTable()
+    public function getPersistingTable(): string
     {
         return (string)$this->getPersistingTableName();
     }
@@ -325,7 +329,7 @@ class TemplateService
     /**
      * @return bool
      */
-    public function hasHoneyPot()
+    public function hasHoneyPot(): bool
     {
         $sectionCode = $this->getSection(self::SECTION_MAIN);
         return (bool)preg_match('/<.*:honeyPot/', $sectionCode);
@@ -334,7 +338,7 @@ class TemplateService
     /**
      * @return array
      */
-    public function getFields()
+    public function getFields(): array
     {
         $templateFields = [];
         preg_match_all('/name="(\w+)"/', $this->getSection(self::SECTION_MAIN), $matches);
@@ -360,7 +364,7 @@ class TemplateService
     /**
      * @return string
      */
-    public function getPreferredEmailBodyEncoding()
+    public function getPreferredEmailBodyEncoding(): string
     {
         $preferEmailBodyEncoding = $this->get('preferEmailBodyEncoding');
         if (is_null($preferEmailBodyEncoding)) {
@@ -375,7 +379,7 @@ class TemplateService
     /**
      * @return array
      */
-    public function getRequiredFields()
+    public function getRequiredFields(): array
     {
         $requiredFields = [];
         foreach ($this->getFields() as $field) {
@@ -391,7 +395,7 @@ class TemplateService
      * @param string $sectionName
      * @return string
      */
-    public function getSection($sectionName)
+    public function getSection($sectionName): string
     {
         if (!isset($this->sections[$sectionName])) {
             $template = $this->getPath();
@@ -431,7 +435,7 @@ class TemplateService
     /**
      * @return int
      */
-    public function getTemplateIdentifier()
+    public function getTemplateIdentifier(): int
     {
         return $this->templateIdentifier;
     }
@@ -441,7 +445,7 @@ class TemplateService
      * @return array
      * @throws \TYPO3\CMS\Fluid\Core\Parser\Exception
      */
-    protected function getNamespaceDefinitions($templateCode)
+    protected function getNamespaceDefinitions($templateCode): array
     {
         // Only analyse once
         if (is_null($this->namespaces)) {
@@ -464,7 +468,7 @@ class TemplateService
      * @return string The updated template string without namespace declarations inside
      * @throws \TYPO3\CMS\Fluid\Core\Parser\Exception if a namespace can't be resolved or has been declared already
      */
-    protected function extractNamespaceDefinitions($templateString)
+    protected function extractNamespaceDefinitions($templateString): string
     {
         $matches = array();
         preg_match_all(self::$SCAN_PATTERN_XMLNSDECLARATION, $templateString, $matches, PREG_SET_ORDER);
@@ -501,7 +505,7 @@ class TemplateService
     /**
      * @return string
      */
-    protected function hasIdentifierValue()
+    protected function hasIdentifierValue(): string
     {
         return (bool)$this->getIdentifierValue();
     }
@@ -509,7 +513,7 @@ class TemplateService
     /**
      * @return string
      */
-    protected function getIdentifierValue()
+    protected function getIdentifierValue(): string
     {
         $identifierField = $this->getIdentifierField();
         return (string)GeneralUtility::_GP($identifierField);
@@ -518,7 +522,7 @@ class TemplateService
     /**
      * @return UriBuilder
      */
-    protected function getUriBuilder()
+    protected function getUriBuilder(): UriBuilder
     {
         /** @var $uriBuilder UriBuilder */
         $uriBuilder = $this->getObjectManager()->get(UriBuilder::class);
@@ -528,7 +532,7 @@ class TemplateService
     /**
      * @return TypoScriptService
      */
-    protected function getTypoScriptService()
+    protected function getTypoScriptService(): TypoScriptService
     {
         return GeneralUtility::makeInstance(TypoScriptService::class);
     }
@@ -536,7 +540,7 @@ class TemplateService
     /**
      * @return \TYPO3\CMS\Lang\LanguageService
      */
-    protected function getLanguageService()
+    protected function getLanguageService(): \TYPO3\CMS\Lang\LanguageService
     {
         return $GLOBALS['LANG'];
     }
@@ -544,7 +548,7 @@ class TemplateService
     /**
      * @return \TYPO3\CMS\Extbase\Object\ObjectManager
      */
-    protected function getObjectManager()
+    protected function getObjectManager(): \TYPO3\CMS\Extbase\Object\ObjectManager
     {
         return GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
     }

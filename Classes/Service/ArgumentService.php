@@ -129,6 +129,15 @@ class ArgumentService
     }
 
     /**
+     * @param int $templateIdentifier
+     * @return void
+     */
+    public static function setTemplateIdentifier(int $templateIdentifier): void
+    {
+        self::$templateIdentifier = $templateIdentifier;
+    }
+
+    /**
      * @return array
      */
     public static function getSettings(): array
