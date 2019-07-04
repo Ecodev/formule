@@ -8,6 +8,8 @@ namespace Fab\Formule\Service;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -76,22 +78,35 @@ class ArgumentService
     protected function getRecord($identifier)
     {
         $tableName = 'tt_content';
-        $clause = 'uid = ' . $identifier;
-        $clause .= $this->getPageRepository()->enableFields($tableName);
-        $clause .= $this->getPageRepository()->deleteClause($tableName);
-        $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('uid, pi_flexform', $tableName, $clause);
+
+        /** @var QueryBuilder $query */
+        $query = $this->getQueryBuilder($tableName);
+
+        $query->select('uid, pi_flexform')
+            ->from($tableName)
+            ->where(
+                $query->expr()->eq(
+                    'uid',
+                    (int)$identifier
+                )
+            );
+
+        $record = $query
+            ->execute()
+            ->fetch();
+
         return $record;
     }
 
-
     /**
-     * Returns a pointer to the database.
-     *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @param string $tableName
+     * @return object|QueryBuilder
      */
-    protected function getDatabaseConnection()
+    protected function getQueryBuilder($tableName): QueryBuilder
     {
-        return $GLOBALS['TYPO3_DB'];
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        return $connectionPool->getQueryBuilderForTable($tableName);
     }
 
     /**

@@ -8,6 +8,9 @@ namespace Fab\Formule\Validator;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -27,23 +30,45 @@ class EmailUniqueValidator extends AbstractValidator
 
         $tableName = $this->getTemplateService()->getPersistingTable();
 
-        $clause = sprintf('email = "%s"', $this->getDatabaseConnection()->quoteStr($values['email'], $tableName));
+        /** @var QueryBuilder $query */
+        $query = $this->getQueryBuilder($tableName);
+
+        /** @var DeletedRestriction $restriction */
+        $restriction = GeneralUtility::makeInstance(DeletedRestriction::class);
+
+        // We only want the "deleted" constraint
+        $query
+            ->getRestrictions()
+            ->removeAll()
+            ->add($restriction);
+
+        $query
+            ->select('*')
+            ->from($tableName);
+
+        $constraints[] = $query->expr()->eq(
+            'email',
+            $query->expr()->literal($values['email'])
+        );
 
         // true means we are updating the record.
         $identifierField = $this->getTemplateService()->getIdentifierField();
         $identifierValue = GeneralUtility::_GP($identifierField);
 
         if (!empty($identifierValue)) {
-            $clause .= sprintf(
-                ' AND %s != "%s"',
+            $constraints[] = $query->expr()->eq(
                 $identifierField,
-                $this->getDatabaseConnection()->quoteStr($identifierValue, $tableName)
+                $query->expr()->literal($identifierValue)
             );
         }
 
-        #$clause .= $this->getPageRepository()->enableFields($tableName);
-        $clause .= $this->getPageRepository()->deleteClause($tableName);
-        $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', $tableName, $clause);
+        foreach ($constraints as $constraint) {
+            $query->andWhere($constraint);
+        }
+
+        $record = $query
+            ->execute()
+            ->fetch();
 
         if (!empty($record)) {
             $value = LocalizationUtility::translate('error.email.unique', 'formule');
@@ -53,5 +78,15 @@ class EmailUniqueValidator extends AbstractValidator
         return $messages;
     }
 
+    /**
+     * @param string $tableName
+     * @return object|QueryBuilder
+     */
+    protected function getQueryBuilder($tableName): QueryBuilder
+    {
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        return $connectionPool->getQueryBuilderForTable($tableName);
+    }
 
 }

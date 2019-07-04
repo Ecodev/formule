@@ -8,7 +8,11 @@ namespace Fab\Formule\Service;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use cogpowered\FineDiff\Parser\Operations\Delete;
 use Fab\Formule\Processor\ProcessorInterface;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -116,7 +120,25 @@ class DataService
 
             $tableName = $this->getTemplateService()->getPersistingTable();
 
-            $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', $tableName, $this->getClause());
+            /** @var QueryBuilder $query */
+            $query = $this->getQueryBuilder($tableName);
+
+            /** @var DeletedRestriction $restriction */
+            $restriction = GeneralUtility::makeInstance(DeletedRestriction::class);
+            $query
+                ->getRestrictions()
+                ->removeAll()
+                ->add($restriction);
+
+            $query->select('*')
+                ->from($tableName)
+                ->where(
+                    $this->getDoctrineClause()
+                );
+
+            $record = $query
+                ->execute()
+                ->fetch();
         }
 
         return !empty($record);
@@ -125,16 +147,17 @@ class DataService
     /**
      * @return string
      */
-    protected function getClause()
+    protected function getDoctrineClause()
     {
         $tableName = $this->getTemplateService()->getPersistingTable();
-        $clause = sprintf(
-            '%s = "%s"',
+
+        /** @var QueryBuilder $query */
+        $query = $this->getQueryBuilder($tableName);
+
+        return $query->expr()->eq(
             $this->getTemplateService()->getIdentifierField(),
-            $this->getDatabaseConnection()->quoteStr($this->getIdentifierValue(), $tableName)
+            $query->expr()->literal($this->getIdentifierValue())
         );
-        $clause .= $this->getPageRepository()->deleteClause($tableName);
-        return $clause;
     }
 
     /**
@@ -229,6 +252,17 @@ class DataService
     protected function getDatabaseConnection()
     {
         return $GLOBALS['TYPO3_DB'];
+    }
+
+    /**
+     * @param string $tableName
+     * @return object|QueryBuilder
+     */
+    protected function getQueryBuilder($tableName): QueryBuilder
+    {
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        return $connectionPool->getQueryBuilderForTable($tableName);
     }
 
     /**
