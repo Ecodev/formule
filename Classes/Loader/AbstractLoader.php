@@ -8,19 +8,24 @@ namespace Fab\Formule\Loader;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Class AbstractLoader
  */
 abstract class AbstractLoader implements LoaderInterface
 {
     /**
-     * Returns a pointer to the database.
-     *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @param string $tableName
+     * @return object|QueryBuilder
      */
-    protected function getDatabaseConnection()
+    protected function getQueryBuilder($tableName): QueryBuilder
     {
-        return $GLOBALS['TYPO3_DB'];
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        return $connectionPool->getQueryBuilderForTable($tableName);
     }
 
 }

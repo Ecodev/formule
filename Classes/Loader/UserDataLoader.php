@@ -9,6 +9,7 @@ namespace Fab\Formule\Loader;
  */
 
 use Fab\Formule\Service\TemplateService;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -29,13 +30,21 @@ class UserDataLoader extends AbstractLoader
         $identifierValue = GeneralUtility::_GP($identifierField);
 
         $tableName = $this->getTemplateService()->getPersistingTableName();
-        $clause = sprintf(
-            '%s = "%s"',
-            $identifierField,
-            $this->getDatabaseConnection()->quoteStr($identifierValue, $tableName)
-        );
 
-        $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', $tableName, $clause);
+        /** @var QueryBuilder $query */
+        $query = $this->getQueryBuilder($tableName);
+        $query->select('*')
+            ->from($tableName)
+            ->where(
+                $query->expr()->eq(
+                    $identifierField,
+                    $query->expr()->literal($identifierValue)
+                )
+            );
+
+        $record = $query
+            ->execute()
+            ->fetch();
 
         $fields = $this->getTemplateService()->getFields();
 
