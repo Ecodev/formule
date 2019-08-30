@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Formule\Service;
 
 /*
@@ -8,8 +9,8 @@ namespace Fab\Formule\Service;
  * LICENSE.md file that was distributed with this source code.
  */
 
-use cogpowered\FineDiff\Parser\Operations\Delete;
 use Fab\Formule\Processor\ProcessorInterface;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
@@ -21,6 +22,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DataService
 {
+    /**
+     * @var string
+     */
+    protected $templateIdentifier = '';
 
     /**
      * DataService constructor.
@@ -48,16 +53,26 @@ class DataService
 
         $finalValues = $this->processValues($finalValues, ProcessorInterface::INSERT);
 
-        $result = $this->getDatabaseConnection()->exec_INSERTquery($this->getTemplateService()->getPersistingTable(), $finalValues);
+        $tableName = $this->getTemplateService()->getPersistingTable();
+        $connection = $this->getConnection($tableName);
+        $connection->insert(
+            $tableName,
+            $finalValues
+        );
 
-        if (!$result) {
-            $this->getLogger()->error('Formule: I could not create a new ' . $this->getTemplateService()->getPersistingTable(), [
-                $this->getDatabaseConnection()->INSERTquery($this->getTemplateService()->getPersistingTable(), $finalValues)
-            ]);
-        }
-
-        $finalValues['uid'] = $this->getDatabaseConnection()->sql_insert_id();
+        $finalValues['uid'] = $connection->lastInsertId();
         return $finalValues;
+    }
+
+    /**
+     * @param string $tableName
+     * @return object|Connection
+     */
+    protected function getConnection($tableName): Connection
+    {
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        return $connectionPool->getConnectionForTable($tableName);
     }
 
     /**
@@ -76,17 +91,16 @@ class DataService
         $finalValues = $this->processValues($finalValues, ProcessorInterface::UPDATE);
         unset($finalValues['token'], $finalValues['uid']);
 
-        $result = $this->getDatabaseConnection()->exec_UPDATEquery(
-            $this->getTemplateService()->getPersistingTable(),
-            $this->getClause(),
-            $finalValues
-        );
+        $tableName = $this->getTemplateService()->getPersistingTable();
+        $connection = $this->getConnection($tableName);
 
-        if (!$result) {
-            $this->getLogger()->error('Formule: I could not update ' . $this->getTemplateService()->getPersistingTable() . ':' . $this->getTemplateService()->getIdentifierField(), [
-                $result = $this->getDatabaseConnection()->UPDATEquery($this->getTemplateService()->getPersistingTable(), $this->getClause(), $finalValues)
-            ]);
-        }
+        $connection->update(
+            $tableName,
+            $finalValues,
+            [
+                $this->getTemplateService()->getIdentifierField() => $this->getIdentifierValue()
+            ]
+        );
 
         return $finalValues;
     }
@@ -133,7 +147,7 @@ class DataService
             $query->select('*')
                 ->from($tableName)
                 ->where(
-                    $this->getDoctrineClause()
+                    $this->getClause()
                 );
 
             $record = $query
@@ -147,7 +161,7 @@ class DataService
     /**
      * @return string
      */
-    protected function getDoctrineClause()
+    protected function getClause()
     {
         $tableName = $this->getTemplateService()->getPersistingTable();
 
@@ -242,16 +256,6 @@ class DataService
         }
 
         return $resolvedFieldName;
-    }
-
-    /**
-     * Returns a pointer to the database.
-     *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
     }
 
     /**

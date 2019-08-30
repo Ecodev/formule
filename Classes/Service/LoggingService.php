@@ -8,6 +8,8 @@ namespace Fab\Formule\Service;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -25,10 +27,11 @@ class LoggingService
      */
     public function log(MailMessage $message)
     {
-
         $tableName = ExtensionManagementUtility::isLoaded('messenger')
             ? 'tx_messenger_domain_model_sentmessage'
             : 'tx_formule_domain_model_sentmessage';
+
+        $queryBuilder = $this->getQueryBuilder($tableName);
 
         $values = [
             'pid' => (int)$this->getFrontendObject()->id,
@@ -36,8 +39,8 @@ class LoggingService
             'recipient' => $this->formatEmails($message->getTo()),
             'recipient_cc' => $this->formatEmails($message->getCc()),
             'recipient_bcc' => $this->formatEmails($message->getBcc()),
-            'subject' => $this->getDatabaseConnection()->quoteStr($message->getSubject(), $tableName),
-            'body' => $this->getDatabaseConnection()->quoteStr($message->getBody(), $tableName),
+            'subject' => $queryBuilder->quote($message->getSubject(), $tableName),
+            'body' => $queryBuilder->quote($message->getBody(), $tableName),
             #'attachment' => '',
             'context' => (string)GeneralUtility::getApplicationContext(),
             'is_sent' => (int)$message->isSent(),
@@ -46,7 +49,21 @@ class LoggingService
             'crdate' => time(),
         ];
 
-        $this->getDatabaseConnection()->exec_INSERTquery($tableName, $values);
+        $queryBuilder
+            ->insert($tableName)
+            ->values($values)
+            ->execute();
+    }
+
+    /**
+     * @param string $tableName
+     * @return object|QueryBuilder
+     */
+    protected function getQueryBuilder($tableName): QueryBuilder
+    {
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        return $connectionPool->getQueryBuilderForTable($tableName);
     }
 
     /**
@@ -60,16 +77,6 @@ class LoggingService
             $formattedEmails = implode(', ', array_keys($emails));
         }
         return $formattedEmails;
-    }
-
-    /**
-     * Returns a pointer to the database.
-     *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
     }
 
     /**
