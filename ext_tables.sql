@@ -14,7 +14,6 @@ CREATE TABLE tx_formule_domain_model_sentmessage (
 	body text,
 	attachment varchar(255) DEFAULT '' NOT NULL,
 	context varchar(255) DEFAULT '' NOT NULL,
-	is_sent int(11) unsigned DEFAULT '0' NOT NULL,
 	sent_time varchar(255) DEFAULT '' NOT NULL,
 	ip varchar(255) DEFAULT '' NOT NULL,
 

@@ -33,9 +33,6 @@
 			<trans-unit id="context">
 				<source>Context</source>
 			</trans-unit>
-			<trans-unit id="is_sent">
-				<source>Could be sent</source>
-			</trans-unit>
 			<trans-unit id="sent_time">
 				<source>Sent Time</source>
 			</trans-unit>

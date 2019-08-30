@@ -10,10 +10,10 @@ $tca = [
         'iconfile' => 'EXT:formule/Resources/Public/Images/tx_formule_domain_model_sentmessage.png'
     ],
     'interface' => [
-        'showRecordFieldList' => 'sender, recipient, subject, body, sent_time, is_sent, ip, context',
+        'showRecordFieldList' => 'sender, recipient, subject, body, sent_time, ip, context',
     ],
     'types' => [
-        '1' => ['showitem' => 'sender, recipient, subject, body, sent_time, is_sent, ip, context'],
+        '1' => ['showitem' => 'sender, recipient, subject, body, sent_time, ip, context'],
     ],
     'columns' => [
 
@@ -76,14 +76,6 @@ $tca = [
                 'size' => 30,
                 'readOnly' => true,
                 'eval' => 'trim'
-            ],
-        ],
-        'is_sent' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:formule/Resources/Private/Language/tx_formule_domain_model_sentmessage.xlf:is_sent',
-            'config' => [
-                'type' => 'check',
-                'readOnly' => true,
             ],
         ],
         'sent_time' => [
