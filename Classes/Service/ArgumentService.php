@@ -82,7 +82,7 @@ class ArgumentService
         /** @var QueryBuilder $query */
         $query = $this->getQueryBuilder($tableName);
 
-        $query->select('uid, pi_flexform')
+        $query->select('uid', 'pi_flexform')
             ->from($tableName)
             ->where(
                 $query->expr()->eq(
