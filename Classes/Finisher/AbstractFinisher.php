@@ -13,14 +13,4 @@ namespace Fab\Formule\Finisher;
  */
 abstract class AbstractFinisher implements FinisherInterface
 {
-    /**
-     * Returns a pointer to the database.
-     *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
-    }
-
 }

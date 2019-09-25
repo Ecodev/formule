@@ -16,18 +16,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 abstract class AbstractValidator implements ValidatorInterface
 {
-    /**
-     * Returns a pointer to the database.
-     *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
-    }
 
     /**
-     * @return TemplateService
+     * @return TemplateService|object
      */
     protected function getTemplateService()
     {

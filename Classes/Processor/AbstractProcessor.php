@@ -13,13 +13,4 @@ namespace Fab\Formule\Processor;
  */
 abstract class AbstractProcessor implements ProcessorInterface
 {
-    /**
-     * Returns a pointer to the database.
-     *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
-    }
 }
