@@ -19,25 +19,24 @@ Project info and releases
 Development version:
 https://github.com/Ecodev/formule
 
-	git clone https://github.com/Ecodev/formule.git
+```shell script
+git clone https://github.com/Ecodev/formule.git
+```
 
 News about latest development are also announced on http://twitter.com/fudriot
 
 Installation and requirement
 ============================
 
-The extension **requires TYPO3 6.2 or greater**. Install the extension as normal in the Extension Manager from the TER (to be released) or download via Composer:
+Download the extension as normal in the Extension Manager or via Composer:
 
+```shell script
+composer require "fab/formule" 
 ```
 
-	"require": {
-	    "fab/formule": "dev-master",
-	}
-
-	-> next step, is to open the Extension Manager in the BE.
-```
-
-You are almost there! Create a Content Element of type "formule" in `General Plugin` > `Variety of forms` and configure at your convenience.
+Install the extension in the Extension Manager. 
+You are almost there! Create a Content Element of type "formule" 
+in `General Plugin` > `Variety of forms` and configure at your convenience.
 
 ![](https://raw.githubusercontent.com/Ecodev/formule/master/Documentation/Backend-01.png)
 
