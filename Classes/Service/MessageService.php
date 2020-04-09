@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Formule\Service;
 
 /*
@@ -11,6 +12,7 @@ namespace Fab\Formule\Service;
 use Michelf\Markdown;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -63,7 +65,6 @@ class MessageService
      */
     public function send(array $values)
     {
-
         $this->values = $values;
 
         // Substitute markers
@@ -136,6 +137,9 @@ class MessageService
         $view = $this->getObjectManager()->get(StandaloneView::class);
         $view->setTemplateSource($content);
 
+        // Make it possible to keen the syntact {values.foo} in the template
+        $values['values'] = $values;
+
         $view->assignMultiple($values);
         return trim($view->render());
     }
@@ -190,7 +194,7 @@ class MessageService
     }
 
     /**
-     * @return string
+     * @return array
      */
     protected function getCc()
     {
@@ -204,7 +208,7 @@ class MessageService
     }
 
     /**
-     * @return string
+     * @return array
      */
     protected function getBcc()
     {
@@ -255,7 +259,7 @@ class MessageService
     }
 
     /**
-     * @return MailMessage
+     * @return object|MailMessage
      */
     protected function getMailMessage()
     {
@@ -266,7 +270,7 @@ class MessageService
     }
 
     /**
-     * @return LoggingService
+     * @return object|LoggingService
      * @throws \InvalidArgumentException
      */
     protected function getLoggingService()
@@ -275,16 +279,16 @@ class MessageService
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Object\ObjectManager
+     * @return object|ObjectManager
      * @throws \InvalidArgumentException
      */
     protected function getObjectManager()
     {
-        return GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+        return GeneralUtility::makeInstance(ObjectManager::class);
     }
 
     /**
-     * @return EmailAddressService
+     * @return object|EmailAddressService
      * @throws \InvalidArgumentException
      */
     public function getEmailAddressService()
@@ -294,7 +298,7 @@ class MessageService
 
     /**
      * @param int $templateIdentifier
-     * @return TemplateService
+     * @return object|TemplateService
      * @throws \InvalidArgumentException
      */
     protected function getTemplateService($templateIdentifier)
