@@ -126,6 +126,14 @@ class FormController extends ActionController
         $values['HTTP_HOST'] = GeneralUtility::getIndpEnv('HTTP_HOST');
         $values['HTTP_REFERER'] = GeneralUtility::getIndpEnv('HTTP_REFERER');
 
+        // Possible finishers
+        foreach ($templateService->getFinishers() as $className) {
+
+            /** @var \Fab\Formule\Finisher\FinisherInterface $finisher */
+            $finisher = GeneralUtility::makeInstance($className);
+            $values = $finisher->finish($values);
+        };
+
         // Possible email to admin.
         if (!empty($this->settings['emailAdminTo'])) {
             $this->getMessageService(MessageService::TO_ADMIN)->send($values);
@@ -135,14 +143,6 @@ class FormController extends ActionController
         if (!empty($this->settings['emailUserTo'])) {
             $this->getMessageService(MessageService::TO_USER)->send($values);
         }
-
-        // Possible finishers
-        foreach ($templateService->getFinishers() as $className) {
-
-            /** @var \Fab\Formule\Finisher\FinisherInterface $finisher */
-            $finisher = GeneralUtility::makeInstance($className);
-            $values = $finisher->finish($values);
-        };
 
         $this->getSignalSlotDispatcher()->dispatch(self::class, 'beforeRedirect', [$values]);
 
