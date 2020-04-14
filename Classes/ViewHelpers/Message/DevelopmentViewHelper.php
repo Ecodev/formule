@@ -81,21 +81,21 @@ class DevelopmentViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @return RedirectService
+     * @return object|RedirectService
      */
     public function getRedirectService() {
         return GeneralUtility::makeInstance(RedirectService::class);
     }
 
     /**
-     * @return EmailAddressService
+     * @return object|EmailAddressService
      */
     public function getEmailAddressService() {
         return GeneralUtility::makeInstance(EmailAddressService::class);
     }
 
     /**
-     * @return FlexFormService
+     * @return object|FlexFormService
      */
     protected function getFlexFormService()
     {
@@ -104,7 +104,7 @@ class DevelopmentViewHelper extends AbstractViewHelper
 
     /**
      * @param int $templateIdentifier
-     * @return TemplateService
+     * @return object|TemplateService
      */
     protected function getTemplateService($templateIdentifier)
     {
