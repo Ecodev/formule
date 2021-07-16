@@ -22,6 +22,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Extbase\Annotation as Extbase;
 
 /**
  * FormController
@@ -83,9 +84,9 @@ class FormController extends ActionController
 
     /**
      * @param array $values
-     * @validate $values \Fab\Formule\Domain\Validator\HoneyPotValidator
-     * @validate $values \Fab\Formule\Domain\Validator\ValuesValidator
-     * @validate $values \Fab\Formule\Domain\Validator\UserDefinedValidator
+     * @Extbase\Validate("\Fab\Formule\Domain\Validator\HoneyPotValidator", param="values")
+     * @Extbase\Validate("\Fab\Formule\Domain\Validator\ValuesValidator", param="values")
+     * @Extbase\Validate("\Fab\Formule\Domain\Validator\UserDefinedValidator", param="values")
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
