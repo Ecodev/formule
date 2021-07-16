@@ -11,7 +11,7 @@ namespace Fab\Formule\ViewHelpers;
 use Fab\Formule\Service\FlashMessageQueue;
 use Fab\Formule\Service\TemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper which returns variables.

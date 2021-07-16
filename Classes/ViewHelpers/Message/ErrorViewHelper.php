@@ -10,7 +10,7 @@ namespace Fab\Formule\ViewHelpers\Message;
 
 use Fab\Formule\Service\ValidationService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper which returns message errors.
