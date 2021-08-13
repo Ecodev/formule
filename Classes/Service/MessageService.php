@@ -85,14 +85,14 @@ class MessageService
         // According to preference.
         if ($this->isPlainTextPreferred()) {
             $text = Html2Text::getInstance()->convert($body);
-            $this->getMailMessage()->setBody($text);
+            $this->getMailMessage()->setBody()->text($text);
         } else {
-            $this->getMailMessage()->setBody($body, 'text/html');
+            $this->getMailMessage()->setBody()->html($body);
 
             // Attach plain text version if HTML tags are found in body
             if ($this->hasHtml($body)) {
                 $text = Html2Text::getInstance()->convert($body);
-                $this->getMailMessage()->addPart($text, 'text/plain');
+                $this->getMailMessage()->setBody()->text($text);
             }
 
         }
