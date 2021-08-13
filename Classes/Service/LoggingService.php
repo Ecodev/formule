@@ -8,6 +8,7 @@ namespace Fab\Formule\Service;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Mail\MailMessage;
@@ -42,7 +43,7 @@ class LoggingService
             'subject' => $message->getSubject(),
             'body' => $message->getBody()->bodyToString(),
             #'attachment' => '',
-            'context' => (string)GeneralUtility::getApplicationContext(),
+            'context' => (string)Environment::getContext(),
             'sent_time' => time(),
             'ip' => GeneralUtility::getIndpEnv('REMOTE_ADDR'),
             'crdate' => time(),

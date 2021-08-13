@@ -8,7 +8,7 @@ namespace Fab\Formule\ViewHelpers\Context;
  * LICENSE.md file that was distributed with this source code.
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -21,7 +21,7 @@ class IsDevelopmentViewHelper extends AbstractViewHelper
      * @return string
      */
     public function render () {
-        return GeneralUtility::getApplicationContext()->isDevelopment();
+        return Environment::getContext()->isDevelopment();
     }
 
 }

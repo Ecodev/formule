@@ -12,6 +12,7 @@ use Fab\Formule\Redirect\RedirectService;
 use Fab\Formule\Service\EmailAddressService;
 use Fab\Formule\Service\FlexFormService;
 use Fab\Formule\Service\TemplateService;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -26,7 +27,6 @@ class DevelopmentViewHelper extends AbstractViewHelper
     protected $escapeOutput = false;
 
     /**
-     * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception\InvalidVariableException
      * @return string
      */
     public function render()
@@ -46,7 +46,7 @@ class DevelopmentViewHelper extends AbstractViewHelper
 
             $output = sprintf(
                 "<pre style='clear: both'>%s CONTEXT<br /> %s %s %s %s %s</pre>",
-                strtoupper((string)GeneralUtility::getApplicationContext()),
+                strtoupper((string)Environment::getContext()),
                 $this->hasEmails($settings) ? '<br />- All emails will be redirected to ' . implode(', ', array_keys($redirectTo)) . '.' : '',
                 empty($to) ? '' : '<br />- Admin email will be sent to: ' . implode(', ', array_keys($to)),
                 #empty($cc) ? '' : sprintf('<br/>    - cc: %s', implode(', ', array_keys($cc))),

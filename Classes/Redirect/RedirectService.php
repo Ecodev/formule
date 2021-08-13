@@ -9,6 +9,7 @@ namespace Fab\Formule\Redirect;
  */
 
 use Fab\Formule\Service\EmailAddressService;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Formule\Utility\ConfigurationUtility;
@@ -27,9 +28,9 @@ class RedirectService implements SingletonInterface
     public function redirectionForCurrentContext()
     {
         // Fetch email from PHP configuration array at first.
-        $applicationContext = (string)GeneralUtility::getApplicationContext()->getParent();
+        $applicationContext = (string)Environment::getContext()->getParent();
         if (empty($applicationContext)) {
-            $applicationContext = (string)GeneralUtility::getApplicationContext();
+            $applicationContext = (string)Environment::getContext();
         }
         $applicationContext = strtolower($applicationContext);
 
@@ -54,7 +55,7 @@ class RedirectService implements SingletonInterface
     }
 
     /**
-     * @return EmailAddressService
+     * @return object|EmailAddressService
      */
     public function getEmailAddressService()
     {

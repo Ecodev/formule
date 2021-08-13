@@ -9,6 +9,7 @@ namespace Fab\Formule\Override\Core\Mail;
  */
 
 use Fab\Formule\Redirect\RedirectService;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -28,13 +29,13 @@ class MailMessage extends \TYPO3\CMS\Core\Mail\MailMessage
 
         // Means we want to redirect email.
         if (!empty($redirectTo)) {
-            $body = $this->addDebugInfoToBody($this->getBody());
-            $this->setBody($body);
+            $body = $this->addDebugInfoToBody($this->getBody()->bodyToString());
+            $this->setBody()->text($body);
             $this->setTo($redirectTo);
             $this->setCc(array()); // reset cc which was written as debug in the body message previously.
             $this->setBcc(array()); // same remark as bcc.
 
-            $subject = strtoupper((string)GeneralUtility::getApplicationContext()) . ' CONTEXT! ' . $this->getSubject();
+            $subject = strtoupper((string)Environment::getContext()) . ' CONTEXT! ' . $this->getSubject();
             $this->setSubject($subject);
         }
         return parent::send();
@@ -55,7 +56,7 @@ class MailMessage extends \TYPO3\CMS\Core\Mail\MailMessage
 
         $messageBody = sprintf(
             "%s CONTEXT: this message is for testing purposes. In Production, it will be sent as follows. \nto: %s\n%s%s\n%s",
-            strtoupper((string)GeneralUtility::getApplicationContext()),
+            strtoupper((string)Environment::getContext()),
             implode(',', array_keys($to)),
             empty($cc) ? '' : sprintf("cc: %s \n", implode(',', array_keys($cc))),
             empty($bbc) ? '' : sprintf("bcc: %s \n", implode(',', array_keys($bcc))),
@@ -66,7 +67,7 @@ class MailMessage extends \TYPO3\CMS\Core\Mail\MailMessage
     }
 
     /**
-     * @return RedirectService
+     * @return object|RedirectService
      */
     public function getRedirectService()
     {
