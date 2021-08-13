@@ -40,7 +40,7 @@ class LoggingService
             'recipient_cc' => $this->formatEmails($message->getCc()),
             'recipient_bcc' => $this->formatEmails($message->getBcc()),
             'subject' => $message->getSubject(),
-            'body' => $message->getBody(),
+            'body' => $message->getBody()->bodyToString(),
             #'attachment' => '',
             'context' => (string)GeneralUtility::getApplicationContext(),
             'sent_time' => time(),
@@ -73,7 +73,12 @@ class LoggingService
     {
         $formattedEmails = '';
         if (is_array($emails)) {
-            $formattedEmails = implode(', ', array_keys($emails));
+            $collectedEmailAddresses = [];
+            /** @var \Symfony\Component\Mime\Address $email */
+            foreach ($emails as $email) {
+                $collectedEmailAddresses[] = $email->getAddress();
+            }
+            $formattedEmails = implode(', ', $collectedEmailAddresses);
         }
         return $formattedEmails;
     }
