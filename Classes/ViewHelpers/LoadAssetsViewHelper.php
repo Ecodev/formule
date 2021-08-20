@@ -33,7 +33,7 @@ class LoadAssetsViewHelper extends AbstractViewHelper
         $this->registerArgument('type', 'string', '', false, self::TYPE_JS);
     }
 
-    public function render(): string
+    public function render()
     {
         $footer = $this->arguments['footer'];
         $type = $this->arguments['type'];
