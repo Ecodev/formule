@@ -33,10 +33,7 @@ class LoadAssetsViewHelper extends AbstractViewHelper
         $this->registerArgument('type', 'string', '', false, self::TYPE_JS);
     }
 
-    /**
-     * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception\InvalidVariableException
-     */
-    public function render()
+    public function render(): string
     {
         $footer = $this->arguments['footer'];
         $type = $this->arguments['type'];

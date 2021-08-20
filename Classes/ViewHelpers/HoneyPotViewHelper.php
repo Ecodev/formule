@@ -21,10 +21,7 @@ class HoneyPotViewHelper extends AbstractViewHelper
      */
     protected $escapeOutput = false;
 
-    /**
-     * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception\InvalidVariableException
-     */
-    public function render()
+    public function render(): string
     {
         return '
         <div style="display: none;">
