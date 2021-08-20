@@ -20,17 +20,15 @@ class MailMessage extends \TYPO3\CMS\Core\Mail\MailMessage
 
     /**
      * Sends the message.
-     *
-     * @return integer the number of recipients who were accepted for delivery
      */
-    public function send()
+    public function send(): bool
     {
         $redirectTo = $this->getRedirectService()->redirectionForCurrentContext();
 
         // Means we want to redirect email.
         if (!empty($redirectTo)) {
             $body = $this->addDebugInfoToBody($this->getBody()->bodyToString());
-            $this->setBody()->text($body);
+            $this->setBody()->html($body);
             $this->setTo($redirectTo);
             $this->setCc(array()); // reset cc which was written as debug in the body message previously.
             $this->setBcc(array()); // same remark as bcc.
@@ -40,7 +38,6 @@ class MailMessage extends \TYPO3\CMS\Core\Mail\MailMessage
         }
         return parent::send();
     }
-
 
     /**
      * Get a body message when email is not in production.
