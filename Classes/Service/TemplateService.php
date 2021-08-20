@@ -161,10 +161,13 @@ class TemplateService
 
         $uriBuilder = $this->getUriBuilder()
             ->reset()
-            ->setTargetPageUid($this->getRedirectPageUid())
             ->setUseCacheHash(false)
             ->setCreateAbsoluteUri(true)
             ->setArguments($arguments);
+
+        if ((int)$this->getRedirectPageUid() > 0) {
+            $uriBuilder->setTargetPageUid((int)$this->getRedirectPageUid());
+        }
 
         return $uriBuilder->build();
     }
