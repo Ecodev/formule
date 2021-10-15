@@ -41,8 +41,8 @@ class TypoScriptService implements SingletonInterface
                 $setup = $this->getConfigurationManager()->getTypoScriptSetup();
                 if (is_array($setup['plugin.']['tx_formule.'])) {
 
-                    /** @var \TYPO3\CMS\Extbase\Service\TypoScriptService $typoScriptService */
-                    $typoScriptService = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Service\TypoScriptService::class);
+                    /** @var \TYPO3\CMS\Core\TypoScript\TypoScriptService $typoScriptService */
+                    $typoScriptService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\TypoScriptService::class);
                     $this->settings = $typoScriptService->convertTypoScriptArrayToPlainArray($setup['plugin.']['tx_formule.']['settings.']);
                 }
             }
