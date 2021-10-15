@@ -16,6 +16,7 @@
 							<onChange>reload</onChange>
 							<config>
 								<type>select</type>
+								<renderType>selectSingle</renderType>
 								<itemsProcFunc>Fab\Formule\Backend\TceForms->getTemplates</itemsProcFunc>
 								<size>1</size>
 								<maxitems>1</maxitems>
@@ -27,7 +28,7 @@
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.summary</label>
 							<config>
 								<type>user</type>
-								<userFunc>Fab\Formule\Backend\TceForms->renderSummary</userFunc>
+								<renderType>formuleRenderSummary</renderType>
 							</config>
 						</TCEforms>
 					</summary>
@@ -88,7 +89,7 @@
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailBody</label>
 							<config>
 								<type>user</type>
-								<userFunc>Fab\Formule\Backend\TceForms->renderEmailAdminBody</userFunc>
+								<renderType>formuleRenderEmailAdminBody</renderType>
 							</config>
 						</TCEforms>
 					</settings.emailAdminBody>
@@ -130,7 +131,7 @@
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailBody</label>
 							<config>
 								<type>user</type>
-								<userFunc>Fab\Formule\Backend\TceForms->renderEmailUserBody</userFunc>
+								<renderType>formuleRenderEmailUserBody</renderType>
 							</config>
 						</TCEforms>
 					</settings.emailUserBody>
@@ -150,7 +151,7 @@
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.nameFrom</label>
 							<config>
 								<type>user</type>
-								<userFunc>Fab\Formule\Backend\TceForms->renderNameFrom</userFunc>
+								<renderType>formuleRenderNameFrom</renderType>
 							</config>
 						</TCEforms>
 					</settings.nameFrom>
@@ -159,7 +160,7 @@
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailFrom</label>
 							<config>
 								<type>user</type>
-								<userFunc>Fab\Formule\Backend\TceForms->renderEmailFrom</userFunc>
+								<renderType>formuleRenderEmailFrom</renderType>
 							</config>
 						</TCEforms>
 					</settings.emailFrom>
@@ -193,7 +194,7 @@
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.feedbackMessage</label>
 							<config>
 								<type>user</type>
-								<userFunc>Fab\Formule\Backend\TceForms->renderFeedback</userFunc>
+								<renderType>formuleRenderFeedback</renderType>
 							</config>
 						</TCEforms>
 					</settings.feedbackMessage>

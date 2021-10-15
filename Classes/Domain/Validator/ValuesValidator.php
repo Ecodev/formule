@@ -29,7 +29,6 @@ class ValuesValidator extends AbstractValidator
         foreach ($this->getTemplateService()->getRequiredFields() as $requiredField) {
             $value = trim($values[$requiredField]);
             if ((string)$value === '') {
-
                 $message = LocalizationUtility::translate('error.required', 'formule');
                 $this->getValidationService()->addError($requiredField, $message);
                 $this->addError(sprintf('%s %s How to retrieve label???', $message, $requiredField), 1452897562);

@@ -25,7 +25,6 @@ class UserDefinedValidator extends AbstractValidator
      */
     public function isValid($values)
     {
-
         foreach ($this->getTemplateService()->getValidators() as $className) {
 
             /** @var \Fab\Formule\Validator\ValidatorInterface $validator */

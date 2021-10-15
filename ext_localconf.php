@@ -4,6 +4,37 @@ defined('TYPO3_MODE') or die();
 call_user_func(
     function () {
 
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1634289580] = [
+            'nodeName' => 'formuleRenderNameFrom',
+            'priority' => 40,
+            'class' => \Fab\Formule\Backend\FormuleRenderNameFromElement::class,
+        ];
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1634289581] = [
+            'nodeName' => 'formuleRenderEmailFrom',
+            'priority' => 40,
+            'class' => \Fab\Formule\Backend\FormuleRenderEmailFromElement::class,
+        ];
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1634289582] = [
+            'nodeName' => 'formuleRenderFeedback',
+            'priority' => 40,
+            'class' => \Fab\Formule\Backend\FormuleRenderFeedbackElement::class,
+        ];
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1634289583] = [
+            'nodeName' => 'formuleRenderEmailUserBody',
+            'priority' => 40,
+            'class' => \Fab\Formule\Backend\FormuleRenderEmailUserBodyElement::class,
+        ];
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1634289584] = [
+            'nodeName' => 'formuleRenderEmailAdminBody',
+            'priority' => 40,
+            'class' => \Fab\Formule\Backend\FormuleRenderEmailAdminBodyElement::class,
+        ];
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1634289585] = [
+            'nodeName' => 'formuleRenderSummary',
+            'priority' => 40,
+            'class' => \Fab\Formule\Backend\FormuleRenderSummaryElement::class,
+        ];
+
         $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
         )->get('formule');
