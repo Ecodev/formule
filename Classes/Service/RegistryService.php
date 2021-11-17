@@ -61,6 +61,11 @@ class RegistryService
     protected function getKey()
     {
         if ('' === session_id()) {
+            // To allow iframe inclusion if cookie is configured so.
+            if ($GLOBALS['TYPO3_CONF_VARS']['FE']['cookieSameSite'] === 'none') {
+                ini_set('session.cookie_samesite', 'None');
+                ini_set('session.cookie_secure', 'true');
+            }
             session_start();
         }
         return 'Fab\Formule\\' . session_id();
