@@ -9,9 +9,6 @@ $tca = [
         'searchFields' => 'recipient',
         'iconfile' => 'EXT:formule/Resources/Public/Images/tx_formule_domain_model_sentmessage.png'
     ],
-    'interface' => [
-        'showRecordFieldList' => 'sender, recipient, subject, body, sent_time, ip, context',
-    ],
     'types' => [
         '1' => ['showitem' => 'sender, recipient, subject, body, sent_time, ip, context'],
     ],

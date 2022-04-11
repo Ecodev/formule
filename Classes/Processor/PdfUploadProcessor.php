@@ -1,5 +1,5 @@
 <?php
-namespace Ecodev\Speciality\Processor;
+namespace Ecodev\Formule\Processor;
 
 /*
  * This file is part of the Fab/Formule project under GPLv2 or later.
@@ -9,12 +9,8 @@ namespace Ecodev\Speciality\Processor;
  */
 
 use Fab\Formule\Processor\AbstractProcessor;
-use Fab\Formule\Processor\ProcessorInterface;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Saltedpasswords\Salt\SaltFactory;
-use TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility;
 
 /**
  * Class FileUploadProcessor
@@ -50,7 +46,7 @@ class PdfUploadProcessor extends AbstractProcessor
     {
 
         $fileName = '';
-        $storage = ResourceFactory::getInstance()->getStorageObject('uid');
+        $storage = GeneralUtility::makeInstance(ResourceFactory::class)->getStorageObject('uid');
 
         if (isset($_FILES[$fieldName])) {
 
