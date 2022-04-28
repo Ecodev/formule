@@ -1,4 +1,7 @@
 <?php
+
+use Fab\Formule\Controller\FormController;
+
 defined('TYPO3_MODE') or die();
 
 call_user_func(
@@ -58,12 +61,12 @@ call_user_func(
             'Fab.formule',
             'Pi1',
             array(
-                'Form' => 'show, submit, feedback',
+                FormController::class => 'show, submit, feedback',
 
             ),
             // non-cacheable actions
             array(
-                'Form' => 'show, submit, feedback',
+                FormController::class => 'show, submit, feedback',
 
             )
         );
@@ -93,7 +96,7 @@ call_user_func(
 
         // Connect some signals with slots.
         $signalSlotDispatcher->connect(
-            \Fab\Formule\Controller\FormController::class,
+            FormController::class,
             'beforeProcessValues',
             \Fab\Formule\Slot\ValuesSanitizer::class,
             'sanitize',
