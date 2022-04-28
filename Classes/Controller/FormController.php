@@ -251,7 +251,7 @@ class FormController extends ActionController
     /**
      * @return FlashMessageQueue|object
      */
-    protected function getFlashMessageQueue()
+    protected function getFlashMessageQueue(string $identifier = null): \TYPO3\CMS\Core\Messaging\FlashMessageQueue
     {
         return GeneralUtility::makeInstance(FlashMessageQueue::class);
     }
