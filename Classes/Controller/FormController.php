@@ -19,7 +19,6 @@ use Michelf\Markdown;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
@@ -67,9 +66,6 @@ class FormController extends ActionController
         return $message;
     }
 
-    /**
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
-     */
     public function initializeSubmitAction(): void
     {
         /** @var ValuesConverter $typeConverter */
@@ -87,10 +83,6 @@ class FormController extends ActionController
      * @Extbase\Validate("\Fab\Formule\Domain\Validator\HoneyPotValidator", param="values")
      * @Extbase\Validate("\Fab\Formule\Domain\Validator\ValuesValidator", param="values")
      * @Extbase\Validate("\Fab\Formule\Domain\Validator\UserDefinedValidator", param="values")
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
-     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
-     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
     public function submitAction(array $values = []): void
     {
@@ -98,7 +90,7 @@ class FormController extends ActionController
         $this->settings = array_merge($this->settings, ArgumentService::getSettings());
 
         if ($this->request->getMethod() !== 'POST') {
-            throw new UnsupportedRequestTypeException('Form must be submitted using POST');
+            throw new \RuntimeException('Form must be submitted using POST');
         }
 
         $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'beforeProcessValues', [$values]);
@@ -111,11 +103,11 @@ class FormController extends ActionController
             if ($this->getDataService()->recordExists()) {
                 $values = $this->getDataService()->update($values);
                 $label = 'LLL:EXT:formule/Resources/Private/Language/locallang.xlf:message.update.success';
-                $this->getFlashMessageQueue()->success($label);
+                $this->getFormuleFlashMessageQueue()->success($label);
             } else {
                 $values = $this->getDataService()->create($values);
                 $label = 'LLL:EXT:formule/Resources/Private/Language/locallang.xlf:message.create.success';
-                $this->getFlashMessageQueue()->success($label);
+                $this->getFormuleFlashMessageQueue()->success($label);
             }
 
             $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'afterPersistValues', [$values]);
@@ -197,61 +189,37 @@ class FormController extends ActionController
         return $feedback;
     }
 
-    /**
-     * Get the SignalSlot dispatcher.
-     *
-     * @return Dispatcher|object
-     */
-    protected function getSignalSlotDispatcher()
+    protected function getSignalSlotDispatcher(): Dispatcher
     {
         return $this->objectManager->get(Dispatcher::class);
     }
 
-    /**
-     * @return TemplateService|object
-     */
-    protected function getTemplateService()
+    protected function getTemplateService(): TemplateService
     {
         return GeneralUtility::makeInstance(TemplateService::class, $this->settings['template']);
     }
 
-    /**
-     * @return ArgumentService|object
-     */
-    protected function getArgumentService()
+    protected function getArgumentService(): ArgumentService
     {
         return GeneralUtility::makeInstance(ArgumentService::class);
     }
 
-    /**
-     * @return RegistryService|object
-     */
-    protected function getRegistryService()
+    protected function getRegistryService(): RegistryService
     {
         return GeneralUtility::makeInstance(RegistryService::class);
     }
 
-    /**
-     * @param string $messageType
-     * @return MessageService|object
-     */
-    protected function getMessageService($messageType)
+    protected function getMessageService($messageType): MessageService
     {
         return GeneralUtility::makeInstance(MessageService::class, $this->settings, $messageType);
     }
 
-    /**
-     * @return DataService|object
-     */
-    protected function getDataService()
+    protected function getDataService(): DataService
     {
         return GeneralUtility::makeInstance(DataService::class, $this->settings['template']);
     }
 
-    /**
-     * @return FlashMessageQueue|object
-     */
-    protected function getFlashMessageQueue(string $identifier = null): \TYPO3\CMS\Core\Messaging\FlashMessageQueue
+    protected function getFormuleFlashMessageQueue(): FlashMessageQueue
     {
         return GeneralUtility::makeInstance(FlashMessageQueue::class);
     }

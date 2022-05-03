@@ -101,7 +101,7 @@ class ConfirmViewHelper extends AbstractViewHelper
     protected function getUriBuilder()
     {
         /** @var $uriBuilder UriBuilder */
-        $uriBuilder = $this->objectManager->get(UriBuilder::class);
+        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
         return $uriBuilder;
     }
 

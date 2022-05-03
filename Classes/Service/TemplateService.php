@@ -9,6 +9,7 @@ namespace Fab\Formule\Service;
  */
 
 use RuntimeException;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
@@ -526,7 +527,7 @@ class TemplateService
     protected function getUriBuilder(): UriBuilder
     {
         /** @var $uriBuilder UriBuilder */
-        $uriBuilder = $this->getObjectManager()->get(UriBuilder::class);
+        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
         return $uriBuilder;
     }
 
@@ -538,20 +539,9 @@ class TemplateService
         return GeneralUtility::makeInstance(TypoScriptService::class);
     }
 
-    /**
-     * @return \TYPO3\CMS\Lang\LanguageService
-     */
-    protected function getLanguageService(): \TYPO3\CMS\Lang\LanguageService
+    protected function getLanguageService(): LanguageService
     {
         return $GLOBALS['LANG'];
-    }
-
-    /**
-     * @return \TYPO3\CMS\Extbase\Object\ObjectManager
-     */
-    protected function getObjectManager(): \TYPO3\CMS\Extbase\Object\ObjectManager
-    {
-        return GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
     }
 
 }

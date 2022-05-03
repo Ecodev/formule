@@ -8,10 +8,10 @@ namespace Fab\Formule\Service;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * TypoScriptService
@@ -51,31 +51,14 @@ class TypoScriptService implements SingletonInterface
         return $this->settings;
     }
 
-    /**
-     * @return BackendConfigurationManager
-     */
-    protected function getConfigurationManager()
+    protected function getConfigurationManager(): BackendConfigurationManager
     {
-        return $this->getObjectManager()->get(BackendConfigurationManager::class);
+        return GeneralUtility::makeInstance(BackendConfigurationManager::class);
     }
 
-    /**
-     * @return ObjectManager
-     */
-    protected function getObjectManager()
+    protected function isFrontendMode(): bool
     {
-        /** @var ObjectManager $objectManager */
-        return GeneralUtility::makeInstance(ObjectManager::class);
-    }
-
-    /**
-     * Returns whether the current mode is Frontend
-     *
-     * @return bool
-     */
-    protected function isFrontendMode()
-    {
-        return TYPO3_MODE == 'FE';
+        return ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend();
     }
 
 }

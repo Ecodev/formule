@@ -10,6 +10,7 @@ namespace Fab\Formule\Service;
 
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
 /**
  * FlashMessageQueue
@@ -100,20 +101,12 @@ class FlashMessageQueue implements SingletonInterface
         return 'formule-flush-messages-' . $this->getTemplateService()->getTemplateIdentifier();
     }
 
-    /**
-     * Returns an instance of the current Frontend User.
-     *
-     * @return \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication
-     */
-    protected function getFrontendUser()
+    protected function getFrontendUser(): FrontendUserAuthentication
     {
         return $GLOBALS['TSFE']->fe_user;
     }
 
-    /**
-     * @return TemplateService
-     */
-    protected function getTemplateService()
+    protected function getTemplateService(): TemplateService
     {
         return GeneralUtility::makeInstance(TemplateService::class);
     }

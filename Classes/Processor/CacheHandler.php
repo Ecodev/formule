@@ -34,17 +34,8 @@ class CacheHandler extends AbstractProcessor
     /**
      * @return CacheService
      */
-    protected function getCacheService()
+    protected function getCacheService(): CacheService
     {
-        return $this->getObjectManager()->get(CacheService::class);
+        return GeneralUtility::makeInstance(CacheService::class);
     }
-
-    /**
-     * @return \TYPO3\CMS\Extbase\Object\ObjectManager
-     */
-    protected function getObjectManager()
-    {
-        return GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
-    }
-
 }

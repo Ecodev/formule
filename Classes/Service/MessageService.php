@@ -12,7 +12,6 @@ namespace Fab\Formule\Service;
 use Michelf\Markdown;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -134,7 +133,7 @@ class MessageService
     protected function renderWithFluid($content, array $values)
     {
         /** @var StandaloneView $view */
-        $view = $this->getObjectManager()->get(StandaloneView::class);
+        $view = GeneralUtility::makeInstance(StandaloneView::class);
         $view->setTemplateSource($content);
 
         // Make it possible to keen the syntact {values.foo} in the template
@@ -264,7 +263,7 @@ class MessageService
     protected function getMailMessage()
     {
         if (is_null($this->mailMessage)) {
-            $this->mailMessage = $this->getObjectManager()->get(MailMessage::class);
+            $this->mailMessage = GeneralUtility::makeInstance(MailMessage::class);
         }
         return $this->mailMessage;
     }
@@ -276,15 +275,6 @@ class MessageService
     protected function getLoggingService()
     {
         return GeneralUtility::makeInstance(LoggingService::class);
-    }
-
-    /**
-     * @return object|ObjectManager
-     * @throws \InvalidArgumentException
-     */
-    protected function getObjectManager()
-    {
-        return GeneralUtility::makeInstance(ObjectManager::class);
     }
 
     /**
