@@ -3,7 +3,7 @@
 	"type": "typo3-cms-extension",
 	"description": "Render a variety of forms template based on the FE such as contact form, registration form, etc... effortless!",
 	"homepage": "https://github.com/Ecodev/formule",
-	"license": ["GPL-2.0+"],
+	"license": ["GPL-2.0-or-later"],
 	"keywords": ["TYPO3 CMS", "form"],
 	"support": {
 		"issues": "https://github.com/Ecodev/formule/issues"
