@@ -74,14 +74,12 @@ class ConfirmViewHelper extends AbstractViewHelper
             $arguments['token'] = $values['token'];
         }
 
-        $url = $this->getUriBuilder()
+        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+        return $uriBuilder
             ->setTargetPageUid($pageUid)
-            ->setUseCacheHash(false)
             ->setCreateAbsoluteUri(true)
             ->setArguments($arguments)
             ->build();
-
-        return $url;
     }
 
     /**
@@ -93,16 +91,6 @@ class ConfirmViewHelper extends AbstractViewHelper
 
         $values = $this->templateVariableContainer->getAll();
         return GeneralUtility::makeInstance(TemplateService::class, $values['templateIdentifier']);
-    }
-
-    /**
-     * @return UriBuilder
-     */
-    protected function getUriBuilder()
-    {
-        /** @var $uriBuilder UriBuilder */
-        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-        return $uriBuilder;
     }
 
 }

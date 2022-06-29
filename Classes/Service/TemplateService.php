@@ -160,9 +160,9 @@ class TemplateService
             $arguments[$this->getIdentifierField()] = $values['uid'];
         }
 
-        $uriBuilder = $this->getUriBuilder()
+        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+        $uriBuilder = $uriBuilder
             ->reset()
-            ->setUseCacheHash(false)
             ->setCreateAbsoluteUri(true)
             ->setArguments($arguments);
 
@@ -519,16 +519,6 @@ class TemplateService
     {
         $identifierField = $this->getIdentifierField();
         return (string)GeneralUtility::_GP($identifierField);
-    }
-
-    /**
-     * @return UriBuilder
-     */
-    protected function getUriBuilder(): UriBuilder
-    {
-        /** @var $uriBuilder UriBuilder */
-        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-        return $uriBuilder;
     }
 
     /**
