@@ -20,6 +20,6 @@
 	},
 	"require": {
 		"typo3/cms-core": "^11.5",
-		"php": ">=7.0.0"
+		"michelf/php-markdown": "^1.9"
 	}
 }
