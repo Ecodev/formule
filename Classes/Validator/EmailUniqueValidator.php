@@ -68,7 +68,7 @@ class EmailUniqueValidator extends AbstractValidator
 
         $record = $query
             ->execute()
-            ->fetch();
+            ->fetchAssociative();
 
         if (!empty($record)) {
             $value = LocalizationUtility::translate('error.email.unique', 'formule');

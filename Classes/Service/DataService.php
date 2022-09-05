@@ -152,7 +152,7 @@ class DataService
 
             $record = $query
                 ->execute()
-                ->fetch();
+                ->fetchAssociative();
         }
 
         return !empty($record);
