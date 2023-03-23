@@ -21,15 +21,15 @@ class FormuleRenderEmailFromElement extends AbstractFormuleElement
         } else {
 
             $value = '';
-            if (!empty($parameters['itemFormElValue'])) {
-                $value = $parameters['itemFormElValue'];
+            if (!empty($this->data['parameterArray']['itemFormElValue'])) {
+                $value = $this->data['parameterArray']['itemFormElValue'];
             } elseif (!empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {
                 $value = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
             }
 
             $output = sprintf(
                 '<input type="text" name="%s" class="form-control t3js-clearable hasDefaultValue" value="%s" placeholder="%s"/>',
-                $parameters['itemFormElName'],
+                $this->data['parameterArray']['itemFormElName'],
                 $value,
                 $value === '' ? 'Consider giving a value for $GLOBALS[\'TYPO3_CONF_VARS\'][\'MAIL\'][\'defaultMailFromAddress\']' : ''
             );

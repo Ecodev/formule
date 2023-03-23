@@ -31,7 +31,7 @@ class FormuleRenderEmailAdminBodyElement extends AbstractFormuleElement
             $body = $templateService->getSection(TemplateService::SECTION_EMAIL_ADMIN);
 
             if (empty($body)) {
-                if (empty($parameters['itemFormElValue'])) {
+                if (empty($this->data['parameterArray']['itemFormElValue'])) {
                     $value = 'Hello Admin,
 
 A user filled out the contact form on {HTTP_HOST} by {email}.
@@ -51,12 +51,12 @@ Examples:
 
 {namespace fo=Fab\Formule\ViewHelpers}';
                 } else {
-                    $value = $parameters['itemFormElValue'];
+                    $value = $this->data['parameterArray']['itemFormElValue'];
                 }
 
                 $output = sprintf(
                     '<textarea name="%s" style="max-height: 500px; overflow: hidden; word-wrap: break-word; height: 300px;" class="form-control formengine-textarea" rows="10">%s</textarea>',
-                    $parameters['itemFormElName'],
+                    $this->data['parameterArray']['itemFormElName'],
                     $value
                 );
 

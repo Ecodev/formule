@@ -30,7 +30,7 @@ class FormuleRenderFeedbackElement extends AbstractFormuleElement
             $body = $templateService->getSection(TemplateService::SECTION_FEEDBACK);
 
             if (empty($body)) {
-                if (empty($parameters['itemFormElValue'])) {
+                if (empty($this->data['parameterArray']['itemFormElValue'])) {
                     $value = 'Thank you for your message. We will process your request and get in contact with you soon.
 
 If this field is let blank section "feedback" of the template will be rendered instead!
@@ -38,12 +38,12 @@ If this field is let blank section "feedback" of the template will be rendered i
 <fo:form.show labelsIn="formule"/>
 {namespace fo=Fab\Formule\ViewHelpers}';
                 } else {
-                    $value = $parameters['itemFormElValue'];
+                    $value = $this->data['parameterArray']['itemFormElValue'];
                 }
 
                 $output = sprintf(
                     '<textarea name="%s" style="max-height: 500px; overflow: hidden; word-wrap: break-word; height: 300px;" class="form-control formengine-textarea" rows="10">%s</textarea>',
-                    $parameters['itemFormElName'],
+                    $this->data['parameterArray']['itemFormElName'],
                     $value
                 );
 

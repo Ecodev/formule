@@ -30,7 +30,7 @@ class FormuleRenderEmailUserBodyElement extends AbstractFormuleElement
             $body = $templateService->getSection(TemplateService::SECTION_EMAIL_USER);
 
             if (empty($body)) {
-                if (empty($parameters['itemFormElValue'])) {
+                if (empty($this->data['parameterArray']['itemFormElValue'])) {
                     $value = '{name},
 
 We have received your request via the contact form on {HTTP_HOST}. We will process your request and get in contact with you soon.
@@ -39,12 +39,12 @@ We have received your request via the contact form on {HTTP_HOST}. We will proce
 
 {namespace fo=Fab\Formule\ViewHelpers}';
                 } else {
-                    $value = $parameters['itemFormElValue'];
+                    $value = $this->data['parameterArray']['itemFormElValue'];
                 }
 
                 $output = sprintf(
                     '<textarea name="%s" style="max-height: 500px; overflow: hidden; word-wrap: break-word; height: 300px;" class="form-control formengine-textarea" rows="10">%s</textarea>',
-                    $parameters['itemFormElName'],
+                    $this->data['parameterArray']['itemFormElName'],
                     $value
                 );
 
