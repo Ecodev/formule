@@ -1,3 +1,9 @@
+## 4.0.3 (2023-03-23)
+
+[DOCS] Update README
+[BUGFIX] Correctly fetch setting values in flexform
+[TASK] Migrate doctrine API
+
 ## 4.0.2 (2022-07-13)
 
 [REFACTOR] Use composer version of michelf/php-markdown package
