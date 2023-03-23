@@ -8,7 +8,19 @@ Consider these minimum steps to display a form and start submitting data:
 * Create a content element of type "formule" in the Backend.
 * Add some TypoScript configuration to declare a new HTML template.
 * Adjust your template in particular the form. Use a form generator of your choice.
-* Your form is basically ready. 
+* Your form is basically ready.
+
+## Compatibility and Maintenance
+
+This package is currently maintained for the following versions:
+
+| TYPO3 Version | Package Version | Branch  | Maintained    |
+|---------------|-----------------|---------|---------------|
+| TYPO3 11.5.x  | 4.x             | master  | Yes           |
+| TYPO3 10.4.x  | 3.x             | -       | No            |
+| TYPO3 8.x     | 2.x             | -       | No            |
+| TYPO3 7.x     | 1.x             | -       | No            |
+
 
 Project info and releases
 -------------------------
