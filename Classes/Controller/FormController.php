@@ -19,15 +19,27 @@ use Michelf\Markdown;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
+use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
+use Fab\Formule\Event\BeforeProcessValuesEvent;
+use Fab\Formule\Event\AfterPersistValuesEvent;
+use Fab\Formule\Event\BeforeRedirectEvent;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 /**
  * FormController
  */
 class FormController extends ActionController
 {
+    protected ObjectManagerInterface $objectManager;
+
+    public function injectObjectManager(ObjectManagerInterface $objectManager): void
+    {
+        $this->objectManager = $objectManager;
+    }
 
     /**
      * @return string|null
@@ -93,8 +105,9 @@ class FormController extends ActionController
             throw new \RuntimeException('Form must be submitted using POST');
         }
 
-        $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'beforeProcessValues', [$values]);
-        $values = $signalResult[0];
+        $event = new BeforeProcessValuesEvent($values);
+        $this->getEventDispatcher()->dispatch($event);
+        $values = $event->getValues();
 
         // Check the template path according to the Plugin settings.
         $templateService = $this->getTemplateService();
@@ -110,8 +123,9 @@ class FormController extends ActionController
                 $this->getFormuleFlashMessageQueue()->success($label);
             }
 
-            $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'afterPersistValues', [$values]);
-            $values = $signalResult[0];
+            $event = new AfterPersistValuesEvent($values);
+            $this->getEventDispatcher()->dispatch($event);
+            $values = $event->getValues();
         }
 
         // We want this information in the values array.
@@ -137,7 +151,8 @@ class FormController extends ActionController
             $this->getMessageService(MessageService::TO_USER)->send($values);
         }
 
-        $this->getSignalSlotDispatcher()->dispatch(self::class, 'beforeRedirect', [$values]);
+        $event = new BeforeRedirectEvent($values);
+        $this->getEventDispatcher()->dispatch($event);
 
         // Save in registry... Trick to avoid POSTing the arguments again which might contain very long text.
         $this->getRegistryService()->set('values', $values);
@@ -189,9 +204,9 @@ class FormController extends ActionController
         return $feedback;
     }
 
-    protected function getSignalSlotDispatcher(): Dispatcher
+    protected function getEventDispatcher(): EventDispatcher
     {
-        return $this->objectManager->get(Dispatcher::class);
+        return GeneralUtility::makeInstance(EventDispatcher::class);
     }
 
     protected function getTemplateService(): TemplateService

@@ -7,4 +7,12 @@ $EM_CONF[$_EXTKEY] = [
     'author' => 'Udriot Fabien',
     'author_email' => 'fabien@ecodev.ch',
     'state' => 'stable',
+    'version' => '2.0.0',
+    'constraints' => [
+        'depends' => [
+            'typo3' => '12.4.0-12.4.99',
+        ],
+        'conflicts' => [],
+        'suggests' => [],
+    ],
 ];

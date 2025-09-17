@@ -81,17 +81,7 @@ call_user_func(
         }
 
 
-        /** @var $signalSlotDispatcher \TYPO3\CMS\Extbase\SignalSlot\Dispatcher */
-        $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
-
-        // Connect some signals with slots.
-        $signalSlotDispatcher->connect(
-            FormController::class,
-            'beforeProcessValues',
-            \Fab\Formule\Slot\ValuesSanitizer::class,
-            'sanitize',
-            true
-        );
+        // Event listeners are now configured in Services.yaml
 
         // Register icons
         $icons = [

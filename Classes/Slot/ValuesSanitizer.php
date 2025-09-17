@@ -8,6 +8,7 @@ namespace Fab\Formule\Slot;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use Fab\Formule\Event\BeforeProcessValuesEvent;
 
 /**
  * ValuesSanitizer
@@ -16,18 +17,19 @@ class ValuesSanitizer
 {
 
     /**
-     * @param array $values
-     * @return array
+     * @param BeforeProcessValuesEvent $event
      */
-    public function sanitize(array $values)
+    public function sanitize(BeforeProcessValuesEvent $event): void
     {
+        $values = $event->getValues();
+        
         foreach ($values as $key => $value) {
             if (is_scalar($value)) {
                 $values[$key] = trim($value);
             }
         }
 
-        return [$values];
+        $event->setValues($values);
     }
 
 }
