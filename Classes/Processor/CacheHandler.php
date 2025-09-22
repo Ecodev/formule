@@ -23,7 +23,7 @@ class CacheHandler extends AbstractProcessor
      * @param string $insertOrUpdate
      * @return array
      */
-    public function process(array $values, $insertOrUpdate = '')
+    public function process(array $values, string $insertOrUpdate = ''): array
     {
         $pageIdentifiers = [1, 2, 3]; # to be defined what page id should have a cache clear.
         $this->getCacheService()->clearPageCache($pageIdentifiers);

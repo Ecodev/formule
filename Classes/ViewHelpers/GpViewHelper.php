@@ -31,7 +31,7 @@ class GpViewHelper extends AbstractViewHelper
     public function render(): string
     {
         $key = $this->arguments['key'];
-        return htmlentities((string)GeneralUtility::_GP($key));
+        return htmlentities((string)($GLOBALS['TYPO3_REQUEST']->getParsedBody()[$key] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()[$key] ?? null));
     }
 
 }

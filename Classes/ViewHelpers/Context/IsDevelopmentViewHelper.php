@@ -20,7 +20,8 @@ class IsDevelopmentViewHelper extends AbstractViewHelper
     /**
      * @return string
      */
-    public function render () {
+    public function render (): string
+    {
         return Environment::getContext()->isDevelopment();
     }
 

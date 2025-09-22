@@ -13,12 +13,31 @@ use Michelf\Markdown;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
+use Symfony\Component\Mime\Part\TextPart;
+use Symfony\Component\Mime\Part\Multipart\AlternativePart;
+use Fab\Formule\Service\LoggingService;
+use Psr\Container\ContainerInterface;
 
 /**
  * MessageService
  */
 class MessageService
 {
+    protected LoggingService $loggingService;
+
+    public function __construct(array $settings, string $messageTarget, ?LoggingService $loggingService = null)
+    {
+        $this->settings = $settings;
+        $this->messageTarget = $messageTarget;
+
+        if ($loggingService !== null) {
+            $this->loggingService = $loggingService;
+        } else {
+            // Create LoggingService with its required dependencies
+            $connectionPool = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class);
+            $this->loggingService = new LoggingService($connectionPool);
+        }
+    }
 
     const TO_ADMIN = 'Admin';
 
@@ -44,17 +63,6 @@ class MessageService
      */
     protected $messageTarget;
 
-    /**
-     * constructor.
-     *
-     * @param array $settings
-     * @param string $messageTarget
-     */
-    public function __construct(array $settings, $messageTarget)
-    {
-        $this->settings = $settings;
-        $this->messageTarget = $messageTarget;
-    }
 
     /**
      * @param array $values
@@ -62,7 +70,7 @@ class MessageService
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
-    public function send(array $values)
+    public function send(array $values): bool
     {
         $this->values = $values;
 
@@ -84,16 +92,19 @@ class MessageService
         // According to preference.
         if ($this->isPlainTextPreferred()) {
             $text = Html2Text::getInstance()->convert($body);
-            $this->getMailMessage()->setBody()->text($text);
+            $this->getMailMessage()->setBody(new TextPart($text));
         } else {
-            $this->getMailMessage()->setBody()->html($body);
-
-            // Attach plain text version if HTML tags are found in body
+            // Create multipart message with HTML and text versions
             if ($this->hasHtml($body)) {
                 $text = Html2Text::getInstance()->convert($body);
-                $this->getMailMessage()->setBody()->text($text);
+                $alternativePart = new AlternativePart(
+                    new TextPart($text),
+                    new TextPart($body, 'text/html')
+                );
+                $this->getMailMessage()->setBody($alternativePart);
+            } else {
+                $this->getMailMessage()->setBody(new TextPart($body, 'text/html'));
             }
-
         }
 
         // Handle attachment
@@ -115,7 +126,7 @@ class MessageService
      * @param string $content the content to be analyzed
      * @return boolean
      */
-    protected function hasHtml($content)
+    protected function hasHtml(string $content): bool
     {
         $result = FALSE;
         //we compare the length of the string with html tags and without html tags
@@ -130,7 +141,7 @@ class MessageService
      * @param array $values
      * @return string
      */
-    protected function renderWithFluid($content, array $values)
+    protected function renderWithFluid($content, array $values): string
     {
         /** @var StandaloneView $view */
         $view = GeneralUtility::makeInstance(StandaloneView::class);
@@ -147,7 +158,7 @@ class MessageService
      * @return array
      * @throws \Fab\Formule\Exception\InvalidEmailFormatException
      */
-    public function getFrom()
+    public function getFrom(): array
     {
 
         $emailFrom = [];
@@ -181,7 +192,7 @@ class MessageService
     /**
      * @return array
      */
-    protected function getTo()
+    protected function getTo(): array
     {
         $to = $this->get('to');
 
@@ -195,7 +206,7 @@ class MessageService
     /**
      * @return array
      */
-    protected function getCc()
+    protected function getCc(): array
     {
         $cc = $this->get('cc');
 
@@ -209,7 +220,7 @@ class MessageService
     /**
      * @return array
      */
-    protected function getBcc()
+    protected function getBcc(): array
     {
         $bcc = $this->get('bcc');
 
@@ -223,7 +234,7 @@ class MessageService
     /**
      * @return string
      */
-    protected function getSubject()
+    protected function getSubject(): string
     {
         return $this->get('subject');
     }
@@ -231,7 +242,7 @@ class MessageService
     /**
      * @return bool
      */
-    protected function isPlainTextPreferred()
+    protected function isPlainTextPreferred(): bool
     {
         return $this->getTemplateService($this->settings['template'])->getPreferredEmailBodyEncoding() === 'text';
     }
@@ -239,7 +250,7 @@ class MessageService
     /**
      * @return string
      */
-    protected function getBody()
+    protected function getBody(): string
     {
         $section = $this->messageTarget === self::TO_ADMIN ? TemplateService::SECTION_EMAIL_ADMIN : TemplateService::SECTION_EMAIL_USER;
         $body = $this->getTemplateService($this->settings['template'])->getSection($section);
@@ -252,7 +263,7 @@ class MessageService
     /**
      * @return string
      */
-    protected function get($key)
+    protected function get($key): string
     {
         return $this->settings['email' . $this->messageTarget . ucfirst($key)];
     }
@@ -274,7 +285,7 @@ class MessageService
      */
     protected function getLoggingService()
     {
-        return GeneralUtility::makeInstance(LoggingService::class);
+        return $this->loggingService;
     }
 
     /**
@@ -291,7 +302,7 @@ class MessageService
      * @return object|TemplateService
      * @throws \InvalidArgumentException
      */
-    protected function getTemplateService($templateIdentifier)
+    protected function getTemplateService(int $templateIdentifier)
     {
         return GeneralUtility::makeInstance(TemplateService::class, $templateIdentifier);
     }

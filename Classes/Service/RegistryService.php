@@ -22,7 +22,7 @@ class RegistryService
      * @param mixed $value
      * @return $this
      */
-    public function set($key, $value)
+    public function set(string $key, $value): RegistryService
     {
         $this->getRegistry()->set($this->getKey(), $key, $value);
         return $this;
@@ -35,7 +35,7 @@ class RegistryService
      * @param bool $fetchAndFlush
      * @return mixed
      */
-    public function get($key, $fetchAndFlush = true)
+    public function get(string $key, bool $fetchAndFlush = true)
     {
         $entry = $this->getRegistry()->get($this->getKey(), $key);
 
@@ -50,7 +50,7 @@ class RegistryService
      *
      * @return Registry
      */
-    protected function getRegistry()
+    protected function getRegistry(): Registry
     {
         return GeneralUtility::makeInstance(Registry::class);
     }
@@ -58,7 +58,7 @@ class RegistryService
     /**
      * @return string
      */
-    protected function getKey()
+    protected function getKey(): string
     {
         if ('' === session_id()) {
             // To allow iframe inclusion if cookie is configured so.

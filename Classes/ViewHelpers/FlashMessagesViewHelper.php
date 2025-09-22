@@ -21,7 +21,7 @@ class FlashMessagesViewHelper extends AbstractViewHelper
     /**
      * @return array
      */
-    public function render()
+    public function render(): array
     {
         return $this->getFlashMessageQueue()->getMessagesAndFlush();
     }

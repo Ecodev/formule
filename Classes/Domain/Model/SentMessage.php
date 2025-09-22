@@ -64,7 +64,7 @@ class SentMessage extends AbstractEntity
     /**
      * @return string $sender
      */
-    public function getSender()
+    public function getSender(): string
     {
         return $this->sender;
     }
@@ -73,7 +73,7 @@ class SentMessage extends AbstractEntity
      * @param string $sender
      * @return void
      */
-    public function setSender($sender)
+    public function setSender(string $sender): void
     {
         $this->sender = $sender;
     }
@@ -81,7 +81,7 @@ class SentMessage extends AbstractEntity
     /**
      * @return string $recipient
      */
-    public function getRecipient()
+    public function getRecipient(): string
     {
         return $this->recipient;
     }
@@ -90,7 +90,7 @@ class SentMessage extends AbstractEntity
      * @param string $recipient
      * @return void
      */
-    public function setRecipient($recipient)
+    public function setRecipient(string $recipient): void
     {
         $this->recipient = $recipient;
     }
@@ -98,7 +98,7 @@ class SentMessage extends AbstractEntity
     /**
      * @return string $subject
      */
-    public function getSubject()
+    public function getSubject(): string
     {
         return $this->subject;
     }
@@ -107,7 +107,7 @@ class SentMessage extends AbstractEntity
      * @param string $subject
      * @return void
      */
-    public function setSubject($subject)
+    public function setSubject(string $subject): void
     {
         $this->subject = $subject;
     }
@@ -115,7 +115,7 @@ class SentMessage extends AbstractEntity
     /**
      * @return string $body
      */
-    public function getBody()
+    public function getBody(): string
     {
         return $this->body;
     }
@@ -124,7 +124,7 @@ class SentMessage extends AbstractEntity
      * @param string $body
      * @return void
      */
-    public function setBody($body)
+    public function setBody(string $body): void
     {
         $this->body = $body;
     }
@@ -132,7 +132,7 @@ class SentMessage extends AbstractEntity
     /**
      * @return string $attachment
      */
-    public function getAttachment()
+    public function getAttachment(): string
     {
         return $this->attachment;
     }
@@ -141,7 +141,7 @@ class SentMessage extends AbstractEntity
      * @param string $attachment
      * @return void
      */
-    public function setAttachment($attachment)
+    public function setAttachment(string $attachment): void
     {
         $this->attachment = $attachment;
     }
@@ -149,7 +149,7 @@ class SentMessage extends AbstractEntity
     /**
      * @return string $context
      */
-    public function getContext()
+    public function getContext(): string
     {
         return $this->context;
     }
@@ -158,7 +158,7 @@ class SentMessage extends AbstractEntity
      * @param string $context
      * @return void
      */
-    public function setContext($context)
+    public function setContext(string $context): void
     {
         $this->context = $context;
     }
@@ -166,7 +166,7 @@ class SentMessage extends AbstractEntity
     /**
      * @return string $wasOpened
      */
-    public function getWasOpened()
+    public function getWasOpened(): string
     {
         return $this->wasOpened;
     }
@@ -175,7 +175,7 @@ class SentMessage extends AbstractEntity
      * @param string $wasOpened
      * @return void
      */
-    public function setWasOpened($wasOpened)
+    public function setWasOpened(string $wasOpened): void
     {
         $this->wasOpened = $wasOpened;
     }
@@ -183,7 +183,7 @@ class SentMessage extends AbstractEntity
     /**
      * @return string $sentTime
      */
-    public function getSentTime()
+    public function getSentTime(): string
     {
         return $this->sentTime;
     }
@@ -192,7 +192,7 @@ class SentMessage extends AbstractEntity
      * @param string $sentTime
      * @return void
      */
-    public function setSentTime($sentTime)
+    public function setSentTime(string $sentTime): void
     {
         $this->sentTime = $sentTime;
     }
@@ -200,7 +200,7 @@ class SentMessage extends AbstractEntity
     /**
      * @return string $ip
      */
-    public function getIp()
+    public function getIp(): string
     {
         return $this->ip;
     }
@@ -209,7 +209,7 @@ class SentMessage extends AbstractEntity
      * @param string $ip
      * @return void
      */
-    public function setIp($ip)
+    public function setIp(string $ip): void
     {
         $this->ip = $ip;
     }

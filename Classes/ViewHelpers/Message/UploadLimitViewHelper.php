@@ -20,7 +20,7 @@ class UploadLimitViewHelper extends AbstractViewHelper
     /**
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         return 'Max ' . round(GeneralUtility::getMaxUploadFileSize() / 1024, 2)  . ' Mb';
     }

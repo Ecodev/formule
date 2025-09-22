@@ -24,7 +24,7 @@ class ValidationService implements SingletonInterface
      * @param string $field
      * @return bool
      */
-    public function hasErrors($field)
+    public function hasErrors(string $field): bool
     {
         return isset($this->errors[$field]);
     }
@@ -33,7 +33,7 @@ class ValidationService implements SingletonInterface
      * @param string $field
      * @return array
      */
-    public function getErrors($field)
+    public function getErrors(string $field): array
     {
         return $this->hasErrors($field) ? $this->errors[$field] : [];
     }
@@ -42,7 +42,7 @@ class ValidationService implements SingletonInterface
      * @param string $field
      * @return string
      */
-    public function getSerializedErrors($field)
+    public function getSerializedErrors(string $field): string
     {
         $errors = '';
         foreach ($this->getErrors($field) as $error) {
@@ -54,7 +54,7 @@ class ValidationService implements SingletonInterface
     /**
      * @param string $field
      */
-    public function addError($field, $message)
+    public function addError(string $field, $message): void
     {
         if (empty($this->errors[$field])) {
             $this->errors[$field] = [];

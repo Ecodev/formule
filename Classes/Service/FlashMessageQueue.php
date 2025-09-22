@@ -30,7 +30,7 @@ class FlashMessageQueue implements SingletonInterface
     /**
      * @param string $message
      */
-    public function success($message)
+    public function success(string $message): void
     {
         $this->setMessage(self::SUCCESS, $message);
     }
@@ -38,7 +38,7 @@ class FlashMessageQueue implements SingletonInterface
     /**
      * @param string $message
      */
-    public function warning($message)
+    public function warning(string $message): void
     {
         $this->setMessage(self::WARNING, $message);
     }
@@ -46,7 +46,7 @@ class FlashMessageQueue implements SingletonInterface
     /**
      * @param string $message
      */
-    public function error($message)
+    public function error(string $message): void
     {
         $this->setMessage(self::ERROR, $message);
     }
@@ -55,7 +55,7 @@ class FlashMessageQueue implements SingletonInterface
      * @param string $severity
      * @param string $message
      */
-    protected function setMessage($severity, $message)
+    protected function setMessage(string $severity, string $message)
     {
         $messages = $this->getMessages();
 
@@ -74,21 +74,18 @@ class FlashMessageQueue implements SingletonInterface
     /**
      * @return array
      */
-    public function getMessages()
+    public function getMessages(): array
     {
-        return $this->getFrontendUser()->getKey('ses', $this->getKey());
+        return $this->getFrontendUser()->getKey('ses', $this->getKey()) ?? [];
     }
 
     /**
      * @return array
      */
-    public function getMessagesAndFlush()
+    public function getMessagesAndFlush(): array
     {
         $messages = $this->getMessages();
 
-        if (!is_array($messages)) {
-            $messages = [];
-        }
         $this->getFrontendUser()->setAndSaveSessionData($this->getKey(), []);
         return $messages;
     }
@@ -96,7 +93,7 @@ class FlashMessageQueue implements SingletonInterface
     /**
      * @return string
      */
-    protected function getKey()
+    protected function getKey(): string
     {
         return 'formule-flush-messages-' . $this->getTemplateService()->getTemplateIdentifier();
     }

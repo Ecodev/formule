@@ -45,7 +45,7 @@ class MailMessage extends \TYPO3\CMS\Core\Mail\MailMessage
      * @param string $messageBody
      * @return string
      */
-    protected function addDebugInfoToBody($messageBody)
+    protected function addDebugInfoToBody(string $messageBody): string
     {
         $to = $this->getTo();
         $cc = $this->getCc();

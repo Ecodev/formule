@@ -27,8 +27,8 @@ class UserDataLoader extends AbstractLoader
     {
 
         $identifierField = $this->getTemplateService()->getIdentifierField();
-        $identifierValue = GeneralUtility::_GP($identifierField);
 
+        $identifierValue = $GLOBALS['TYPO3_REQUEST']->getParsedBody()[$identifierField] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()[$identifierField] ?? null;
         $tableName = $this->getTemplateService()->getPersistingTableName();
 
         /** @var QueryBuilder $query */

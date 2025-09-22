@@ -8,9 +8,9 @@ namespace Fab\Formule\Processor;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
+use TYPO3\CMS\Core\Crypto\PasswordHashing\SaltedPasswordsUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Saltedpasswords\Salt\SaltFactory;
-use TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility;
 
 /**
  * Class UserDataProcessor.
@@ -24,7 +24,7 @@ class UserDataProcessor extends AbstractProcessor
      * @param string $insertOrUpdate
      * @return array
      */
-    public function process(array $values, $insertOrUpdate = '')
+    public function process(array $values, string $insertOrUpdate = ''): array
     {
 
         $values['name'] = $values['first_name'] . ' ' . $values['last_name'];
@@ -49,12 +49,12 @@ class UserDataProcessor extends AbstractProcessor
     /**
      * @return string
      */
-    protected function getSaltedPassword($password)
+    protected function getSaltedPassword($password): string
     {
         $saltedPassword = $password;
         if (ExtensionManagementUtility::isLoaded('saltedpasswords')) {
             if (SaltedPasswordsUtility::isUsageEnabled('FE')) {
-                $objSalt = SaltFactory::getSaltingInstance(NULL);
+                $objSalt = PasswordHashFactory::getSaltingInstance(NULL);
                 if (is_object($objSalt)) {
                     $saltedPassword = $objSalt->getHashedPassword($password);
                 }

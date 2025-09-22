@@ -29,13 +29,13 @@ class TypoScriptService implements SingletonInterface
      *
      * @return array
      */
-    public function getSettings()
+    public function getSettings(): array
     {
         // Use cache or initialize settings property.
         if (empty($this->settings)) {
 
             if ($this->isFrontendMode()) {
-                $this->settings = GeneralUtility::removeDotsFromTS($GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_formule.']['settings.']);
+                $this->settings = GeneralUtility::removeDotsFromTS($GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tx_formule.']['settings.']);
             } else {
 
                 $setup = $this->getConfigurationManager()->getTypoScriptSetup();

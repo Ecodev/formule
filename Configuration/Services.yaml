@@ -1,0 +1,29 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Fab\Formule\Controller\FormController:
+    class: Fab\Formule\Controller\FormController
+    public: true
+    tags: [ 'controller.service_arguments' ]
+
+  Fab\Formule\Service\ArgumentService:
+    class: Fab\Formule\Service\ArgumentService
+
+  Fab\Formule\TypeConverter\ValuesConverter:
+    class: Fab\Formule\TypeConverter\ValuesConverter
+
+  Fab\Formule\Domain\Validator\UserDefinedValidator:
+    class: Fab\Formule\Domain\Validator\UserDefinedValidator
+
+  Fab\Formule\Service\LoggingService:
+    class: Fab\Formule\Service\LoggingService
+
+  Fab\Formule\EventListener\ValuesSanitizerListener:
+    class: Fab\Formule\EventListener\ValuesSanitizerListener
+    tags:
+      - name: event.listener
+        event: Fab\Formule\Event\BeforeProcessValuesEvent
+        method: sanitize

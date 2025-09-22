@@ -21,12 +21,15 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class LoggingService
 {
 
+    public function __construct(private \TYPO3\CMS\Core\Database\ConnectionPool $connectionPool)
+    {
+    }
     /**
      * @param MailMessage $message
      * @throws \UnexpectedValueException
      * @throws \BadFunctionCallException
      */
-    public function log(MailMessage $message)
+    public function log(MailMessage $message): void
     {
         $tableName = ExtensionManagementUtility::isLoaded('messenger')
             ? 'tx_messenger_domain_model_sentmessage'
@@ -35,7 +38,7 @@ class LoggingService
         $queryBuilder = $this->getQueryBuilder($tableName);
 
         $values = [
-            'pid' => (int)$this->getFrontendObject()->id,
+            'pid' => (int)($GLOBALS['TSFE']->page['uid'] ?? 0),
             'sender' => $this->formatEmails($message->getFrom()),
             'recipient' => $this->formatEmails($message->getTo()),
             'recipient_cc' => $this->formatEmails($message->getCc()),
@@ -50,19 +53,17 @@ class LoggingService
         ];
 
         $queryBuilder
-            ->insert($tableName)
-            ->values($values)
-            ->execute();
+            ->insert($tableName)->values($values)->executeStatement();
     }
 
     /**
      * @param string $tableName
      * @return object|QueryBuilder
      */
-    protected function getQueryBuilder($tableName): QueryBuilder
+    protected function getQueryBuilder(string $tableName): QueryBuilder
     {
         /** @var ConnectionPool $connectionPool */
-        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $connectionPool = $this->connectionPool;
         return $connectionPool->getQueryBuilderForTable($tableName);
     }
 
@@ -70,7 +71,7 @@ class LoggingService
      * @param array|null $emails
      * @return string
      */
-    protected function formatEmails($emails)
+    protected function formatEmails(?array $emails): string
     {
         $formattedEmails = '';
         if (is_array($emails)) {
@@ -89,7 +90,7 @@ class LoggingService
      *
      * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
      */
-    protected function getFrontendObject()
+    protected function getFrontendObject(): \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
     {
         return $GLOBALS['TSFE'];
     }

@@ -22,5 +22,5 @@ interface ProcessorInterface
      * @param string $insertOrUpdate
      * @return array
      */
-    public function process(array $values, $insertOrUpdate = '');
+    public function process(array $values, string $insertOrUpdate = ''): array;
 }

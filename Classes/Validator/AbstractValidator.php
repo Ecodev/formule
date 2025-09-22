@@ -28,11 +28,11 @@ abstract class AbstractValidator implements ValidatorInterface
     /**
      * Returns an instance of the page repository.
      *
-     * @return \TYPO3\CMS\Frontend\Page\PageRepository
+     * @return \TYPO3\CMS\Core\Domain\Repository\PageRepository
      */
-    protected function getPageRepository()
+    protected function getPageRepository(): \TYPO3\CMS\Core\Domain\Repository\PageRepository
     {
-        return $GLOBALS['TSFE']->sys_page;
+        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Domain\Repository\PageRepository::class);
     }
 
 }

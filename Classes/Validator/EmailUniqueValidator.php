@@ -20,11 +20,14 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class EmailUniqueValidator extends AbstractValidator
 {
 
+    public function __construct(private \TYPO3\CMS\Core\Database\ConnectionPool $connectionPool)
+    {
+    }
     /**
      * @param array $values
      * @return array
      */
-    public function validate(array $values)
+    public function validate(array $values): array
     {
         $messages = [];
 
@@ -53,7 +56,7 @@ class EmailUniqueValidator extends AbstractValidator
 
         // true means we are updating the record.
         $identifierField = $this->getTemplateService()->getIdentifierField();
-        $identifierValue = GeneralUtility::_GP($identifierField);
+        $identifierValue = $GLOBALS['TYPO3_REQUEST']->getParsedBody()[$identifierField] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()[$identifierField] ?? null;
 
         if (!empty($identifierValue)) {
             $constraints[] = $query->expr()->eq(
@@ -82,10 +85,10 @@ class EmailUniqueValidator extends AbstractValidator
      * @param string $tableName
      * @return object|QueryBuilder
      */
-    protected function getQueryBuilder($tableName): QueryBuilder
+    protected function getQueryBuilder(string $tableName): QueryBuilder
     {
         /** @var ConnectionPool $connectionPool */
-        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $connectionPool = $this->connectionPool;
         return $connectionPool->getQueryBuilderForTable($tableName);
     }
 

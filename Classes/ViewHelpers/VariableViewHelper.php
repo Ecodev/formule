@@ -30,7 +30,7 @@ class VariableViewHelper extends AbstractViewHelper
     /**
      * @return array
      */
-    public function render()
+    public function render(): array
     {
         $name = $this->arguments['name'];
         return $this->getTemplateService()->getVariable($name);
@@ -39,7 +39,7 @@ class VariableViewHelper extends AbstractViewHelper
     /**
      * @return TemplateService
      */
-    protected function getTemplateService()
+    protected function getTemplateService(): TemplateService
     {
         return GeneralUtility::makeInstance(TemplateService::class);
     }

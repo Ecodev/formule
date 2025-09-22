@@ -35,7 +35,7 @@ class LynxStrategy implements StrategyInterface
      * @param string $input
      * @return string
      */
-    public function convert($input)
+    public function convert(string $input): string
     {
 
         $output = '';
@@ -59,7 +59,7 @@ class LynxStrategy implements StrategyInterface
      *
      * @return string
      */
-    public function getLynx()
+    public function getLynx(): string
     {
 
         if (!empty($this->lynx)) {
@@ -80,7 +80,7 @@ class LynxStrategy implements StrategyInterface
      *
      * @param string $lynx
      */
-    public function setLynx($lynx)
+    public function setLynx(string $lynx): void
     {
         $this->lynx = $lynx;
     }
@@ -90,7 +90,7 @@ class LynxStrategy implements StrategyInterface
      *
      * @return boolean
      */
-    public function available()
+    public function available(): bool
     {
         return !empty($this->lynx);
     }

@@ -24,7 +24,7 @@ class FlexFormService
      * @param string $valuePointer value pointer used in the flexForm
      * @return array
      */
-    public function extractSettings($flexForm, $languagePointer = 'lDEF', $valuePointer = 'vDEF')
+    public function extractSettings($flexForm, string $languagePointer = 'lDEF', string $valuePointer = 'vDEF'): array
     {
         $flexForm = $this->normalize($flexForm, $languagePointer, $valuePointer);
         return empty($flexForm['settings']) ? [] : $flexForm['settings'];
@@ -42,13 +42,13 @@ class FlexFormService
      * @param string $valuePointer value pointer used in the flexForm
      * @return array the processed array
      */
-    public function normalize($flexForm, $languagePointer = 'lDEF', $valuePointer = 'vDEF')
+    public function normalize($flexForm, string $languagePointer = 'lDEF', string $valuePointer = 'vDEF'): array
     {
         $flexForm = $this->sanitize($flexForm);
 
         $settings = array();
-        $flexForm = isset($flexForm['data']) ? $flexForm['data'] : array();
-        foreach (array_values($flexForm) as $languages) {
+        $flexForm = $flexForm['data'] ?? array();
+        foreach ($flexForm as $languages) {
             if (!is_array($languages[$languagePointer])) {
                 continue;
             }
@@ -97,7 +97,7 @@ class FlexFormService
      * @param string $valuePointer The valuePointer to use for value retrieval
      * @return array
      */
-    protected function walkFlexFormNode($nodeArray, $valuePointer = 'vDEF')
+    protected function walkFlexFormNode(array $nodeArray, string $valuePointer = 'vDEF'): array
     {
         if (is_array($nodeArray)) {
             $return = array();
