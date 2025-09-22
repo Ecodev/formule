@@ -34,7 +34,7 @@ class UserDataSessionLoader extends AbstractLoader
      *
      * @return \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication
      */
-    protected function getFrontendUser()
+    protected function getFrontendUser(): \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication
     {
         return $GLOBALS['TSFE']->fe_user;
     }

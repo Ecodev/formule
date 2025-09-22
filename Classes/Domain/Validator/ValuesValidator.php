@@ -21,14 +21,17 @@ class ValuesValidator extends AbstractValidator
 {
 
     /**
-     * @param array $values
+     * @param mixed $value
      * @throws \InvalidArgumentException
      */
-    public function isValid($values)
+    public function isValid(mixed $value): void
     {
+        // Convert $value to array if it's not already
+        $values = is_array($value) ? $value : [];
+
         foreach ($this->getTemplateService()->getRequiredFields() as $requiredField) {
-            $value = trim($values[$requiredField]);
-            if ((string)$value === '') {
+            $fieldValue = trim($values[$requiredField] ?? '');
+            if ((string)$fieldValue === '') {
                 $message = LocalizationUtility::translate('error.required', 'formule');
                 $this->getValidationService()->addError($requiredField, $message);
                 $this->addError(sprintf('%s %s How to retrieve label???', $message, $requiredField), 1452897562);

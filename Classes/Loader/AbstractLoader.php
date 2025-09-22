@@ -21,7 +21,7 @@ abstract class AbstractLoader implements LoaderInterface
      * @param string $tableName
      * @return object|QueryBuilder
      */
-    protected function getQueryBuilder($tableName): QueryBuilder
+    protected function getQueryBuilder(string $tableName): QueryBuilder
     {
         /** @var ConnectionPool $connectionPool */
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);

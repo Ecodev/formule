@@ -2,7 +2,7 @@
 
 use Fab\Formule\Controller\FormController;
 
-defined('TYPO3_MODE') or die();
+defined('TYPO3') or die();
 
 call_user_func(
     function () {
@@ -58,7 +58,7 @@ call_user_func(
         }
 
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            'Fab.formule',
+            'Formule',
             'Pi1',
             array(
                 FormController::class => 'show, submit, feedback',
@@ -81,17 +81,7 @@ call_user_func(
         }
 
 
-        /** @var $signalSlotDispatcher \TYPO3\CMS\Extbase\SignalSlot\Dispatcher */
-        $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
-
-        // Connect some signals with slots.
-        $signalSlotDispatcher->connect(
-            FormController::class,
-            'beforeProcessValues',
-            \Fab\Formule\Slot\ValuesSanitizer::class,
-            'sanitize',
-            true
-        );
+        // Event listeners are now registered via Services.yaml
 
         // Register icons
         $icons = [

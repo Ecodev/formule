@@ -206,7 +206,7 @@ class RegexpStrategy implements StrategyInterface
      * @param string $html Source HTML
      * @param array $options Set configuration options
      */
-    public function __construct($html = '', $options = array())
+    public function __construct(string $html = '', array $options = array())
     {
         $this->html = $html;
         $this->options = array_merge($this->options, $options);
@@ -217,7 +217,7 @@ class RegexpStrategy implements StrategyInterface
      *
      * @param string $html HTML source content
      */
-    public function setHtml($html)
+    public function setHtml(string $html): void
     {
         $this->html = $html;
         $this->converted = false;
@@ -228,7 +228,7 @@ class RegexpStrategy implements StrategyInterface
      *
      * @param string $baseUrl
      */
-    public function setBaseUrl($baseUrl)
+    public function setBaseUrl(string $baseUrl): void
     {
         $this->baseurl = $baseUrl;
     }
@@ -239,7 +239,7 @@ class RegexpStrategy implements StrategyInterface
      * @param string $input
      * @return string
      */
-    public function convert($input)
+    public function convert(string $input): string
     {
         $this->setHtml($input);
 
@@ -300,12 +300,12 @@ class RegexpStrategy implements StrategyInterface
      * appeared. Also makes an effort at identifying and handling absolute
      * and relative links.
      *
-     * @param  string $link URL of the link
-     * @param  string $display Part of the text to associate number with
+     * @param string $link URL of the link
+     * @param string $display Part of the text to associate number with
      * @param  null $linkOverride
      * @return string
      */
-    protected function buildlinkList($link, $display, $linkOverride = null)
+    protected function buildlinkList(string $link, string $display, $linkOverride = null): string
     {
         $linkMethod = ($linkOverride) ? $linkOverride : $this->options['do_links'];
         if ($linkMethod == 'none') {
@@ -378,7 +378,7 @@ class RegexpStrategy implements StrategyInterface
      *
      * @param string $text HTML content
      */
-    protected function convertBlockquotes(&$text)
+    protected function convertBlockquotes(string &$text)
     {
         if (preg_match_all('/<\/*blockquote[^>]*>/i', $text, $matches, PREG_OFFSET_CAPTURE)) {
             $start = 0;
@@ -430,10 +430,10 @@ class RegexpStrategy implements StrategyInterface
     /**
      * Callback function for preg_replace_callback use.
      *
-     * @param  array $matches PREG matches
+     * @param array $matches PREG matches
      * @return string
      */
-    protected function pregCallback($matches)
+    protected function pregCallback(array $matches): string
     {
         switch (strtolower($matches[1])) {
             case 'b':
@@ -461,11 +461,11 @@ class RegexpStrategy implements StrategyInterface
     /**
      * Callback function for preg_replace_callback use in PRE content handler.
      *
-     * @param  array $matches PREG matches
+     * @param array $matches PREG matches
      * @return string
      */
     protected function pregPreCallback(/** @noinspection PhpUnusedParameterInspection */
-        $matches)
+        array $matches): string
     {
         return $this->preContent;
     }
@@ -473,10 +473,10 @@ class RegexpStrategy implements StrategyInterface
     /**
      * Strtoupper function with HTML tags and entities handling.
      *
-     * @param  string $str Text to convert
+     * @param string $str Text to convert
      * @return string Converted text
      */
-    private function toupper($str)
+    private function toupper(string $str): string
     {
         // string can contain HTML tags
         $chunks = preg_split('/(<[^>]*>)/', $str, null, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
@@ -494,10 +494,10 @@ class RegexpStrategy implements StrategyInterface
     /**
      * Strtoupper multibyte wrapper function with HTML entities handling.
      *
-     * @param  string $str Text to convert
+     * @param string $str Text to convert
      * @return string Converted text
      */
-    private function strtoupper($str)
+    private function strtoupper(string $str): string
     {
         $str = html_entity_decode($str, ENT_COMPAT, self::ENCODING);
 
@@ -517,7 +517,7 @@ class RegexpStrategy implements StrategyInterface
      *
      * @return boolean
      */
-    public function available()
+    public function available(): bool
     {
         return TRUE;
     }

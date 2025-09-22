@@ -17,62 +17,63 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ConfigurationUtility implements SingletonInterface {
 
-	/**
-	 * @var array
-	 */
-	protected $configuration = array();
-
-	/**
-	 * Returns a class instance.
-	 *
-	 * @return \Fab\Formule\Utility\ConfigurationUtility|object
-	 */
-	static public function getInstance() {
-		return GeneralUtility::makeInstance(self::class);
-	}
-
-	/**
-	 * Constructor
+    /**
+     * @var array
      */
-	public function __construct() {
+    protected $configuration = array();
+
+    /**
+     * Returns a class instance.
+     *
+     * @return \Fab\Formule\Utility\ConfigurationUtility|object
+     */
+    static public function getInstance() {
+        return GeneralUtility::makeInstance(self::class);
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
 
 
         $configuration = GeneralUtility::makeInstance(
             ExtensionConfiguration::class
         )->get('formule');
 
-		// Fill up configuration array with relevant values.
-		foreach ($configuration as $key => $value) {
-			$this->configuration[$key] = $value;
-		}
-	}
+        // Fill up configuration array with relevant values.
+        foreach ($configuration as $key => $value) {
+            $this->configuration[$key] = $value;
+        }
+    }
 
-	/**
-	 * Returns a setting key.
-	 *
-	 * @param string $key
-	 * @return mixed
-	 */
-	public function get($key) {
-		return isset($this->configuration[$key]) ? trim($this->configuration[$key]) : NULL;
-	}
+    /**
+     * Returns a setting key.
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function get(string $key) {
+        return isset($this->configuration[$key]) ? trim($this->configuration[$key]) : NULL;
+    }
 
-	/**
-	 * Set a setting key.
-	 *
-	 * @param string $key
-	 * @param mixed $value
-	 * @return void
-	 */
-	public function set($key, $value) {
-		$this->configuration[$key] = $value;
-	}
+    /**
+     * Set a setting key.
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return void
+     */
+    public function set(string $key, $value): void {
+        $this->configuration[$key] = $value;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getConfiguration() {
-		return $this->configuration;
-	}
+    /**
+     * @return array
+     */
+    public function getConfiguration(): array
+    {
+        return $this->configuration;
+    }
 
 }

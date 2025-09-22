@@ -18,6 +18,12 @@ use TYPO3\CMS\Extbase\Property\TypeConverter\AbstractTypeConverter;
  */
 class ValuesConverter extends AbstractTypeConverter
 {
+    protected ArgumentService $argumentService;
+
+    public function __construct(ArgumentService $argumentService)
+    {
+        $this->argumentService = $argumentService;
+    }
 
     /**
      * @var array<string>
@@ -44,7 +50,7 @@ class ValuesConverter extends AbstractTypeConverter
      * @return array
      * @api
      */
-    public function convertFrom($source, $targetType, array $convertedChildProperties = array(), PropertyMappingConfigurationInterface $configuration = NULL)
+    public function convertFrom($source, string $targetType, array $convertedChildProperties = array(), PropertyMappingConfigurationInterface $configuration = NULL)
     {
         return $this->getArgumentService()->getValues($source);
     }
@@ -54,7 +60,7 @@ class ValuesConverter extends AbstractTypeConverter
      */
     protected function getArgumentService()
     {
-        return GeneralUtility::makeInstance(ArgumentService::class);
+        return $this->argumentService;
     }
 
 }

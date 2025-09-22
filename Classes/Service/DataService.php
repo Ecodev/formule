@@ -32,7 +32,7 @@ class DataService
      *
      * @param string $templateIdentifier
      */
-    public function __construct($templateIdentifier)
+    public function __construct(string $templateIdentifier)
     {
         $this->templateIdentifier = $templateIdentifier;
     }
@@ -68,7 +68,7 @@ class DataService
      * @param string $tableName
      * @return object|Connection
      */
-    protected function getConnection($tableName): Connection
+    protected function getConnection(string $tableName): Connection
     {
         /** @var ConnectionPool $connectionPool */
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
@@ -79,7 +79,7 @@ class DataService
      * @param array $values
      * @return array
      */
-    public function update(array $values)
+    public function update(array $values): array
     {
 
         // Finalize values
@@ -110,7 +110,7 @@ class DataService
      * @param string $insertOrUpdate
      * @return array
      */
-    protected function processValues(array $values, $insertOrUpdate)
+    protected function processValues(array $values, string $insertOrUpdate): array
     {
         // Possible processor
         foreach ($this->getTemplateService()->getProcessors() as $className) {
@@ -126,7 +126,7 @@ class DataService
     /**
      * @return bool
      */
-    public function recordExists()
+    public function recordExists(): bool
     {
         $record = [];
 
@@ -161,7 +161,7 @@ class DataService
     /**
      * @return string
      */
-    protected function getClause()
+    protected function getClause(): string
     {
         $tableName = $this->getTemplateService()->getPersistingTable();
 
@@ -185,17 +185,17 @@ class DataService
     /**
      * @return string
      */
-    protected function getIdentifierValue()
+    protected function getIdentifierValue(): string
     {
         $identifierField = $this->getTemplateService()->getIdentifierField();
-        return (string)GeneralUtility::_GP($identifierField);
+        return (string)($GLOBALS['TYPO3_REQUEST']->getParsedBody()[$identifierField] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()[$identifierField] ?? null);
     }
 
     /**
      * @param array $values
      * @return array
      */
-    protected function getSanitizedValues(array $values)
+    protected function getSanitizedValues(array $values): array
     {
         $tableName = $this->getTemplateService()->getPersistingTable();
         $sanitizedValues = [];
@@ -229,7 +229,7 @@ class DataService
     /**
      * @return array
      */
-    protected function getCreateTimeStamp()
+    protected function getCreateTimeStamp(): array
     {
         $systemValues = [];
         $tableName = $this->getTemplateService()->getPersistingTableName();
@@ -246,7 +246,7 @@ class DataService
      * @param string $fieldName
      * @return string
      */
-    protected function resolveField($fieldName)
+    protected function resolveField(string $fieldName): string
     {
         $mappings = $this->getTemplateService()->getMappings();
 
@@ -262,7 +262,7 @@ class DataService
      * @param string $tableName
      * @return object|QueryBuilder
      */
-    protected function getQueryBuilder($tableName): QueryBuilder
+    protected function getQueryBuilder(string $tableName): QueryBuilder
     {
         /** @var ConnectionPool $connectionPool */
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
@@ -274,7 +274,7 @@ class DataService
      */
     protected function getTemplateService()
     {
-        return GeneralUtility::makeInstance(TemplateService::class, $this->templateIdentifier);
+        return GeneralUtility::makeInstance(TemplateService::class, (int)$this->templateIdentifier);
     }
 
     /**
@@ -293,11 +293,11 @@ class DataService
     /**
      * Returns an instance of the page repository.
      *
-     * @return \TYPO3\CMS\Frontend\Page\PageRepository
+     * @return \TYPO3\CMS\Core\Domain\Repository\PageRepository
      */
-    protected function getPageRepository()
+    protected function getPageRepository(): \TYPO3\CMS\Core\Domain\Repository\PageRepository
     {
-        return $GLOBALS['TSFE']->sys_page;
+        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Domain\Repository\PageRepository::class);
     }
 
 }

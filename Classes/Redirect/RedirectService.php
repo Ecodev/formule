@@ -25,7 +25,7 @@ class RedirectService implements SingletonInterface
      *
      * @return array
      */
-    public function redirectionForCurrentContext()
+    public function redirectionForCurrentContext(): array
     {
         // Fetch email from PHP configuration array at first.
         $applicationContext = (string)Environment::getContext()->getParent();

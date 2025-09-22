@@ -22,7 +22,7 @@ class RegistryLoader extends AbstractLoader
      * @param array $values
      * @return array
      */
-    public function load(array $values)
+    public function load(array $values): array
     {
         // Fetch data and flush
         $registryValues = $this->getRegistryService()->get('values'); // Hint! use second argument $fetchAndFlush = false to keep values in registry.
@@ -36,7 +36,7 @@ class RegistryLoader extends AbstractLoader
     /**
      * @return RegistryService
      */
-    protected function getRegistryService()
+    protected function getRegistryService(): RegistryService
     {
         return GeneralUtility::makeInstance(RegistryService::class);
     }

@@ -41,7 +41,7 @@ class ShowViewHelper extends AbstractViewHelper
      *
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         $labelsIn = $this->arguments['labelsIn'];
         $labelPrefix = $this->arguments['labelPrefix'];
@@ -89,7 +89,7 @@ class ShowViewHelper extends AbstractViewHelper
      * @param $labelPrefix
      * @return string
      */
-    protected function getLabel($key, $labelsIn, $labelPrefix)
+    protected function getLabel(string $key, $labelsIn, $labelPrefix): string
     {
         $label = LocalizationUtility::translate($labelPrefix . $key, $labelsIn);
         if (empty($label)) {
@@ -102,7 +102,7 @@ class ShowViewHelper extends AbstractViewHelper
      * @param int $templateIdentifier
      * @return object|TemplateService
      */
-    protected function getTemplateService($templateIdentifier)
+    protected function getTemplateService(int $templateIdentifier)
     {
         return GeneralUtility::makeInstance(TemplateService::class, $templateIdentifier);
     }

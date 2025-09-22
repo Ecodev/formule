@@ -19,6 +19,9 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 class ConfirmViewHelper extends AbstractViewHelper
 {
 
+    public function __construct(private \TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder $uriBuilder)
+    {
+    }
     /**
      * @return void
      */
@@ -30,7 +33,7 @@ class ConfirmViewHelper extends AbstractViewHelper
     /**
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         $pageUid = $this->arguments['pageUid'];
         // Render inner content
@@ -50,7 +53,7 @@ class ConfirmViewHelper extends AbstractViewHelper
      * @param string|int $pageUid
      * @return int
      */
-    protected function resolvePageUid($pageUid)
+    protected function resolvePageUid($pageUid): int
     {
         $resolvedPageUid = $this->getTemplateService()->getVariable($pageUid);
 
@@ -65,7 +68,7 @@ class ConfirmViewHelper extends AbstractViewHelper
      * @param int $pageUid
      * @return string
      */
-    protected function getUrl($pageUid)
+    protected function getUrl(int $pageUid): string
     {
         $arguments = [];
 
@@ -74,7 +77,7 @@ class ConfirmViewHelper extends AbstractViewHelper
             $arguments['token'] = $values['token'];
         }
 
-        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+        $uriBuilder = $this->uriBuilder;
         return $uriBuilder
             ->setTargetPageUid($pageUid)
             ->setCreateAbsoluteUri(true)
@@ -86,11 +89,11 @@ class ConfirmViewHelper extends AbstractViewHelper
      * @param int $templateIdentifier
      * @return TemplateService
      */
-    protected function getTemplateService()
+    protected function getTemplateService(): TemplateService
     {
 
         $values = $this->templateVariableContainer->getAll();
-        return GeneralUtility::makeInstance(TemplateService::class, $values['templateIdentifier']);
+        return GeneralUtility::makeInstance(TemplateService::class, (int)$values['templateIdentifier']);
     }
 
 }

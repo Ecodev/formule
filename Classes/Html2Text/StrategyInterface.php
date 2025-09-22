@@ -13,18 +13,18 @@ namespace Fab\Formule\Html2Text;
  */
 interface StrategyInterface {
 
-	/**
-	 * Convert a given HTML input to Text
-	 *
-	 * @param string $input
-	 * @return string
-	 */
-	public function convert($input);
+    /**
+     * Convert a given HTML input to Text
+     *
+     * @param string $input
+     * @return string
+     */
+    public function convert(string $input): string;
 
-	/**
-	 * Whether the converter is available
-	 *
-	 * @return boolean
-	 */
-	public function available();
+    /**
+     * Whether the converter is available
+     *
+     * @return boolean
+     */
+    public function available(): bool;
 }

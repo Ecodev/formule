@@ -19,7 +19,7 @@ class BackendViewHelper extends AbstractViewHelper
     /**
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         $content = $this->renderChildren();
 
@@ -35,7 +35,7 @@ class BackendViewHelper extends AbstractViewHelper
     /**
      * @return string
      */
-    protected function getUrl()
+    protected function getUrl(): string
     {
         $values = $this->templateVariableContainer->getAll();
         $parsedURL = parse_url($values['HTTP_REFERER']);

@@ -24,7 +24,7 @@ abstract class AbstractFormuleElement extends AbstractFormElement
             $parameters['items'][] = array('No template found. Forgotten to load the static TS template?', '', NULL);
         } else {
 
-                $configuredDataType = $this->getDataTypeFromFlexform($parameters['flexParentDatabaseRow']['pi_flexform']);
+            $configuredDataType = $this->getDataTypeFromFlexform($parameters['flexParentDatabaseRow']['pi_flexform']);
 
             $parameters['items'][] = ''; // Empty value
             foreach ($ts['templates'] as $key => $template) {
@@ -48,7 +48,7 @@ abstract class AbstractFormuleElement extends AbstractFormElement
      */
     protected function getTemplateService($templateIdentifier)
     {
-        return GeneralUtility::makeInstance(TemplateService::class, $templateIdentifier);
+        return GeneralUtility::makeInstance(TemplateService::class, (int)$templateIdentifier);
     }
 
     /**

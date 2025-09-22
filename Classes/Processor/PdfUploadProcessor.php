@@ -1,5 +1,8 @@
 <?php
-namespace Ecodev\Formule\Processor;
+
+declare(strict_types=1);
+
+namespace Fab\Formule\Processor;
 
 /*
  * This file is part of the Fab/Formule project under GPLv2 or later.
@@ -23,10 +26,10 @@ class PdfUploadProcessor extends AbstractProcessor
      * @param string $insertOrUpdate
      * @return array
      */
-    public function process(array $values, $insertOrUpdate = '')
+    public function process(array $values, string $insertOrUpdate = ''): array
     {
 
-        $savedFieldName = $this->savePdf('file');
+        $savedFieldName = $this->savePdf();
         if (strlen($savedFieldName) > 0) {
             $values['file'] = $savedFieldName;
         } else {
@@ -39,18 +42,16 @@ class PdfUploadProcessor extends AbstractProcessor
     /**
      * Save the uploaded PDF if valid or delete it if marked to be deleted
      *
-     * @param integer $fieldName
      * @return string
      */
-    private function savePdf($fieldName)
+    private function savePdf(): string
     {
-
         $fileName = '';
         $storage = GeneralUtility::makeInstance(ResourceFactory::class)->getStorageObject('uid');
 
-        if (isset($_FILES[$fieldName])) {
+        if (isset($_FILES['file'])) {
 
-            $uploadedFile = $_FILES[$fieldName];
+            $uploadedFile = $_FILES['file'];
             $fileSize = (int)$uploadedFile['size'];
 
             // Only save if we successfully uploaded something
@@ -77,7 +78,7 @@ class PdfUploadProcessor extends AbstractProcessor
      *
      * @return \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication
      */
-    protected function getFrontendUser()
+    protected function getFrontendUser(): \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication
     {
         return $GLOBALS['TSFE']->fe_user;
     }

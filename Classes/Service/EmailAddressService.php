@@ -21,7 +21,7 @@ class EmailAddressService implements SingletonInterface
      * @param string $listOfEmails
      * @return array
      */
-    public function parse($listOfEmails)
+    public function parse(string $listOfEmails): array
     {
         $emails = array();
 
@@ -44,7 +44,7 @@ class EmailAddressService implements SingletonInterface
      * @param $emails
      * @return boolean
      */
-    public function validate($emails)
+    public function validate($emails): bool
     {
         foreach ($emails as $email => $name) {
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {

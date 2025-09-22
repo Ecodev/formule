@@ -65,7 +65,7 @@ class TemplateService
      *
      * @param int $templateIdentifier
      */
-    public function __construct($templateIdentifier = 0)
+    public function __construct(int $templateIdentifier = 0)
     {
         if ((int)$templateIdentifier > 0) {
             ArgumentService::setTemplateIdentifier($templateIdentifier);
@@ -448,7 +448,7 @@ class TemplateService
      * @param string $templateCode
      * @return array
      */
-    protected function getNamespaceDefinitions($templateCode): array
+    protected function getNamespaceDefinitions(string $templateCode): array
     {
         // Only analyse once
         if (is_null($this->namespaces)) {
@@ -470,7 +470,7 @@ class TemplateService
      * @param string $templateString Template string to extract the namespaces from
      * @return string The updated template string without namespace declarations inside
      */
-    protected function extractNamespaceDefinitions($templateString): string
+    protected function extractNamespaceDefinitions(string $templateString): string
     {
         $matches = array();
         preg_match_all(self::$SCAN_PATTERN_XMLNSDECLARATION, $templateString, $matches, PREG_SET_ORDER);
@@ -518,7 +518,7 @@ class TemplateService
     protected function getIdentifierValue(): string
     {
         $identifierField = $this->getIdentifierField();
-        return (string)GeneralUtility::_GP($identifierField);
+        return (string)($GLOBALS['TYPO3_REQUEST']->getParsedBody()[$identifierField] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()[$identifierField] ?? null);
     }
 
     /**

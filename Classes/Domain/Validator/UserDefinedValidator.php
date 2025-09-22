@@ -12,31 +12,38 @@ use Fab\Formule\Service\TemplateService;
 use Fab\Formule\Service\ValidationService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
+use Psr\Container\ContainerInterface;
 
 /**
  * Instantiate additional validators coming from the TS configuration.
  */
 class UserDefinedValidator extends AbstractValidator
 {
+    protected ContainerInterface $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
 
     /**
-     * @param array $values
+     * @param mixed $value
      * @throws \InvalidArgumentException
      */
-    public function isValid($values)
+    public function isValid(mixed $value): void
     {
+        // Convert $value to array if it's not already
+        $values = is_array($value) ? $value : [];
+
         foreach ($this->getTemplateService()->getValidators() as $className) {
 
-            /** @var \Fab\Formule\Validator\ValidatorInterface $validator */
-            $validator = GeneralUtility::makeInstance($className);
-            $messages = $validator->validate($values);
+            /** @var \TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface $validator */
+            $validator = $this->container->has($className)
+                ? $this->container->get($className)
+                : GeneralUtility::makeInstance($className);
 
-            if (is_array($messages)) {
-                foreach ($messages as $fieldName => $message) {
-                    $this->getValidationService()->addError($fieldName, $message);
-                    $this->addError($message, 1453535466);
-                }
-            }
+            // Call isValid() for Extbase validators
+            $validator->isValid($values);
         }
     }
 

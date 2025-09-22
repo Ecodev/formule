@@ -77,10 +77,10 @@ CREATE TABLE %s (
      *              + fieldConfiguration: TCA field config array to override defaults
      * @return bool
      */
-    public function add($extensionKey, $tableName, $tokenField = 'token', array $options = [])
+    public function add(string $extensionKey, string $tableName, string $tokenField = 'token', array $options = []): bool
     {
         $didRegister = FALSE;
-        if (empty($tableName) || !is_string($tableName)) {
+        if (empty($tableName)) {
             throw new \InvalidArgumentException('No or invalid table name "' . $tableName . '" given.', 1369122038);
         }
 
@@ -115,7 +115,7 @@ CREATE TABLE %s (
      * @param string $fieldName Name of the field to be looked up
      * @return boolean
      */
-    public function isRegistered($tableName, $fieldName = 'token')
+    public function isRegistered(string $tableName, string $fieldName = 'token'): bool
     {
         return isset($this->registry[$tableName][$fieldName]);
     }
@@ -124,7 +124,7 @@ CREATE TABLE %s (
      * @param string $tableName Name of the table to be looked up
      * @return string
      */
-    public function getTokenField($tableName)
+    public function getTokenField(string $tableName): string
     {
         return key($this->registry[$tableName]);
     }
@@ -134,7 +134,7 @@ CREATE TABLE %s (
      *
      * @return string
      */
-    protected function getDatabaseTableDefinitions()
+    protected function getDatabaseTableDefinitions(): string
     {
         $sql = '';
         foreach ($this->getExtensionKeys() as $extensionKey) {
@@ -149,7 +149,7 @@ CREATE TABLE %s (
      * @param string $extensionKey Extension key to have the database definitions created for
      * @return string
      */
-    protected function getDatabaseTableDefinition($extensionKey)
+    protected function getDatabaseTableDefinition(string $extensionKey): string
     {
         if (!isset($this->extensions[$extensionKey]) || !is_array($this->extensions[$extensionKey])) {
             return '';
@@ -172,7 +172,7 @@ CREATE TABLE %s (
      * @param string $tokenField
      * @param string $rankFieldName
      */
-    protected function applyTcaForTableAndField($tableName, $tokenField)
+    protected function applyTcaForTableAndField(string $tableName, string $tokenField)
     {
         $this->addTokenField($tableName, $tokenField, $this->registry[$tableName][$tokenField]);
         $this->addToAllTCAtypes($tableName, $tokenField, $this->registry[$tableName][$tokenField]);
@@ -189,7 +189,7 @@ CREATE TABLE %s (
      *              + position: insert position of the token field
      * @return void
      */
-    protected function addToAllTCAtypes($tableName, $fieldName, array $options)
+    protected function addToAllTCAtypes(string $tableName, string $fieldName, array $options)
     {
 
         // Makes sure to add more TCA to an existing structure
@@ -223,7 +223,7 @@ CREATE TABLE %s (
      *              + l10n_display
      * @return void
      */
-    protected function addTokenField($tableName, $fieldName, array $options)
+    protected function addTokenField(string $tableName, string $fieldName, array $options)
     {
 
         // Makes sure to add more TCA to an existing structure
@@ -269,7 +269,7 @@ CREATE TABLE %s (
      * @return array
      * @api
      */
-    static public function getTokenFieldConfiguration(array $fieldConfigurationOverride = [])
+    static public function getTokenFieldConfiguration(array $fieldConfigurationOverride = []): array
     {
         // Forges a new field, default name is "token"
         $fieldConfiguration = [
@@ -295,7 +295,7 @@ CREATE TABLE %s (
      * @param array $sqlString
      * @return array
      */
-    public function addTokenDatabaseSchemaToTablesDefinition(array $sqlString)
+    public function addTokenDatabaseSchemaToTablesDefinition(array $sqlString): array
     {
         $sqlString[] = $this->getDatabaseTableDefinitions();
         return ['sqlString' => $sqlString];
@@ -309,7 +309,7 @@ CREATE TABLE %s (
      * @param string $extensionKey
      * @return array
      */
-    public function addExtensionTokenDatabaseSchemaToTablesDefinition(array $sqlString, $extensionKey)
+    public function addExtensionTokenDatabaseSchemaToTablesDefinition(array $sqlString, string $extensionKey): array
     {
         $sqlString[] = $this->getDatabaseTableDefinition($extensionKey);
         return ['sqlString' => $sqlString, 'extensionKey' => $extensionKey];
@@ -318,7 +318,7 @@ CREATE TABLE %s (
     /**
      * @return LanguageService
      */
-    protected function getLanguageService()
+    protected function getLanguageService(): LanguageService
     {
         return $GLOBALS['LANG'];
     }

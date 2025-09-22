@@ -34,7 +34,7 @@ class Html2Text implements SingletonInterface
      *
      * @return \Fab\Formule\Service\Html2Text
      */
-    static public function getInstance()
+    static public function getInstance(): Html2Text
     {
         return GeneralUtility::makeInstance(self::class);
     }
@@ -56,7 +56,7 @@ class Html2Text implements SingletonInterface
      * @param string $content to be converted
      * @return string
      */
-    public function convert($content)
+    public function convert(string $content): string
     {
         if (empty($this->converter)) {
             $this->converter = $this->findBestConverter();
@@ -69,7 +69,7 @@ class Html2Text implements SingletonInterface
      *
      * @return \Fab\Formule\Html2Text\StrategyInterface
      */
-    public function findBestConverter()
+    public function findBestConverter(): \Fab\Formule\Html2Text\StrategyInterface
     {
 
         if (!empty($this->converter)) {
@@ -95,7 +95,7 @@ class Html2Text implements SingletonInterface
      * @param \Fab\Formule\Html2Text\StrategyInterface $converter
      * @return void
      */
-    public function setConverter(\Fab\Formule\Html2Text\StrategyInterface $converter)
+    public function setConverter(\Fab\Formule\Html2Text\StrategyInterface $converter): void
     {
         $this->converter = $converter;
     }
@@ -103,7 +103,7 @@ class Html2Text implements SingletonInterface
     /**
      * @return \Fab\Formule\Html2Text\StrategyInterface
      */
-    public function getConverter()
+    public function getConverter(): \Fab\Formule\Html2Text\StrategyInterface
     {
         return $this->converter;
     }
@@ -119,7 +119,7 @@ class Html2Text implements SingletonInterface
     /**
      * @param array $possibleConverters
      */
-    public function setPossibleConverters(array $possibleConverters)
+    public function setPossibleConverters(array $possibleConverters): void
     {
         $this->possibleConverters = $possibleConverters;
     }
@@ -127,7 +127,7 @@ class Html2Text implements SingletonInterface
     /**
      * @param \Fab\Formule\Html2Text\StrategyInterface $possibleConverter
      */
-    public function addPossibleConverter($possibleConverter)
+    public function addPossibleConverter(\Fab\Formule\Html2Text\StrategyInterface $possibleConverter): void
     {
         $this->possibleConverters[] = $possibleConverter;
     }

@@ -106,7 +106,7 @@ class DevelopmentViewHelper extends AbstractViewHelper
      * @param int $templateIdentifier
      * @return object|TemplateService
      */
-    protected function getTemplateService($templateIdentifier)
+    protected function getTemplateService(int $templateIdentifier)
     {
         return GeneralUtility::makeInstance(TemplateService::class, $templateIdentifier);
     }

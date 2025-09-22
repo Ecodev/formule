@@ -26,7 +26,7 @@ class TokenUtility
      * @param string $tokenField
      * @param array $options Additional configuration options
      */
-    static public function makeTokenisable($extensionKey, $tableName, $tokenField = 'token', array $options = array()) {
+    static public function makeTokenisable(string $extensionKey, string $tableName, string $tokenField = 'token', array $options = array()): void {
         // Update the Token registry
         $result = TokenRegistry::getInstance()->add($extensionKey, $tableName, $tokenField, $options);
         if ($result === FALSE) {

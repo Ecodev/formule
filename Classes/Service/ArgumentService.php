@@ -27,6 +27,9 @@ class ArgumentService
      * @var array
      */
     static protected $settings = [];
+    public function __construct(private \TYPO3\CMS\Core\Database\ConnectionPool $connectionPool)
+    {
+    }
 
     /**
      * @param int $identifier
@@ -46,7 +49,7 @@ class ArgumentService
                 self::$templateIdentifier = (int)self::$settings['template'];
 
                 foreach ($this->getTemplateService()->getFields() as $templateField) {
-                    $value = GeneralUtility::_GP($templateField);
+                    $value = $GLOBALS['TYPO3_REQUEST']->getParsedBody()[$templateField] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()[$templateField] ?? null;
                     if ($value !== null) {
                         $values[$templateField] = $value;
                     }
@@ -63,7 +66,7 @@ class ArgumentService
     protected function sanitizeIdentifier(int $identifier): int
     {
         if ($identifier < 1) {
-            $arguments = GeneralUtility::_GP('tx_formule_pi1');
+            $arguments = $GLOBALS['TYPO3_REQUEST']->getParsedBody()['tx_formule_pi1'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['tx_formule_pi1'] ?? null;
             if (!empty($arguments['values'])) {
                 $identifier = (int)$arguments['values'];
             }
@@ -105,7 +108,7 @@ class ArgumentService
     protected function getQueryBuilder($tableName): QueryBuilder
     {
         /** @var ConnectionPool $connectionPool */
-        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $connectionPool = $this->connectionPool;
         return $connectionPool->getQueryBuilderForTable($tableName);
     }
 
@@ -128,11 +131,11 @@ class ArgumentService
     /**
      * Returns an instance of the page repository.
      *
-     * @return \TYPO3\CMS\Frontend\Page\PageRepository
+     * @return \TYPO3\CMS\Core\Domain\Repository\PageRepository
      */
     protected function getPageRepository()
     {
-        return $GLOBALS['TSFE']->sys_page;
+        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Domain\Repository\PageRepository::class);
     }
 
     /**

@@ -20,7 +20,7 @@ class EmailFormatValidator extends AbstractValidator
      * @param array $values
      * @return array
      */
-    public function validate(array $values)
+    public function validate(array $values): array
     {
 
         $messages = [];

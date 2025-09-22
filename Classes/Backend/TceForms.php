@@ -44,7 +44,7 @@ class TceForms
      * @param array $parameters
      * @throws \InvalidArgumentException
      */
-    public function getTemplates(&$parameters)
+    public function getTemplates(&$parameters): void
     {
         $ts = $this->getTypoScriptService()->getSettings();
 
@@ -132,7 +132,7 @@ class TceForms
      */
     protected function getTemplateService($templateIdentifier)
     {
-        return GeneralUtility::makeInstance(TemplateService::class, $templateIdentifier);
+        return GeneralUtility::makeInstance(TemplateService::class, (int)$templateIdentifier);
     }
 
     /**

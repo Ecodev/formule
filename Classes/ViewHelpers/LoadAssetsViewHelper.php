@@ -11,6 +11,7 @@ namespace Fab\Formule\ViewHelpers;
 use Fab\Formule\Service\TemplateService;
 use FluidTYPO3\Vhs\Asset;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
@@ -33,7 +34,7 @@ class LoadAssetsViewHelper extends AbstractViewHelper
         $this->registerArgument('type', 'string', '', false, self::TYPE_JS);
     }
 
-    public function render()
+    public function render(): void
     {
         $footer = $this->arguments['footer'];
         $type = $this->arguments['type'];
@@ -42,7 +43,7 @@ class LoadAssetsViewHelper extends AbstractViewHelper
 
         // Inline code
         $rawInlineCode = $this->renderChildren();
-        $inlineCode = $this->sanitizeInlineCode($rawInlineCode);
+        $inlineCode = $this->sanitizeInlineCode($rawInlineCode ?? '');
 
         $name = $this->computeName($inlineCode);
         if ($this->hasInlineCode($inlineCode)) {
@@ -69,7 +70,7 @@ class LoadAssetsViewHelper extends AbstractViewHelper
      * @param string $inlineCode
      * @return string
      */
-    protected function computeName($inlineCode)
+    protected function computeName(string $inlineCode): string
     {
         $contentElement = $this->templateVariableContainer->get('contentElement');
         $inlineCodeExtract = substr(trim($inlineCode), 0, 100);
@@ -80,7 +81,7 @@ class LoadAssetsViewHelper extends AbstractViewHelper
      * @param string $inlineCode
      * @return bool
      */
-    protected function hasInlineCode($inlineCode)
+    protected function hasInlineCode(string $inlineCode): bool
     {
         return !empty(trim($inlineCode));
     }
@@ -89,7 +90,7 @@ class LoadAssetsViewHelper extends AbstractViewHelper
      * @param string $inlineCode
      * @return string
      */
-    protected function sanitizeInlineCode($inlineCode)
+    protected function sanitizeInlineCode(string $inlineCode): string
     {
         if (!empty($inlineCode)) {
             $inlineCode = preg_replace('#<script(.*?)>(.*)</script>#is', '$2', $inlineCode);
@@ -103,7 +104,7 @@ class LoadAssetsViewHelper extends AbstractViewHelper
      * @param bool $footer
      * @param string $type
      */
-    protected function loadByVhsInline($name, $content, $footer = true, $type = self::TYPE_JS)
+    protected function loadByVhsInline(string $name, string $content, bool $footer = true, $type = self::TYPE_JS)
     {
         $configuration = [
             'content' => $content,
@@ -138,16 +139,17 @@ class LoadAssetsViewHelper extends AbstractViewHelper
      * @param bool $footer
      * @param string $type
      */
-    protected function loadByCorePageRenderInline($name, $content, $footer = true, $type = self::TYPE_JS)
+    protected function loadByCorePageRenderInline(string $name, string $content, bool $footer = true, string $type = self::TYPE_JS)
     {
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         if ($type === self::TYPE_JS) {
             if ($footer) {
-                $this->getPageRenderer()->addJsFooterInlineCode($name, $content);
+                $pageRenderer->addJsFooterInlineCode($name, $content);
             } else {
-                $this->getPageRenderer()->addJsInlineCode($name, $content);
+                $pageRenderer->addJsInlineCode($name, $content);
             }
         } elseif ($content['type'] === 'css') {
-            $this->getPageRenderer()->addCssInlineBlock($name, $content);
+            $pageRenderer->addCssInlineBlock($name, $content);
         }
     }
 
@@ -163,10 +165,11 @@ class LoadAssetsViewHelper extends AbstractViewHelper
         $fileNameAndPath = GeneralUtility::getFileAbsFileName($file);
         $fileNameAndPath = PathUtility::stripPathSitePrefix($fileNameAndPath);
 
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         if ($asset['type'] === 'js') {
-            $this->getPageRenderer()->addJsFooterFile($fileNameAndPath);
+            $pageRenderer->addJsFooterFile($fileNameAndPath);
         } elseif ($asset['type'] === 'css') {
-            $this->getPageRenderer()->addCssFile($fileNameAndPath);
+            $pageRenderer->addCssFile($fileNameAndPath);
         }
     }
 
@@ -183,7 +186,7 @@ class LoadAssetsViewHelper extends AbstractViewHelper
      * @param array $asset
      * @return string|NULL
      */
-    protected function getDevelopmentFile(array $asset)
+    protected function getDevelopmentFile(array $asset): ?string
     {
         $possibleDevelopmentFile = str_replace('.min.', '.', $asset['path']);
         $developmentFile = GeneralUtility::getFileAbsFileName($possibleDevelopmentFile);
@@ -197,7 +200,7 @@ class LoadAssetsViewHelper extends AbstractViewHelper
      * @param array $asset
      * @return string
      */
-    protected function resolveFileForApplicationContext(array $asset)
+    protected function resolveFileForApplicationContext(array $asset): string
     {
         $resolvedFile = $asset['path']; // default value
 
@@ -211,20 +214,13 @@ class LoadAssetsViewHelper extends AbstractViewHelper
         return $resolvedFile;
     }
 
-    /**
-     * @return \TYPO3\CMS\Core\Page\PageRenderer
-     */
-    protected function getPageRenderer()
-    {
-        return $this->getFrontendObject()->getPageRenderer();
-    }
 
     /**
      * Returns an instance of the Frontend object.
      *
      * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
      */
-    protected function getFrontendObject()
+    protected function getFrontendObject(): \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
     {
         return $GLOBALS['TSFE'];
     }
@@ -233,9 +229,9 @@ class LoadAssetsViewHelper extends AbstractViewHelper
      * @param string $templateIdentifier
      * @return TemplateService
      */
-    protected function getTemplateService($templateIdentifier)
+    protected function getTemplateService(string $templateIdentifier): TemplateService
     {
-        return GeneralUtility::makeInstance(TemplateService::class, $templateIdentifier);
+        return GeneralUtility::makeInstance(TemplateService::class, (int)$templateIdentifier);
     }
 
 

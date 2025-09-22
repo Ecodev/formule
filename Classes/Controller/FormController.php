@@ -19,20 +19,31 @@ use Michelf\Markdown;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
+use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
+use Fab\Formule\Event\BeforeProcessValuesEvent;
+use Fab\Formule\Event\AfterPersistValuesEvent;
+use Fab\Formule\Event\BeforeRedirectEvent;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
+use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 /**
  * FormController
  */
 class FormController extends ActionController
 {
+    protected ArgumentService $argumentService;
+
+    public function __construct(ArgumentService $argumentService)
+    {
+        $this->argumentService = $argumentService;
+    }
 
     /**
      * @return string|null
      */
-    public function showAction(): ?string
+    public function showAction(): \Psr\Http\Message\ResponseInterface
     {
         $message = null;
         if (empty($this->settings['template'])) {
@@ -55,21 +66,21 @@ class FormController extends ActionController
             // Set final template path.
             $pathAbs = $templateService->getResolvedPath();
             if (!is_file($pathAbs)) {
-                return sprintf('<strong style="color:red;">I could not find the template file %s.</strong>', $pathAbs);
+                return $this->htmlResponse(sprintf('<strong style="color:red;">I could not find the template file %s.</strong>', $pathAbs));
             }
 
             $this->view->setTemplatePathAndFilename($pathAbs);
-            $this->view->assign('contentElement', $this->configurationManager->getContentObject()->data);
+            $this->view->assign('contentElement', $this->request->getAttribute('currentContentObject')->data);
             $this->view->assign('values', $values);
         }
 
-        return $message;
+        return $this->htmlResponse($message);
     }
 
     public function initializeSubmitAction(): void
     {
         /** @var ValuesConverter $typeConverter */
-        $typeConverter = $this->objectManager->get(ValuesConverter::class);
+        $typeConverter = GeneralUtility::makeInstance(ValuesConverter::class);
 
         if ($this->arguments->hasArgument('values')) {
             $this->arguments->getArgument('values')
@@ -80,21 +91,23 @@ class FormController extends ActionController
 
     /**
      * @param array $values
-     * @Extbase\Validate("\Fab\Formule\Domain\Validator\HoneyPotValidator", param="values")
-     * @Extbase\Validate("\Fab\Formule\Domain\Validator\ValuesValidator", param="values")
-     * @Extbase\Validate("\Fab\Formule\Domain\Validator\UserDefinedValidator", param="values")
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function submitAction(array $values = []): void
+    #[Extbase\Validate(['validator' => \Fab\Formule\Domain\Validator\HoneyPotValidator::class, 'param' => 'values'])]
+    #[Extbase\Validate(['validator' => \Fab\Formule\Domain\Validator\ValuesValidator::class, 'param' => 'values'])]
+    #[Extbase\Validate(['validator' => \Fab\Formule\Domain\Validator\UserDefinedValidator::class, 'param' => 'values'])]
+    public function submitAction(array $values = []): \Psr\Http\Message\ResponseInterface
     {
         // Fix settings in case two instances are loaded on the same page
         $this->settings = array_merge($this->settings, ArgumentService::getSettings());
 
         if ($this->request->getMethod() !== 'POST') {
-            throw new \RuntimeException('Form must be submitted using POST');
+            throw new \RuntimeException('Form must be submitted using POST', 3678619802);
         }
 
-        $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'beforeProcessValues', [$values]);
-        $values = $signalResult[0];
+        $event = new BeforeProcessValuesEvent($values);
+        $this->getEventDispatcher()->dispatch($event);
+        $values = $event->getValues();
 
         // Check the template path according to the Plugin settings.
         $templateService = $this->getTemplateService();
@@ -110,8 +123,9 @@ class FormController extends ActionController
                 $this->getFormuleFlashMessageQueue()->success($label);
             }
 
-            $signalResult = $this->getSignalSlotDispatcher()->dispatch(self::class, 'afterPersistValues', [$values]);
-            $values = $signalResult[0];
+            $event = new AfterPersistValuesEvent($values);
+            $this->getEventDispatcher()->dispatch($event);
+            $values = $event->getValues();
         }
 
         // We want this information in the values array.
@@ -137,16 +151,19 @@ class FormController extends ActionController
             $this->getMessageService(MessageService::TO_USER)->send($values);
         }
 
-        $this->getSignalSlotDispatcher()->dispatch(self::class, 'beforeRedirect', [$values]);
+        $event = new BeforeRedirectEvent($values);
+        $this->getEventDispatcher()->dispatch($event);
 
         // Save in registry... Trick to avoid POSTing the arguments again which might contain very long text.
         $this->getRegistryService()->set('values', $values);
 
         if ($templateService->hasRedirect() && !$templateService->isDefaultRedirectAction()) {
             $url = $templateService->getRedirectUrl($values);
-            HttpUtility::redirect($url);
+
+            $response = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Psr\Http\Message\ResponseFactoryInterface::class)->createResponse(\TYPO3\CMS\Core\Utility\HttpUtility::HTTP_STATUS_303)->withAddedHeader('location', $url);
+            throw new \TYPO3\CMS\Core\Http\PropagateResponseException($response);
         } else {
-            $this->redirect(
+            return $this->redirect(
                 $templateService->getRedirectAction(),
                 $templateService->getRedirectController(),
                 null,
@@ -157,20 +174,20 @@ class FormController extends ActionController
     }
 
     /**
-     * @return string
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function feedbackAction(): string
+    public function feedbackAction(): \Psr\Http\Message\ResponseInterface
     {
         // We can retrieve only once.
         $values = $this->getRegistryService()->get('values');
 
         // Will be null if the User reload the feedback action
         if ($values === null) {
-            $this->redirect('show');
+            return $this->redirect('show');
         }
 
         /** @var StandaloneView $view */
-        $view = $this->objectManager->get(StandaloneView::class);
+        $view = GeneralUtility::makeInstance(StandaloneView::class);
         $view->assignMultiple($values);
 
         $templateService = $this->getTemplateService();
@@ -186,22 +203,22 @@ class FormController extends ActionController
             $feedback = trim($view->render());
         }
 
-        return $feedback;
+        return $this->htmlResponse($feedback);
     }
 
-    protected function getSignalSlotDispatcher(): Dispatcher
+    protected function getEventDispatcher(): EventDispatcher
     {
-        return $this->objectManager->get(Dispatcher::class);
+        return GeneralUtility::makeInstance(EventDispatcher::class);
     }
 
     protected function getTemplateService(): TemplateService
     {
-        return GeneralUtility::makeInstance(TemplateService::class, $this->settings['template']);
+        return GeneralUtility::makeInstance(TemplateService::class, (int)$this->settings['template']);
     }
 
     protected function getArgumentService(): ArgumentService
     {
-        return GeneralUtility::makeInstance(ArgumentService::class);
+        return $this->argumentService;
     }
 
     protected function getRegistryService(): RegistryService
