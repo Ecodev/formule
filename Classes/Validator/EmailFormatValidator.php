@@ -32,4 +32,21 @@ class EmailFormatValidator extends AbstractValidator
         return $messages;
     }
 
+    /**
+     * Validation method expected by Extbase/Formule framework
+     *
+     * @param mixed $value
+     * @return bool
+     */
+    public function isValid($value): bool
+    {
+        // For compatibility with Extbase validator interface
+        // Convert the value to array format expected by validate()
+        $values = is_array($value) ? $value : ['email' => $value];
+
+        $messages = $this->validate($values);
+
+        // If there are validation messages, the validation failed
+        return empty($messages);
+    }
 }
