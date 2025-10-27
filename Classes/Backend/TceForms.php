@@ -54,7 +54,7 @@ class TceForms
 
             $configuredDataType = $this->getDataTypeFromFlexform($parameters['flexParentDatabaseRow']['pi_flexform']);
 
-            $parameters['items'][] = ''; // Empty value
+            $parameters['items'][] = array('', '', NULL); // Empty value (was a string, now a proper item array)
             foreach ($ts['templates'] as $key => $template) {
                 $templateTitle = $this->getLanguageService()->sL($template['title']);
 

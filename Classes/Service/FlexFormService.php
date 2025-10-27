@@ -95,9 +95,9 @@ class FlexFormService
      *
      * @param array $nodeArray The flexForm node to parse
      * @param string $valuePointer The valuePointer to use for value retrieval
-     * @return array
+     * @return array|string
      */
-    protected function walkFlexFormNode(array $nodeArray, string $valuePointer = 'vDEF'): array
+    protected function walkFlexFormNode(array $nodeArray, string $valuePointer = 'vDEF')
     {
         if (is_array($nodeArray)) {
             $return = array();
