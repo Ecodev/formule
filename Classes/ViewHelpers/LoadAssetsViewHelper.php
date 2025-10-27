@@ -108,7 +108,9 @@ class LoadAssetsViewHelper extends AbstractViewHelper
     {
         $configuration = [
             'content' => $content,
-            'dependencies' => 'mainJs', # could be configurable.
+            // Asset::createFromSettings expects 'dependencies' to be an array.
+            // Previously this was a string which raised InvalidTypeException.
+            'dependencies' => ['mainJs'], # could be configurable.
             #'standalone' => false,
             #'rewrite' => false,
             'movable' => $footer,
@@ -129,6 +131,10 @@ class LoadAssetsViewHelper extends AbstractViewHelper
             if ($developmentFile) {
                 $asset['path'] = str_replace('.min.', '.', $asset['path']);
             }
+        }
+        // Ensure 'dependencies' is an array to satisfy Asset::createFromSettings expectations.
+        if (isset($asset['dependencies']) && !is_array($asset['dependencies'])) {
+            $asset['dependencies'] = [$asset['dependencies']];
         }
         Asset::createFromSettings($asset);
     }
