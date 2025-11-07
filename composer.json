@@ -19,7 +19,7 @@
 		}
 	},
 	"require": {
-		"typo3/cms-core": "^11.5 | ^12",
+		"typo3/cms-core": "^11.5 || ^12 || ^13",
 		"michelf/php-markdown": "^1.9"
 	}
 }
