@@ -5,13 +5,10 @@
 	<sheets>
 		<general>
 			<ROOT>
-				<TCEforms>
 					<sheetTitle>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:tab.general</sheetTitle>
-				</TCEforms>
 				<type>array</type>
 				<el>
 					<settings.template>
-						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.template</label>
 							<onChange>reload</onChange>
 							<config>
@@ -21,16 +18,13 @@
 								<size>1</size>
 								<maxitems>1</maxitems>
 							</config>
-						</TCEforms>
 					</settings.template>
 					<summary>
-						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.summary</label>
 							<config>
 								<type>user</type>
 								<renderType>formuleRenderSummary</renderType>
 							</config>
-						</TCEforms>
 					</summary>
 				</el>
 			</ROOT>
@@ -38,20 +32,16 @@
 
 		<emailAdmin>
 			<ROOT>
-				<TCEforms>
 					<sheetTitle>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:tab.emailAdmin</sheetTitle>
-				</TCEforms>
 				<type>array</type>
 				<el>
 					<settings.emailAdminTo>
-						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailRecipient</label>
 							<config>
 								<type>input</type>
 								<eval>text</eval>
 								<size>50</size>
 							</config>
-						</TCEforms>
 					</settings.emailAdminTo>
 					<!--<settings.emailAdminCc>-->
 						<!--<TCEforms>-->
@@ -74,7 +64,6 @@
 						<!--</TCEforms>-->
 					<!--</settings.emailAdminBcc>-->
 					<settings.emailAdminSubject>
-						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailSubject</label>
 							<config>
 								<type>input</type>
@@ -82,16 +71,13 @@
 								<size>100</size>
 								<default>New contribution from {HTTP_HOST}</default>
 							</config>
-						</TCEforms>
 					</settings.emailAdminSubject>
 					<settings.emailAdminBody>
-						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailBody</label>
 							<config>
 								<type>user</type>
 								<renderType>formuleRenderEmailAdminBody</renderType>
 							</config>
-						</TCEforms>
 					</settings.emailAdminBody>
 				</el>
 			</ROOT>
@@ -99,13 +85,10 @@
 
 		<emailUser>
 			<ROOT>
-				<TCEforms>
 					<sheetTitle>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:tab.emailUser</sheetTitle>
-				</TCEforms>
 				<type>array</type>
 				<el>
 					<settings.emailUserTo>
-						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailRecipient</label>
 							<config>
 								<type>input</type>
@@ -113,10 +96,8 @@
 								<size>50</size>
 								<placeholder>email</placeholder>
 							</config>
-						</TCEforms>
 					</settings.emailUserTo>
 					<settings.emailUserSubject>
-						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailSubject</label>
 							<config>
 								<type>input</type>
@@ -124,16 +105,13 @@
 								<size>100</size>
 								<default>Thanks you!</default>
 							</config>
-						</TCEforms>
 					</settings.emailUserSubject>
 					<settings.emailUserBody>
-						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailBody</label>
 							<config>
 								<type>user</type>
 								<renderType>formuleRenderEmailUserBody</renderType>
 							</config>
-						</TCEforms>
 					</settings.emailUserBody>
 				</el>
 			</ROOT>
@@ -141,28 +119,22 @@
 
 		<sender>
 			<ROOT>
-				<TCEforms>
 					<sheetTitle>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:tab.sender</sheetTitle>
-				</TCEforms>
 				<type>array</type>
 				<el>
 					<settings.nameFrom>
-						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.nameFrom</label>
 							<config>
 								<type>user</type>
 								<renderType>formuleRenderNameFrom</renderType>
 							</config>
-						</TCEforms>
 					</settings.nameFrom>
 					<settings.emailFrom>
-						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.emailFrom</label>
 							<config>
 								<type>user</type>
 								<renderType>formuleRenderEmailFrom</renderType>
 							</config>
-						</TCEforms>
 					</settings.emailFrom>
 				</el>
 			</ROOT>
@@ -170,9 +142,7 @@
 
 		<feedback>
 			<ROOT>
-				<TCEforms>
 					<sheetTitle>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:tab.feedback</sheetTitle>
-				</TCEforms>
 				<type>array</type>
 				<el>
 					<!--<settings.redirectPage>-->
@@ -190,13 +160,11 @@
 						<!--</TCEforms>-->
 					<!--</settings.redirectPage>-->
 					<settings.feedbackMessage>
-						<TCEforms>
 							<label>LLL:EXT:formule/Resources/Private/Language/locallang.xlf:settings.feedbackMessage</label>
 							<config>
 								<type>user</type>
 								<renderType>formuleRenderFeedback</renderType>
 							</config>
-						</TCEforms>
 					</settings.feedbackMessage>
 				</el>
 			</ROOT>
