@@ -1,3 +1,7 @@
+## 5.0.0 (2025-11-27)
+
+[FEATURE] Compatibility v12
+
 ## 4.0.3 (2023-03-23)
 
 [DOCS] Update README
@@ -14,4 +18,3 @@
 [TASK] Composer validate
 [FIX] Uri builder
 [TASK] Prepare next release
-
