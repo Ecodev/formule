@@ -67,8 +67,8 @@ class ShowViewHelper extends AbstractViewHelper
     <td style="vertical-align: top">%s</td>
     </tr>
                     ',
-                        $this->getLabel($key, $labelsIn, $labelPrefix),
-                        $value
+                        htmlspecialchars($this->getLabel($key, $labelsIn, $labelPrefix), ENT_QUOTES, 'UTF-8'),
+                        nl2br(htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8'))
                     );
                 }
 
