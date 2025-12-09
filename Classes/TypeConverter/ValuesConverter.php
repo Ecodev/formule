@@ -46,11 +46,11 @@ class ValuesConverter extends AbstractTypeConverter
      * @param string $source
      * @param string $targetType
      * @param array $convertedChildProperties
-     * @param PropertyMappingConfigurationInterface $configuration
+     * @param PropertyMappingConfigurationInterface|null $configuration
      * @return array
      * @api
      */
-    public function convertFrom($source, string $targetType, array $convertedChildProperties = array(), ?PropertyMappingConfigurationInterface $configuration = NULL)
+    public function convertFrom($source, string $targetType, array $convertedChildProperties = [], ?PropertyMappingConfigurationInterface $configuration = null): array
     {
         return $this->getArgumentService()->getValues($source);
     }
