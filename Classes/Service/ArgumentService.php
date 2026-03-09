@@ -95,7 +95,7 @@ class ArgumentService
             );
 
         $record = $query
-            ->execute()
+            ->executeQuery()
             ->fetchAssociative();
 
         return $record;
