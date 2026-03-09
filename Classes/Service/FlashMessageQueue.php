@@ -28,6 +28,13 @@ class FlashMessageQueue implements SingletonInterface
     protected $messages = [];
 
     /**
+     * In-memory fallback when no frontend user session is available (e.g. CLI or before TSFE init).
+     *
+     * @var array<string, array<int, array{severity: string, text: string}>>
+     */
+    private static $memoryFallback = [];
+
+    /**
      * @param string $message
      */
     public function success(string $message): void
@@ -68,7 +75,12 @@ class FlashMessageQueue implements SingletonInterface
             'text' => $message
         ];
 
-        $this->getFrontendUser()->setAndSaveSessionData($this->getKey(), $messages);
+        $feUser = $this->getFrontendUser();
+        if ($feUser !== null) {
+            $feUser->setAndSaveSessionData($this->getKey(), $messages);
+        } else {
+            self::$memoryFallback[$this->getKey()] = $messages;
+        }
     }
 
     /**
@@ -76,7 +88,11 @@ class FlashMessageQueue implements SingletonInterface
      */
     public function getMessages(): array
     {
-        return $this->getFrontendUser()->getKey('ses', $this->getKey()) ?? [];
+        $feUser = $this->getFrontendUser();
+        if ($feUser !== null) {
+            return $feUser->getKey('ses', $this->getKey()) ?? [];
+        }
+        return self::$memoryFallback[$this->getKey()] ?? [];
     }
 
     /**
@@ -85,8 +101,15 @@ class FlashMessageQueue implements SingletonInterface
     public function getMessagesAndFlush(): array
     {
         $messages = $this->getMessages();
-
-        $this->getFrontendUser()->setAndSaveSessionData($this->getKey(), []);
+        $feUser = $this->getFrontendUser();
+        if ($feUser !== null) {
+            $feUser->setAndSaveSessionData($this->getKey(), []);
+        } else {
+            $key = $this->getKey();
+            if (isset(self::$memoryFallback[$key])) {
+                unset(self::$memoryFallback[$key]);
+            }
+        }
         return $messages;
     }
 
@@ -98,9 +121,14 @@ class FlashMessageQueue implements SingletonInterface
         return 'formule-flush-messages-' . $this->getTemplateService()->getTemplateIdentifier();
     }
 
-    protected function getFrontendUser(): FrontendUserAuthentication
+    protected function getFrontendUser(): ?FrontendUserAuthentication
     {
-        return $GLOBALS['TSFE']->fe_user;
+        $tsfe = $GLOBALS['TSFE'] ?? null;
+        if (!is_object($tsfe) || !isset($tsfe->fe_user)) {
+            return null;
+        }
+        $feUser = $tsfe->fe_user;
+        return $feUser instanceof FrontendUserAuthentication ? $feUser : null;
     }
 
     protected function getTemplateService(): TemplateService
