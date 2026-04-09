@@ -8,6 +8,7 @@ namespace Fab\Formule\Service;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -18,6 +19,10 @@ use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
  */
 class TypoScriptService implements SingletonInterface
 {
+    /**
+     * Public DI alias id, see Configuration/Services.yaml
+     */
+    private const BACKEND_CONFIGURATION_MANAGER_SERVICE_ID = 'fab.formule.backend_configuration_manager';
 
     /**
      * @var array
@@ -37,13 +42,15 @@ class TypoScriptService implements SingletonInterface
             if ($this->isFrontendMode()) {
                 $this->settings = GeneralUtility::removeDotsFromTS($GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tx_formule.']['settings.']);
             } else {
+                $request = $GLOBALS['TYPO3_REQUEST'] ?? null;
+                if ($request instanceof ServerRequestInterface) {
+                    $setup = $this->resolveBackendConfigurationManager()->getTypoScriptSetup($request);
+                    if (is_array($setup['plugin.']['tx_formule.'])) {
 
-                $setup = $this->getConfigurationManager()->getTypoScriptSetup();
-                if (is_array($setup['plugin.']['tx_formule.'])) {
-
-                    /** @var \TYPO3\CMS\Core\TypoScript\TypoScriptService $typoScriptService */
-                    $typoScriptService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\TypoScriptService::class);
-                    $this->settings = $typoScriptService->convertTypoScriptArrayToPlainArray($setup['plugin.']['tx_formule.']['settings.']);
+                        /** @var \TYPO3\CMS\Core\TypoScript\TypoScriptService $typoScriptService */
+                        $typoScriptService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\TypoScriptService::class);
+                        $this->settings = $typoScriptService->convertTypoScriptArrayToPlainArray($setup['plugin.']['tx_formule.']['settings.']);
+                    }
                 }
             }
         }
@@ -51,9 +58,9 @@ class TypoScriptService implements SingletonInterface
         return $this->settings;
     }
 
-    protected function getConfigurationManager(): BackendConfigurationManager
+    protected function resolveBackendConfigurationManager(): BackendConfigurationManager
     {
-        return GeneralUtility::makeInstance(BackendConfigurationManager::class);
+        return GeneralUtility::getContainer()->get(self::BACKEND_CONFIGURATION_MANAGER_SERVICE_ID);
     }
 
     protected function isFrontendMode(): bool

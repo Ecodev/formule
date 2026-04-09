@@ -4,7 +4,7 @@ namespace Fab\Formule\Backend;
 
 class FormuleRenderSummaryElement extends AbstractFormuleElement
 {
-    public function render()
+    public function render(): array
     {
         // Custom TCA properties and other data can be found in $this->data, for example the above
         // parameters are available in $this->data['parameterArray']['fieldConf']['config']['parameters']
