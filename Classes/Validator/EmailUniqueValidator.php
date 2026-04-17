@@ -70,7 +70,7 @@ class EmailUniqueValidator extends AbstractValidator
         }
 
         $record = $query
-            ->execute()
+            ->executeQuery()
             ->fetchAssociative();
 
         if (!empty($record)) {
