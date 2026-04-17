@@ -55,6 +55,7 @@ class DataService
 
         $tableName = $this->getTemplateService()->getPersistingTable();
         $connection = $this->getConnection($tableName);
+        $finalValues = $this->filterValuesToExistingTableColumns($connection, $tableName, $finalValues);
         $connection->insert(
             $tableName,
             $finalValues
@@ -93,6 +94,7 @@ class DataService
 
         $tableName = $this->getTemplateService()->getPersistingTable();
         $connection = $this->getConnection($tableName);
+        $finalValues = $this->filterValuesToExistingTableColumns($connection, $tableName, $finalValues);
 
         $connection->update(
             $tableName,
@@ -210,6 +212,29 @@ class DataService
         }
 
         return $sanitizedValues;
+    }
+
+    /**
+     * Keep only keys that exist as real columns on the table. TCA may define fields before the DB is migrated.
+     *
+     * @param array<string, mixed> $values
+     * @return array<string, mixed>
+     */
+    protected function filterValuesToExistingTableColumns(Connection $connection, string $tableName, array $values): array
+    {
+        if ($tableName === '' || $values === []) {
+            return $values;
+        }
+
+        $existingColumns = array_flip($connection->getSchemaInformation()->listTableColumnNames($tableName));
+        $filtered = [];
+        foreach ($values as $key => $value) {
+            if (isset($existingColumns[$key])) {
+                $filtered[$key] = $value;
+            }
+        }
+
+        return $filtered;
     }
 
     /**

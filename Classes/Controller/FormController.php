@@ -158,7 +158,7 @@ class FormController extends ActionController
         $this->getRegistryService()->set('values', $values);
 
         if ($templateService->hasRedirect() && !$templateService->isDefaultRedirectAction()) {
-            $url = $templateService->getRedirectUrl($values);
+            $url = $templateService->getRedirectUrl($values, $this->request);
 
             $response = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Psr\Http\Message\ResponseFactoryInterface::class)->createResponse(303)->withAddedHeader('location', $url);
             throw new \TYPO3\CMS\Core\Http\PropagateResponseException($response, 8556426865);

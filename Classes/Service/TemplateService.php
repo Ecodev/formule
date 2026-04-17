@@ -8,10 +8,14 @@ namespace Fab\Formule\Service;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\ExtbaseRequestParameters;
+use TYPO3\CMS\Extbase\Mvc\Request as ExtbaseRequest;
+use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 
 /**
@@ -148,9 +152,10 @@ class TemplateService
 
     /**
      * @param array $values
+     * @param RequestInterface|null $request Current Extbase request (required for UriBuilder on TYPO3 12+).
      * @return string
      */
-    public function getRedirectUrl(array $values): string
+    public function getRedirectUrl(array $values, ?RequestInterface $request = null): string
     {
         $arguments = [];
 
@@ -161,6 +166,7 @@ class TemplateService
         }
 
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+        $uriBuilder->setRequest($this->resolveExtbaseRequestForUriBuilder($request));
         $uriBuilder = $uriBuilder
             ->reset()
             ->setCreateAbsoluteUri(true)
@@ -171,6 +177,28 @@ class TemplateService
         }
 
         return $uriBuilder->build();
+    }
+
+    /**
+     * UriBuilder::build() requires an Extbase request (TYPO3 12+).
+     */
+    protected function resolveExtbaseRequestForUriBuilder(?RequestInterface $request): RequestInterface
+    {
+        if ($request !== null) {
+            return $request;
+        }
+
+        $serverRequest = $GLOBALS['TYPO3_REQUEST'] ?? null;
+        if ($serverRequest instanceof ServerRequestInterface
+            && $serverRequest->getAttribute('extbase') instanceof ExtbaseRequestParameters
+        ) {
+            return new ExtbaseRequest($serverRequest);
+        }
+
+        throw new RuntimeException(
+            'Formule TemplateService::getRedirectUrl() needs an Extbase request: pass the controller request or run in a frontend Extbase context.',
+            1739120400
+        );
     }
 
     /**
