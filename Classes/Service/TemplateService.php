@@ -111,8 +111,11 @@ class TemplateService
     public function getPersistingTableName(): string
     {
         $persist = $this->get('persist');
-        $tableName = is_array($persist) && empty($persist['tableName']) ? '' : $persist['tableName'];
-        return $tableName;
+        if (!is_array($persist)) {
+            return '';
+        }
+
+        return (string)($persist['tableName'] ?? '');
     }
 
     /**
@@ -121,8 +124,12 @@ class TemplateService
     public function getIdentifierField(): string
     {
         $persist = $this->get('persist');
-        $identifierField = is_array($persist) && empty($persist['identifierField']) ? 'uid' : $persist['identifierField'];
-        return $identifierField;
+        if (!is_array($persist)) {
+            return 'uid';
+        }
+        $identifierField = $persist['identifierField'] ?? '';
+
+        return $identifierField !== '' ? (string)$identifierField : 'uid';
     }
 
     /**
@@ -245,10 +252,12 @@ class TemplateService
     public function getDefaultValues(): array
     {
         $persist = $this->get('persist');
+        if (!is_array($persist) || empty($persist['defaultValues'])) {
+            return [];
+        }
+        $defaultValues = $persist['defaultValues'];
 
-        $defaultValues = is_array($persist) && empty($persist['defaultValues']) ? [] : $persist['defaultValues'];
-
-        return $defaultValues;
+        return is_array($defaultValues) ? $defaultValues : [];
     }
 
     /**
@@ -257,8 +266,11 @@ class TemplateService
     public function getMappings(): array
     {
         $persist = $this->get('persist');
-
-        $mappings = is_array($persist) && empty($persist['mappings']) ? [] : $persist['mappings'];
+        if (!is_array($persist) || empty($persist['mappings'])) {
+            $mappings = [];
+        } else {
+            $mappings = is_array($persist['mappings']) ? $persist['mappings'] : [];
+        }
 
         $ts = $this->getTypoScriptService()->getSettings();
         $tableName = $this->getPersistingTableName();
@@ -304,8 +316,12 @@ class TemplateService
     public function getProcessors(): array
     {
         $persist = $this->get('persist');
-        $processors = is_array($persist) && empty($persist['processors']) ? [] : $persist['processors'];
-        return $processors;
+        if (!is_array($persist) || empty($persist['processors'])) {
+            return [];
+        }
+        $processors = $persist['processors'];
+
+        return is_array($processors) ? $processors : [];
     }
 
     /**
@@ -399,13 +415,12 @@ class TemplateService
     public function getPreferredEmailBodyEncoding(): string
     {
         $preferEmailBodyEncoding = $this->get('preferEmailBodyEncoding');
-        if (is_null($preferEmailBodyEncoding)) {
-
+        if ($preferEmailBodyEncoding === null || $preferEmailBodyEncoding === '') {
             $ts = $this->getTypoScriptService()->getSettings();
-            $preferEmailBodyEncoding = $ts['preferEmailBodyEncoding'];
+            $preferEmailBodyEncoding = $ts['preferEmailBodyEncoding'] ?? 'html';
         }
 
-        return $preferEmailBodyEncoding;
+        return (string)$preferEmailBodyEncoding;
     }
 
     /**
