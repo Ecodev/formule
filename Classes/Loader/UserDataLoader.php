@@ -43,7 +43,7 @@ class UserDataLoader extends AbstractLoader
             );
 
         $record = $query
-            ->execute()
+            ->executeQuery()
             ->fetchAssociative();
 
         $fields = $this->getTemplateService()->getFields();
