@@ -151,7 +151,7 @@ class DataService
                 );
 
             $record = $query
-                ->execute()
+                ->executeQuery()
                 ->fetchAssociative();
         }
 
