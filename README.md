@@ -14,12 +14,13 @@ Consider these minimum steps to display a form and start submitting data:
 
 This package is currently maintained for the following versions:
 
-| TYPO3 Version | Package Version | Branch  | Maintained    |
-|---------------|-----------------|---------|---------------|
-| TYPO3 11.5.x  | 4.x             | master  | Yes           |
-| TYPO3 10.4.x  | 3.x             | -       | No            |
-| TYPO3 8.x     | 2.x             | -       | No            |
-| TYPO3 7.x     | 1.x             | -       | No            |
+| TYPO3 Version         | Package Version | Branch        | Maintained |
+|-----------------------|-----------------|---------------|------------|
+| TYPO3 12.4.x / 13.4.x | 5.x             | release/5.0.x | Yes        |
+| TYPO3 11.5.x          | 4.x             | master        | No         |
+| TYPO3 10.4.x          | 3.x             | -             | No         |
+| TYPO3 8.x             | 2.x             | -             | No         |
+| TYPO3 7.x             | 1.x             | -             | No         |
 
 
 Project info and releases

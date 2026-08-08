@@ -1,3 +1,12 @@
+## 5.0.1 (2026-08-08)
+
+[FEATURE] Compatibility v13
+[BUGFIX] Fix plugin runtime errors and Doctrine executeQuery usage
+[BUGFIX] Fix template tablenames
+[BUGFIX] Use numeric HTTP 303 status code
+[BUGFIX] Sanitize output with htmlspecialchars
+[DOCS] Update TYPO3 compatibility matrix
+
 ## 5.0.0 (2025-11-27)
 
 [FEATURE] Compatibility v12
